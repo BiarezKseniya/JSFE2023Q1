@@ -1,0 +1,140 @@
+:root {
+    --color-light-xl: #FFFFFF;
+    --color-dark-s: #CDCDCD;
+    --color-primary: #F1CDB3;
+
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    background: url(/shelter/assets/images/texture.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header {
+    padding-top: 30px;
+    padding-bottom: 90px;
+}
+
+.nav {
+    width: 443px;
+}
+
+.nav-list {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 160%;
+    color: var(--color-dark-s);
+    padding: 0; 
+}
+
+.about {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-bottom: 3px solid var(--color-primary);
+}
+
+.logo {
+   
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo-title {
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 110%;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.logo-sub {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--color-light-xl);
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.welcome {
+    width: 100%;
+    height: 728px;
+    display: flex;
+    position: relative;
+}
+
+h1 {
+    color: var(--color-light-xl);
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 130%;
+    margin: 0;
+    width: 310px;
+}
+
+.welcome-text {
+    padding-top: 163px;
+    height: 322px;
+    width: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.welcome-text p {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 160%;
+    color: var(--color-dark-s);
+}
+
+.button {
+    border: none;
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: #292929;
+    background: var(--color-primary);
+    border-radius: 100px;
+    width: 207px;
+    height: 52px;
+}
+
+ .puppy {
+    width: 698px;
+    height: 728px;
+    position: absolute;
+    right:0;
+}
