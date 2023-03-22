@@ -2,7 +2,10 @@
     --color-light-xl: #FFFFFF;
     --color-dark-s: #CDCDCD;
     --color-primary: #F1CDB3;
+    --color-dark-l: #545454;
+    --color-dark-xl: #4C4C4C;
 
+color: #4C4C4C;
 }
 
 body {
@@ -10,6 +13,9 @@ body {
     flex-direction: column;
     justify-content: space-between;
     margin: 0;
+}
+
+.background-dark {
     background: url(/shelter/assets/images/texture.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
 }
 
@@ -17,13 +23,12 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0px 40px;
-    display: flex;
-    justify-content: space-between;
 }
 
-.header {
-    padding-top: 30px;
-    padding-bottom: 90px;
+.wrapper.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 40px 90px 40px;
 }
 
 .nav {
@@ -43,16 +48,16 @@ body {
     font-size: 15px;
     line-height: 160%;
     color: var(--color-dark-s);
-    padding: 0; 
+    padding: 0;
 }
 
-.about {
+.nav-about {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-bottom: 3px solid var(--color-primary);
 }
 
 .logo {
-   
+
     height: 60px;
     display: flex;
     flex-direction: column;
@@ -96,7 +101,7 @@ h1 {
     font-size: 44px;
     line-height: 130%;
     margin: 0;
-    width: 310px;
+    padding-right: 150px;
 }
 
 .welcome-text {
@@ -108,13 +113,14 @@ h1 {
     justify-content: space-between;
 }
 
-.welcome-text p {
+.description {
     font-family: 'Arial';
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
     line-height: 160%;
     color: var(--color-dark-s);
+    margin: 0;
 }
 
 .button {
@@ -132,9 +138,49 @@ h1 {
     height: 52px;
 }
 
- .puppy {
+.puppy {
     width: 698px;
     height: 728px;
     position: absolute;
-    right:0;
+    right: 0;
+}
+
+.section-title {
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-l);
+}
+
+.about-pets .description {
+    color: var(--color-dark-xl);
+}
+
+.about-pets {
+    width: 100%;
+    height: 588px;
+}
+
+.flex-container {
+    display: flex;
+    gap: 120px;
+    padding: 80px 175px 100px 175px;
+    align-items: center;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px 0;
+}
+
+.section-title {
+    margin: 0;
+}
+
+.about-pets .section-title {
+    padding-right: 60px;
 }
