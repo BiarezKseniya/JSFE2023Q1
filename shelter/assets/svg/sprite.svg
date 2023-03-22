@@ -1,0 +1,10 @@
+<svg width="0" height="0" class="hidden">
+  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-left">
+    <path d="M33 25V27H22V29L19 26L22 23V25H33Z" fill="#292929"></path>
+    <rect x="1" y="1" width="50" height="50" rx="25" stroke="#F1CDB3" stroke-width="2"></rect>
+  </symbol>
+  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-right">
+    <path d="M19 27V25H30V23L33 26L30 29V27H19Z" fill="#292929"></path>
+    <rect x="51" y="51" width="50" height="50" rx="25" transform="rotate(-180 51 51)" stroke="#F1CDB3" stroke-width="2"></rect>
+  </symbol>
+</svg>
