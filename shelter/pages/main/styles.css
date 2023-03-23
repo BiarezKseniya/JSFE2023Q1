@@ -250,22 +250,59 @@ h1 {
     background-color: var(--color-light-l);
 }
 
-.icon {
+.arrow-icon {
     width: 52px;
     height: 52px;
-    position:absolute;
+    position: absolute;
     top: 50%;
-    transform: translate(0%,-50%);
+    transform: translate(0%, -50%);
 }
 
 .left {
-    left:0;
+    left: 0;
 }
 
 .right {
-    right:0;
+    right: 0;
 }
 
 .our-friends .button {
     width: 260px;
+}
+
+.help .section-title {
+    padding-top: 80px;
+    text-align: center;
+}
+
+.help-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.help-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 55px 120px;
+    justify-content: center;
+    padding: 60px 0 100px 0;
+}
+
+.help-card {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.help-item-name {
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 115%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    margin: 0;
+    color: var(--color-dark-l);
 }
