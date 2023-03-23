@@ -7,6 +7,11 @@
     --color-light-l: #F6F6F6;
     --color-light-s: #FAFAFA;
     --color-dark-3xl: #292929;
+    --main-text-font: normal 15px "Arial", sans-serif;
+    --note-font: italic 12px "Arial", sans-serif;
+    --header-font: normal 44px "Georgia", serif;
+    --small-header-font: normal 20px "Georgia", serif;
+    --color-dark-m: #B2B2B2;
 }
 
 body {
@@ -14,6 +19,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     margin: 0;
+    font: var(--main-text-font);
 }
 
 .background-dark {
@@ -43,13 +49,10 @@ body {
     justify-content: space-between;
     align-items: center;
     list-style-type: none;
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
     line-height: 160%;
     color: var(--color-dark-s);
     padding: 0;
+    font: var(--main-text-font);
 }
 
 .nav-about {
@@ -77,9 +80,6 @@ body {
 }
 
 .logo-sub {
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 400;
     font-size: 13px;
     line-height: 15px;
     color: var(--color-light-xl);
@@ -96,10 +96,7 @@ body {
 
 h1 {
     color: var(--color-light-xl);
-    font-family: 'Georgia';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 44px;
+    font: var(--header-font);
     line-height: 130%;
     margin: 0;
     padding-right: 150px;
@@ -115,10 +112,6 @@ h1 {
 }
 
 .description {
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
     line-height: 160%;
     color: var(--color-dark-s);
     margin: 0;
@@ -140,8 +133,10 @@ h1 {
 }
 
 .puppy {
-    width: 698px;
-    height: 728px;
+    max-width: 698px;
+    max-height: 728px;
+    width: auto;
+    height: auto;
     position: absolute;
     right: 0;
 }
@@ -160,21 +155,22 @@ h1 {
     color: var(--color-dark-xl);
 }
 
-.about-pets {
-    width: 100%;
-    height: 588px;
-}
-
 .about-pets .flex-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 120px;
-    padding: 80px 175px 100px 175px;
+    padding: 80px 0 100px 0;
+    justify-content: center;
     align-items: center;
 }
 
-.text-content {
+.text-block {
     display: flex;
     flex-direction: column;
+    max-width: 430px;
+}
+
+.about-pets .text-block {
     gap: 25px 0;
 }
 
@@ -182,8 +178,11 @@ h1 {
     margin: 0;
 }
 
-.about-pets .section-title {
-    padding-right: 60px;
+.about-pets-img {
+    max-width: 300px;
+    max-height: 408px;
+    width: auto;
+    height: auto;
 }
 
 .our-friends .section-title {
@@ -212,10 +211,7 @@ h1 {
 }
 
 .pet-name {
-    font-family: 'Georgia';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font: var(--small-header-font);
     line-height: 23px;
     text-align: center;
     letter-spacing: 0.06em;
@@ -248,6 +244,10 @@ h1 {
 
 .background-light {
     background-color: var(--color-light-l);
+}
+
+.background-white {
+    background-color: var(--color-light-xl);
 }
 
 .arrow-icon {
@@ -296,13 +296,70 @@ h1 {
 }
 
 .help-item-name {
-    font-family: 'Georgia';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font: var(--small-header-font);
     line-height: 115%;
     text-align: center;
     letter-spacing: 0.06em;
     margin: 0;
     color: var(--color-dark-l);
+}
+
+.donation .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 80px 0 100px 0;
+    align-items: center;
+}
+
+.donation .text-block {
+    gap: 20px;
+    max-width: 380px;
+}
+
+.donation-dog {
+    max-width: 505px;
+    max-height: 261px;
+    width: auto;
+    height: auto;
+}
+
+.bank-name {
+    font-family: 'Georgia';
+    font-size: 15px;
+    line-height: 110%;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-l);
+    margin: 0;
+}
+
+.note {
+    font: var(--note-font);
+    color: var(--color-dark-m);
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.credit-card {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background: #F1CDB3;
+    border-radius: 9px;
+    width: 349px;
+    align-items: center;
+}
+
+.credit-card-image {
+    width: 30px;
+    height: 23px;
+}
+
+.credit-card-text {
+    font: var(--small-header-font);
+    color: var(--color-dark-l);
+    line-height: 115%;
+    margin: 10px 0;
+    letter-spacing: 0.06em;
 }
