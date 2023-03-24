@@ -14,6 +14,10 @@
     --color-dark-m: #B2B2B2;
 }
 
+html {
+    overflow-y: overlay;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -131,7 +135,7 @@ h1 {
     height: 52px;
 }
 
-.puppy {
+.welcome-puppy {
     max-width: 698px;
     height: auto;
     width: 100%;
@@ -163,11 +167,11 @@ h1 {
 .text-block {
     display: flex;
     flex-direction: column;
-    max-width: 430px;
 }
 
 .about-pets .text-block {
     gap: 25px 0;
+    max-width: 430px;
 }
 
 .section-title {
@@ -356,4 +360,70 @@ h1 {
     line-height: 115%;
     margin: 10px 0;
     letter-spacing: 0.06em;
+}
+
+.footer-puppy {
+    max-width: 300px;
+    max-height: 310px;
+    width: 100%;
+    height: auto;
+}
+
+.footer-item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    font: var(--small-header-font);
+    color: var(--color-primary);
+    letter-spacing: 0.06em;
+
+}
+
+.footer-icon {
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.footer-icon.left {
+    width: 40px;
+}
+
+.footer-icon.right {
+    width: 22px;
+}
+
+footer .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 40px;
+}
+
+.questions {
+    max-width: 278.5px;
+}
+
+.address {
+    max-width: 301.5px;
+}
+
+footer .text-block {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px 0 60px 0;
+}
+
+footer {
+    background: url(/shelter/assets/images/footer-gradient-background.png), radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer .section-title {
+    letter-spacing: 0.06em;
+    color: var(--color-light-xl);
 }
