@@ -10,6 +10,7 @@
     --main-text-font: normal 15px "Arial", sans-serif;
     --note-font: italic 12px "Arial", sans-serif;
     --header-font: normal 44px "Georgia", serif;
+    --section-title-font: normal 35px "Georgia", serif;
     --small-header-font: normal 20px "Georgia", serif;
     --color-dark-m: #B2B2B2;
 }
@@ -47,19 +48,22 @@ body {
 }
 
 .nav-list {
-    height: 30px;
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     list-style-type: none;
-    line-height: 160%;
     color: var(--color-dark-s);
     padding: 0;
     font: var(--main-text-font);
 }
 
-.nav-about {
+.nav-list a {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+}
+
+.active {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-bottom: 3px solid var(--color-primary);
 }
@@ -89,6 +93,7 @@ body {
     color: var(--color-light-xl);
     letter-spacing: 0.1em;
     margin: 0;
+    padding-left: 4px;
 }
 
 .welcome {
@@ -128,7 +133,7 @@ h1 {
     font-size: 17px;
     line-height: 130%;
     letter-spacing: 0.06em;
-    color: #292929;
+    color: var(--color-dark-3xl);
     background: var(--color-primary);
     border-radius: 100px;
     width: 207px;
@@ -142,13 +147,11 @@ h1 {
 }
 
 .section-title {
-    font-family: 'Georgia';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 35px;
+    font: var(--section-title-font);
     line-height: 130%;
     letter-spacing: 0.06em;
     color: var(--color-dark-l);
+    margin: 0;
 }
 
 .about-pets .description {
@@ -172,10 +175,6 @@ h1 {
 .about-pets .text-block {
     gap: 25px 0;
     max-width: 430px;
-}
-
-.section-title {
-    margin: 0;
 }
 
 .about-pets-img {
@@ -231,6 +230,7 @@ h1 {
     line-height: 130%;
     letter-spacing: 0.06em;
     color: var(--color-dark-3xl);
+    box-sizing: border-box;
 }
 
 .our-friends .flex-container {
