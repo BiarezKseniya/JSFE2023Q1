@@ -6,43 +6,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/shelter/assets/images/favicon.png">
     <title>Document</title>
 </head>
 
 <body>
     <div class="background-dark">
         <header class="header">
-            <div class="wrapper  nav-bar">
-                <div class="logo">
+            <div class="wrapper nav-bar">
+                <a class="logo">
                     <p class="logo-title">Cozy House</p>
                     <p class="logo-sub">Shelter for pets in Boston</p>
-                </div>
+                </a>
                 <nav class="nav">
                     <ul class="nav-list">
                         <li>
                             <a class="active">About the shelter</a>
                         </li>
                         <li>
-                            <a>Our pets</a>
+                            <a href="../pets/index.html">Our pets</a>
                         </li>
                         <li>
-                            <a>Help the shelter</a>
+                            <a href="#help">Help the shelter</a>
                         </li>
                         <li>
-                            <a>Contacts</a>
+                            <a href="#contacts">Contacts</a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="wrapper">
-                <section class="welcome">
+                <section class="not-only">
                     <div class="welcome-text">
                         <h1>Not only people need a house</h1>
                         <p class="description">We offer to give a chance to a little and nice puppy with an extremely
                             wide
                             and open heart. He or
                             she will love you more than anybody else in the world, you will see!</p>
-                        <button type="button" class="button">Make a friend</button>
+                        <button type="button" class="button" onclick="document.location='#our-friends'">Make a friend</button>
                     </div>
                     <img class="welcome-puppy" alt="welcome-puppy" src="/shelter/assets/images/start-screen-puppy.png">
                 </section>
@@ -77,7 +78,7 @@
         </div>
         <div class="background-light">
             <div class="wrapper">
-                <section class="our-friends">
+                <section class="our-friends" id="our-friends">
                     <div class="flex-container">
                         <h2 class="section-title">Our friends who<br>are looking for a house</h2>
                         <div class="photo-slider">
@@ -103,14 +104,14 @@
                                 <use xlink:href="/shelter/assets/svg/sprite.svg#button-arrow-right"></use>
                             </svg>
                         </div>
-                        <button type="button" class="button">Get to know the rest</button>
+                        <button type="button" class="button" onclick="document.location='../pets/index.html'">Get to know the rest</button>
                     </div>
                 </section>
             </div>
         </div>
         <div class="background-white">
             <div class="wrapper">
-                <section class="help">
+                <section class="help" id="help">
                     <h2 class="section-title">How you can help<br>our shelter</h2>
                     <div class="help-box">
                         <div class="help-card">
@@ -173,18 +174,18 @@
         </div>
         <div class="background-light">
             <div class="wrapper">
-                <section class="donation">
+                <section class="in-addition">
                     <div class="flex-container">
                         <img class="donation-dog" src="/shelter/assets/images/donation-dog.png" alt="donation-dog">
                         <div class="text-block">
                             <h2 class="section-title">You can also<br>make a donation</h2>
                             <p class="bank-name">Name of the bank / Type of bank account</p>
-                            <div class="credit-card">
+                            <a class="credit-card">
                                 <svg class="credit-card-image">
                                     <use xlink:href="/shelter/assets/svg/sprite.svg#credit-card"></use>
                                 </svg>
                                 <p class="credit-card-text">8380 2880 8028 8791 7435</p>
-                            </div>
+                            </a>
                             <p class="note">Legal information and lorem ipsum dolor sit amet, consectetur adipiscing
                                 elit. Maecenas a
                                 ipsum at libero sagittis dignissim sed ac diam. Praesent ultrices maximus tortor et
@@ -195,7 +196,7 @@
             </div>
         </div>
     </main>
-    <footer>
+    <footer id="contacts">
         <div class="wrapper">
             <div class="flex-container">
                 <div class="text-block questions">
