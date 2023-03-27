@@ -79,6 +79,7 @@ body {
 .nav-list .active {
     color: var(--color-light-s);
     border-bottom: 3px solid var(--color-primary);
+    pointer-events: none;
 }
 
 .logo {
@@ -238,8 +239,19 @@ h1 {
     align-items: center;
 }
 
+.pet-card:hover {
+    background-color: var(--color-light-xl);
+    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+}
+
 .pet-card:hover .learn-more{
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+}
+
+.pet-card img {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
 }
 
 .pet-name {
@@ -252,7 +264,7 @@ h1 {
 }
 
 .learn-more {
-    border: 2px solid #F1CDB3;
+    border: 2px solid var(--color-primary);
     border-radius: 100px;
     width: 187px;
     height: 52px;
@@ -291,12 +303,16 @@ h1 {
     position: absolute;
     top: 50%;
     transform: translate(0%, -50%);
-    color: transparent;
+    color: var(--color-primary);
     transition: 0.2s;
+    stroke: currentcolor;
+    fill: transparent;
+    cursor: pointer;
 }
 
 .arrow-icon:hover {
-    color: var(--color-primary);
+    fill: currentcolor;
+    color: var(--color-primary-light);
 }
 
 .left {

@@ -1,11 +1,11 @@
 <svg>
-  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-left">
-    <rect x="1" y="1" width="50" height="50" rx="25" stroke="#F1CDB3" stroke-width="2" fill="currentcolor"></rect>
-	<path d="M33 25V27H22V29L19 26L22 23V25H33Z" fill="#292929"></path>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-left">
+    <rect x="1" y="1" width="50" height="50" rx="25" stroke-width="2"></rect>
+	<path d="M33 25V27H22V29L19 26L22 23V25H33Z" fill="#292929" stroke="#292929" stroke-width="0"></path>
   </symbol>
-  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-right">
-    <rect x="51" y="51" width="50" height="50" rx="25" transform="rotate(-180 51 51)" stroke="	#F1CDB3" stroke-width="2" fill="currentcolor"></rect>
-	<path d="M19 27V25H30V23L33 26L30 29V27H19Z" fill="#292929"></path>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="button-arrow-right">
+    <rect x="51" y="51" width="50" height="50" rx="25" transform="rotate(-180 51 51)" stroke-width="2"></rect>
+	<path d="M19 27V25H30V23L33 26L30 29V27H19Z" fill="#292929" stroke="#292929" stroke-width="0"></path>
   </symbol>
    <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" id="icon-pet-food">
     <path d="M52.8978 25.4978L47.1429 9.7473V1.42852C47.1429 0.639609 46.5032 0 45.7144 0H14.2858C13.4969 0 12.8573 0.639727 12.8573 1.42852V9.74719L7.10214 25.4978C6.41927 27.3636 6.07039 29.335 6.07147 31.3219V55.0765C6.07147 57.7913 8.28011 60 10.995 60H49.005C51.7199 60 53.9285 57.7913 53.9285 55.0765V31.3219C53.9285 29.329 53.5817 27.3694 52.8978 25.4978ZM15.7142 2.85715H44.2857V8.57145H15.7142V2.85715ZM51.0715 50.1321H30.9077C30.1188 50.1321 29.4792 50.7718 29.4792 51.5606C29.4792 52.3495 30.1189 52.9891 30.9077 52.9891H51.0715V55.0763C51.0715 56.2157 50.1445 57.1427 49.005 57.1427H10.995C9.85558 57.1427 8.92862 56.2158 8.92862 55.0763V31.3219C8.92774 29.6695 9.21788 28.03 9.78573 26.4783L15.2848 11.4286H44.7152L50.2142 26.4783C50.7821 28.03 51.0722 29.6695 51.0714 31.3219L51.0715 50.1321Z" fill="#F1CDB3"></path>
