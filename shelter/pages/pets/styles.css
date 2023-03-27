@@ -64,11 +64,6 @@ body {
     color: var(--color-dark-3xl);
 }
 
-.nav-list a:hover {
-    color: var(--color-dark-3xl);
-    transition: 0.2s;
-}
-
 .nav-list a {
     display: block;
     height: 24px;
@@ -112,10 +107,6 @@ body {
     padding-left: 4px;
 }
 
-.logo:hover .logo-title {
-    color: var(--color-dark-3xl);
-}
-
 .our-friends .section-title {
     text-align: center;
     margin: 0 auto;
@@ -140,16 +131,6 @@ body {
     gap: 30px;
     align-items: center;
     cursor: pointer;
-}
-
-.pet-card:hover {
-    background-color: var(--color-light-xl);
-    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
-}
-
-.pet-card:hover .learn-more{
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light);
 }
 
 .pet-card img {
@@ -214,22 +195,12 @@ body {
     background-color: transparent;
     color: var(--color-dark-3xl);
     font: var(--small-header-font);
-    padding:0;
+    padding: 0;
     transition: 0.2s;
-}
-
-.button:hover:not(.inactive) {
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light) ; 
 }
 
 .page-number {
     background-color: var(--color-primary);
-}
-
-.page-number:hover {
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light) ;
 }
 
 .inactive {
@@ -268,14 +239,6 @@ body {
     height: 32px;
     flex-shrink: 0;
     color: var(--color-primary);
-}
-
-.footer-item:hover {
-    color: var(--color-primary-light);
-}
-
-.footer-item:hover .footer-icon {
-    color: var(--color-primary-light);
 }
 
 .footer-icon.left {
@@ -323,4 +286,45 @@ footer p {
 footer .section-title {
     letter-spacing: 0.06em;
     color: var(--color-light-xl);
+}
+
+@media (hover: hover) {
+    .nav-list a:hover {
+        color: var(--color-dark-3xl);
+        transition: 0.2s;
+    }
+
+    .logo:hover .logo-title {
+        color: var(--color-dark-3xl);
+    }
+
+    .pet-card:hover {
+        background-color: var(--color-light-xl);
+        box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+    }
+
+    .pet-card:hover .learn-more {
+        background-color: var(--color-primary-light);
+        border-color: var(--color-primary-light);
+    }
+
+    .button:hover:not(.inactive) {
+        background-color: var(--color-primary-light);
+        border-color: var(--color-primary-light);
+    }
+
+    .page-number:hover {
+        background-color: var(--color-primary-light);
+        border-color: var(--color-primary-light);
+    }
+
+    .footer-item:hover {
+        color: var(--color-primary-light);
+    }
+
+    .footer-item:hover .footer-icon {
+        color: var(--color-primary-light);
+    }
+
+
 }

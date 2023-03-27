@@ -63,11 +63,6 @@ body {
     transition: 0.2s;
 }
 
-.nav-list a:hover {
-    color: var(--color-light-s);
-    transition: 0.2s;
-}
-
 .nav-list a {
     display: block;
     height: 24px;
@@ -111,14 +106,6 @@ body {
     margin: 0;
     padding-left: 4px;
     transition: 0.2s;
-}
-
-.logo:hover .logo-title {
-    color: var(--color-primary-light);
-}
-
-.logo:hover .logo-sub {
-    color: var(--color-light-s);
 }
 
 .not-only {
@@ -165,10 +152,6 @@ h1 {
     height: 52px;
     cursor: pointer;
     transition: 0.2s;
-}
-
-.button:hover {
-    background: var(--color-primary-light);
 }
 
 .welcome-puppy {
@@ -239,16 +222,6 @@ h1 {
     align-items: center;
 }
 
-.pet-card:hover {
-    background-color: var(--color-light-xl);
-    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
-}
-
-.pet-card:hover .learn-more{
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light);
-}
-
 .pet-card img {
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
@@ -308,11 +281,6 @@ h1 {
     stroke: currentcolor;
     fill: transparent;
     cursor: pointer;
-}
-
-.arrow-icon:hover {
-    fill: currentcolor;
-    color: var(--color-primary-light);
 }
 
 .left {
@@ -409,10 +377,6 @@ h1 {
     transition: 0.2s;
 }
 
-.credit-card:hover {
-    background: var(--color-primary-light);
-}
-
 .credit-card-image {
     width: 30px;
     height: 23px;
@@ -449,14 +413,6 @@ h1 {
     height: 32px;
     flex-shrink: 0;
     color: var(--color-primary);
-}
-
-.footer-item:hover {
-    color: var(--color-primary-light);
-}
-
-.footer-item:hover .footer-icon {
-    color: var(--color-primary-light);
 }
 
 .footer-icon.left {
@@ -499,4 +455,52 @@ footer p {
 footer .section-title {
     letter-spacing: 0.06em;
     color: var(--color-light-xl);
+}
+
+@media (hover: hover) {
+    .logo:hover .logo-title {
+        color: var(--color-primary-light);
+    }
+
+    .logo:hover .logo-sub {
+        color: var(--color-light-s);
+    }
+
+    .nav-list a:hover {
+        color: var(--color-light-s);
+        transition: 0.2s;
+    }
+
+    .button:hover {
+        background: var(--color-primary-light);
+    }
+
+    .pet-card:hover {
+        background-color: var(--color-light-xl);
+        box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+    }
+
+    .pet-card:hover .learn-more {
+        background-color: var(--color-primary-light);
+        border-color: var(--color-primary-light);
+    }
+
+    .arrow-icon:hover {
+        fill: currentcolor;
+        color: var(--color-primary-light);
+    }
+
+    .credit-card:hover {
+        background: var(--color-primary-light);
+    }
+
+
+    .footer-item:hover {
+        color: var(--color-primary-light);
+    }
+
+    .footer-item:hover .footer-icon {
+        color: var(--color-primary-light);
+    }
+
 }
