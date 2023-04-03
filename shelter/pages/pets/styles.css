@@ -14,6 +14,8 @@
     --small-header-font: normal 20px "Georgia", serif;
     --color-dark-m: #B2B2B2;
     --color-primary-light: #FDDCC4;
+    --header-font-mobile: normal 25px "Georgia", serif;
+    --small-header-font-mobile: normal 15px "Georgia", serif;
 }
 
 html {
@@ -326,5 +328,54 @@ footer .section-title {
         color: var(--color-primary-light);
     }
 
+
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    .wrapper {
+        padding: 0px 30px;
+    }
+
+    .nav-bar {
+        padding: 30px;
+    }
+
+    .not-only {
+        flex-direction: column;
+        align-items: center;
+        gap: 100px;
+    }
+
+    .photo-slider div:nth-child(7) {
+        display: none;
+    }
+
+    .photo-slider div:nth-child(8) {
+        display: none;
+    }
+
+    .photo-slider {
+        gap: 30px 40px;
+        padding: 0 64px 8px 64px;
+    }
+
+    .our-friends .flex-container {
+        gap: 30px;
+        padding-bottom: 76px;
+    }
+
+    footer .flex-container {
+        justify-content: center;
+        gap: 65px 60px;
+        padding-top: 30px;
+    }
+
+    footer .text-block {
+        padding: 0;
+    }
+
+    .address {
+        gap: 33px;
+    }
 
 }
