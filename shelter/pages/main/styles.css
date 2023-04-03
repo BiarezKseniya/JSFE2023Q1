@@ -121,7 +121,6 @@ body {
 
 .not-only {
     display: flex;
-    flex-wrap: wrap;
     gap: 42px;
 }
 
@@ -130,7 +129,6 @@ h1 {
     font: var(--header-font);
     line-height: 130%;
     margin: 0;
-    padding-right: 150px;
 }
 
 .welcome-text {
@@ -200,6 +198,7 @@ h1 {
 
 .about-pets .text-block {
     gap: 25px 0;
+    width: 38%;
     max-width: 430px;
 }
 
@@ -352,6 +351,7 @@ h1 {
 .in-addition .text-block {
     gap: 20px;
     max-width: 380px;
+    width: 35%;
 }
 
 .donation-dog {
@@ -533,6 +533,8 @@ footer .section-title {
 
     .welcome-text {
         padding: 0 124px;
+        width: 65%;
+        max-width: none;
     }
 
     .not-only button {
@@ -551,6 +553,9 @@ footer .section-title {
 
     .about-pets .text-block {
         order: -1;
+        width: 60%;
+        min-width: 430px;
+        max-width:none;
     }
 
     .photo-slider div:nth-child(4) {
@@ -582,6 +587,10 @@ footer .section-title {
 
     .in-addition .text-block {
         order: -1;
+        max-width: none;
+        min-width: 380px;
+        width: 50%;
+    
     }
 
     footer .flex-container {
@@ -638,6 +647,8 @@ footer .section-title {
         text-align: center;
         align-items: center;
         gap: 42px;
+        width: 98%;
+        max-width: none;
     }
 
     h1 {
@@ -667,6 +678,7 @@ footer .section-title {
         order: -1;
         text-align: justify;
         gap: 22px;
+        width: auto;
     }
 
     .about-pets .section-title {
@@ -748,6 +760,7 @@ footer .section-title {
         order: -1;
         align-items: center;
         padding: 0 10px;
+        width: auto;
     }
 
     .credit-card-text {
@@ -805,3 +818,4 @@ footer .section-title {
 
     }
 }
+

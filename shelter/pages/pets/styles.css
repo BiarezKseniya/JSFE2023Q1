@@ -368,7 +368,7 @@ footer .section-title {
 
     .photo-slider {
         gap: 30px 40px;
-        padding: 0 64px 10px 64px;
+        padding: 0 0 10px 0;
     }
 
     .our-friends .flex-container {
