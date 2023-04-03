@@ -48,7 +48,7 @@ body {
 }
 
 .nav {
-    width: 443px;
+    display: flex; 
 }
 
 .nav-list {
@@ -58,6 +58,7 @@ body {
     list-style-type: none;
     padding: 0;
     cursor: pointer;
+    gap: 35px;
 }
 
 .nav-list a:active {
@@ -78,6 +79,14 @@ body {
     border-bottom: 3px solid var(--color-primary);
     color: var(--color-dark-3xl);
     pointer-events: none;
+}
+
+.menu {
+    display: none;
+    width: 30px;
+    height: 22px;
+    color: black;
+    stroke: currentcolor;
 }
 
 .logo {
@@ -181,7 +190,10 @@ body {
 .controls {
     display: flex;
     justify-content: space-between;
-    width: 340px;
+    max-width: 340px;
+    min-width: 300px;
+    width: 100%;
+    margin-top: -2px;
 }
 
 .button {
@@ -356,7 +368,7 @@ footer .section-title {
 
     .photo-slider {
         gap: 30px 40px;
-        padding: 0 64px 8px 64px;
+        padding: 0 64px 10px 64px;
     }
 
     .our-friends .flex-container {
@@ -378,4 +390,82 @@ footer .section-title {
         gap: 33px;
     }
 
+}
+
+@media (max-width: 767px) {
+
+    .wrapper {
+        padding: 0px 10px;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    .nav {
+        justify-content: flex-end;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    .nav-bar {
+        align-items: center;
+        padding: 30px 20px;
+    }
+
+    .section-title {
+        padding: 0;
+        font: var(--header-font-mobile);
+        letter-spacing: 0.06em;
+        line-height: 130%;
+    }
+
+    .our-friends .flex-container {
+        padding: 42px 0;
+        gap: 42px;
+    }
+
+    .photo-slider {
+        padding: 0;
+        gap: 30px;
+    }
+
+    .pet-card {
+        display: none;
+    }
+
+    .pet-card.show {
+        display: flex;
+    }
+
+    footer .flex-container {
+        justify-content: center;
+        gap: 40px 60px;
+        padding-top: 30px;
+    }
+
+    footer .text-block {
+        padding: 0;
+        gap: 40px;
+        letter-spacing: normal;
+    }
+
+    .text-block.questions {
+        align-items: center;
+    }
+    
+    footer .text-block .section-title {
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    .footer-puppy {
+        max-width: 260px;
+    }
 }
