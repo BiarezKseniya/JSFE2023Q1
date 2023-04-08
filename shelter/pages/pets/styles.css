@@ -23,6 +23,10 @@ html {
     scroll-behavior: smooth;
 }
 
+html.open {
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -48,7 +52,7 @@ body {
 }
 
 .nav {
-    display: flex; 
+    display: flex;
 }
 
 .nav-list {
@@ -81,12 +85,43 @@ body {
     pointer-events: none;
 }
 
-.menu {
+/* .menu {
     display: none;
     width: 30px;
     height: 22px;
     color: black;
     stroke: currentcolor;
+    cursor: pointer;
+} */
+
+.menu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu>span,
+.menu>span::before,
+.menu>span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+.menu>span::before {
+    content: '';
+    top: 20px;
+}
+
+.menu>span::after {
+    content: '';
+    top: 10px;
 }
 
 .logo {
@@ -392,7 +427,7 @@ footer .section-title {
 
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767.9px) {
 
     .wrapper {
         padding: 0px 10px;
@@ -407,11 +442,81 @@ footer .section-title {
     }
 
     .nav-list {
-        display: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        position: fixed;
+        visibility: hidden;
+        top: 0;
+        right: -100%;
+        width: 320px;
+        height: 100vh;
+        margin: 0;
+        background-color: var(--color-dark-3xl);
+        font: var(--main-text-font);
+        font-size: 32px;
+        box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+        transition: 0.5s;
+    }
+
+    .nav-list.open {
+        visibility: visible;
+        right: 0;
+        transition: 0.5s;
+        justify-content: center;
+        z-index: 99;
+    }
+
+    .nav-list a {
+        display: block;
+        line-height: 160%;
+        height: 51px;
+    }
+
+    .nav-list.open a {
+        color: var(--color-dark-s);
+    }
+
+    .nav-list.open .active {
+        color: var(--color-light-s);
+    }
+
+    .nav-list.open a:active {
+        color: var(--color-light-s);
     }
 
     .menu {
         display: block;
+        z-index: 100;
+        transition: 0.5s;
+    }
+
+    .menu.open {
+        transform-origin: center;
+        transform: rotate(90deg);
+        transition: 0.5s;
+    }
+
+    .menu.open>span,
+    .menu.open>span::before,
+    .menu.open>span::after {
+        background-color: var(--color-primary);
+    }
+
+    .modal-cover {
+        transition: 0.5s;
+    }
+
+    .shadow {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background: rgba(41, 41, 41, 0.6);
+        transition: 0.5s;
     }
 
     .nav-bar {
@@ -459,7 +564,7 @@ footer .section-title {
     .text-block.questions {
         align-items: center;
     }
-    
+
     footer .text-block .section-title {
         padding: 0 15px;
         text-align: center;

@@ -1,3 +1,33 @@
+let menu = document.getElementById("menu");
+let modalCover = document.getElementById("modal-cover");
+let menuItems = document.querySelectorAll(".nav-list a");
+
+function toggleMenu () {
+    document.getElementById("menu-box").classList.toggle("open");
+    menu.classList.toggle("open");
+    document.getElementsByTagName("html")[0].classList.toggle("open");
+    modalCover.classList.toggle("shadow");
+}
+
+
+
+menu.addEventListener("click",(event) => {
+    toggleMenu();  
+})
+
+modalCover.addEventListener("click",(event) => {
+    toggleMenu();
+})
+
+menuItems.forEach(item => {
+    item.addEventListener("click",(event) => {
+        event.preventDefault();
+        linkLocation = event.currentTarget.href;
+        toggleMenu();
+        setTimeout(() => { window.location=linkLocation; }, 500);
+    });
+})
+
 console.log(
     '[+] Страница Main (60) \n'+
     '\n'+

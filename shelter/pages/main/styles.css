@@ -23,6 +23,10 @@ html {
     scroll-behavior: smooth;
 }
 
+html.open {
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -48,7 +52,7 @@ body {
 }
 
 .nav {
-    display: flex; 
+    display: flex;
 }
 
 .nav-list {
@@ -82,10 +86,30 @@ body {
 
 .menu {
     display: none;
+    align-items: center;
+    justify-content: center;
     width: 30px;
     height: 22px;
-    color: var(--color-primary);
-    stroke: currentcolor;
+    cursor: pointer;
+    position: relative;
+  }
+
+.menu > span,
+.menu > span::before,
+.menu > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+}
+.menu > span::before {
+  content: '';
+  top: 20px;
+}
+.menu > span::after {
+  content: '';
+  top: 10px;
 }
 
 .logo {
@@ -555,7 +579,7 @@ footer .section-title {
         order: -1;
         width: 60%;
         min-width: 430px;
-        max-width:none;
+        max-width: none;
     }
 
     .photo-slider div:nth-child(4) {
@@ -590,7 +614,6 @@ footer .section-title {
         max-width: none;
         min-width: 380px;
         width: 50%;
-    
     }
 
     footer .flex-container {
@@ -624,11 +647,63 @@ footer .section-title {
     }
 
     .nav-list {
-        display: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        position: fixed;
+        visibility: hidden;
+        top: 0;
+        right: -100%;
+        width: 320px;
+        height: 100vh;
+        margin: 0;
+        background-color: var(--color-dark-3xl);
+        font: var(--main-text-font);
+        font-size: 32px;
+        box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+        transition: 0.5s;
+    }
+
+    .nav-list.open {
+        visibility: visible;
+        right: 0;
+        transition: 0.5s;
+        justify-content: center;
+        z-index: 99;
+    }
+
+    .nav-list a {
+        display: block;
+        line-height: 160%;
+        height: 51px;
     }
 
     .menu {
         display: block;
+        z-index: 100;
+        transition: 0.5s;
+    }
+
+    .menu.open {
+        transform-origin: center;
+        transform: rotate(90deg);
+        transition: 0.5s;
+    }
+
+    .modal-cover {
+        transition: 0.5s;
+    }
+
+    .shadow {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background: rgba(41, 41, 41, 0.6);
+        transition: 0.5s;
     }
 
     .nav-bar {
@@ -684,8 +759,8 @@ footer .section-title {
     .about-pets .section-title {
         padding-bottom: 3px;
     }
-    
-    .section-title { 
+
+    .section-title {
         font: var(--header-font-mobile);
         text-align: center;
         line-height: 32px;
@@ -714,13 +789,13 @@ footer .section-title {
 
     .arrow-icon {
         top: 100%;
-        transform: translate(0%, -100%); 
+        transform: translate(0%, -100%);
     }
 
     .left {
         left: 16%;
     }
-    
+
     .right {
         right: 16%;
     }
@@ -786,7 +861,6 @@ footer .section-title {
 
     .note {
         text-align: justify;
-
     }
 
     .donation-dog {
@@ -808,7 +882,7 @@ footer .section-title {
     .text-block.questions {
         align-items: center;
     }
-    
+
     footer .text-block .section-title {
         padding: 0 15px;
     }
@@ -818,4 +892,3 @@ footer .section-title {
 
     }
 }
-
