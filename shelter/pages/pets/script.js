@@ -20,12 +20,16 @@ modalCover.addEventListener("click",(event) => {
 })
 
 menuItems.forEach(item => {
-    item.addEventListener("click",(event) => {
-        event.preventDefault();
-        linkLocation = event.currentTarget.href;
-        toggleMenu();
-        setTimeout(() => { window.location=linkLocation; }, 500);
+
+    item.addEventListener("click", (event) => {
+        if (menu.classList.contains("open")) {
+            event.preventDefault();
+            let linkLocation = event.currentTarget.href;
+            toggleMenu();
+            setTimeout(() => { window.location = linkLocation; }, 500);
+        }
     });
+
 })
 
 console.log(

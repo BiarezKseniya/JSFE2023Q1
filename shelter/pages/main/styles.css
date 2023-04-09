@@ -207,6 +207,7 @@ h1 {
 .about-pets .description {
     line-height: 160%;
     color: var(--color-dark-xl);
+    margin: 0;
 }
 
 .about-pets .flex-container {
@@ -247,6 +248,8 @@ h1 {
     justify-content: center;
     position: relative;
     padding: 0 105px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .pet-card {
@@ -257,6 +260,7 @@ h1 {
     flex-direction: column;
     gap: 30px;
     align-items: center;
+    transition: 0.5s;
 }
 
 .pet-card img {
@@ -687,10 +691,6 @@ footer .section-title {
         max-width: none;
     }
 
-    /* .photo-slider div:nth-child(4) {
-        display: none;
-    } */
-
     .photo-slider {
         gap: 40px;
         padding: 0 64px;
@@ -879,14 +879,6 @@ footer .section-title {
     .photo-slider {
         padding: 0 0 72px 0;
     }
-
-    /* .pet-card {
-        display: none;
-    }
-
-    .pet-card.show {
-        display: flex;
-    } */
 
     .arrow-icon {
         top: 100%;

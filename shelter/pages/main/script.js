@@ -4,6 +4,7 @@ import pets from '../../assets/json/pets.json' assert { type: 'json' };
 
 const scrollDirectionRight = true;
 const scrollDirectionLeft = false;
+let scrollInProgress = false;
 let cardsNumber = determineCardsNumber();
 let currentState = [];
 let previousState = {
@@ -12,22 +13,23 @@ let previousState = {
 };
 
 window.addEventListener('load', (event) => {
-    scrollPetCards(scrollDirectionRight);
+    scrollPetCards(scrollDirectionRight, true);
 })
 
 window.addEventListener('resize', (event) => {
     if (cardsNumber !== determineCardsNumber()) {
         cardsNumber = determineCardsNumber();
-        scrollPetCards(scrollDirectionRight);
+        currentState = [];
+        previousState.pets = [];
+        scrollPetCards(null, true);
     }
 })
 
-
 function determineCardsNumber() {
     let cardsNumber;
-    if (screen.width > 1000) {
+    if (window.innerWidth > 1000) {
         cardsNumber = 3;
-    } else if ((screen.width >= 768) && (screen.width <= 1000)) {
+    } else if ((window.innerWidth >= 768) && (window.innerWidth <= 1000)) {
         cardsNumber = 2;
     } else {
         cardsNumber = 1;
@@ -35,7 +37,9 @@ function determineCardsNumber() {
     return cardsNumber;
 }
 
-function scrollPetCards(direction) {
+function scrollPetCards(direction, noDelay = false) {
+    scrollInProgress = true;
+
     if (direction === previousState.position && previousState.pets.length) {
         let temp = [...currentState];
         currentState = [...previousState.pets];
@@ -56,30 +60,44 @@ function scrollPetCards(direction) {
     }
 
     let oldPetCard = document.querySelectorAll(".pet-card") || [];
-    oldPetCard.forEach(div => div.remove());
+    oldPetCard.forEach(div => {
+        div.style.opacity = 0;
+    });
 
-    const template = document.querySelector("#template");
-    for (let j = 0; j < currentState.length; j++) {
-        let clone = template.content.cloneNode(true);
-        clone.querySelector(".pet-name").textContent = currentState[j].name;
-        clone.querySelector(".pet-card img").src = currentState[j].img;
-        clone.querySelector(".pet-card img").alt = currentState[j].name;
-        document.querySelector(".photo-slider").append(clone);
-    }
+    setTimeout(() => {
+        oldPetCard.forEach(div => {
+            div.remove();
+        });
+        const template = document.querySelector("#template");
+        for (let j = 0; j < currentState.length; j++) {
+            let clone = template.content.cloneNode(true);
+            clone.querySelector(".pet-name").textContent = currentState[j].name;
+            clone.querySelector(".pet-card img").src = currentState[j].img;
+            clone.querySelector(".pet-card img").alt = currentState[j].name;
+            clone.lastElementChild.style.opacity = noDelay ? 1 : 0;
+            document.querySelector(".photo-slider").append(clone);
+        }
+        setTimeout(() => {
+            document.querySelectorAll(".pet-card").forEach(card => card.style.opacity = 1);
+            scrollInProgress = false;
+        }, 10);
+    }, noDelay ? 0 : 500);
 }
 
 let leftArrow = document.querySelector(".arrow-icon.left");
 let rightArrow = document.querySelector(".arrow-icon.right");
 
 leftArrow.addEventListener("click", (event) => {
-    scrollPetCards(scrollDirectionLeft);
+    if (!scrollInProgress) {
+        scrollPetCards(scrollDirectionLeft);
+    };
 })
 
 rightArrow.addEventListener("click", (event) => {
-    scrollPetCards(scrollDirectionRight);
+    if (!scrollInProgress) {
+        scrollPetCards(scrollDirectionRight);
+    };
 })
-
-
 
 let menu = document.getElementById("menu");
 let modalCover = document.getElementById("modal-cover");
@@ -101,12 +119,16 @@ modalCover.addEventListener("click", (event) => {
 })
 
 menuItems.forEach(item => {
+
     item.addEventListener("click", (event) => {
-        event.preventDefault();
-        linkLocation = event.currentTarget.href;
-        toggleMenu();
-        setTimeout(() => { window.location = linkLocation; }, 500);
+        if (menu.classList.contains("open")) {
+            event.preventDefault();
+            let linkLocation = event.currentTarget.href;
+            toggleMenu();
+            setTimeout(() => { window.location = linkLocation; }, 500);
+        }
     });
+
 })
 
 
