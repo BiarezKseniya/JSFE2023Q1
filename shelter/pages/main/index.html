@@ -47,7 +47,8 @@
                             wide
                             and open heart. He or
                             she will love you more than anybody else in the world, you will see!</p>
-                        <button type="button" class="button" onclick="document.location='#our-friends'">Make a friend</button>
+                        <button type="button" class="button" onclick="document.location='#our-friends'">Make a
+                            friend</button>
                     </div>
                     <img class="welcome-puppy" alt="welcome-puppy" src="../../assets/images/start-screen-puppy.png">
                 </section>
@@ -89,12 +90,19 @@
                             <svg class="arrow-icon left">
                                 <use xlink:href="../../assets/svg/sprite.svg#button-arrow-left"></use>
                             </svg>
-                            <div class="pet-card show">
+                            <template id="template">
+                                <div class="pet-card">
+                                    <img src="temp" alt="temp">
+                                    <p class="pet-name"></p>
+                                    <button type="button" class="learn-more">Learn more</button>
+                                </div>
+                            </template>
+                            <!-- <div class="pet-card show">
                                 <img src="../../assets/images/Katrine.png" alt="Katrine">
                                 <p class="pet-name">Katrine</p>
                                 <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
+                            </div> -->
+                            <!-- <div class="pet-card">
                                 <img src="../../assets/images/Jennifer.png" alt="Jennifer">
                                 <p class="pet-name">Jennifer</p>
                                 <button type="button" class="learn-more">Learn more</button>
@@ -103,12 +111,33 @@
                                 <img src="../../assets/images/Woody.png" alt="Woody">
                                 <p class="pet-name">Woody</p>
                                 <button type="button" class="learn-more">Learn more</button>
-                            </div>
+                            </div> -->
                             <svg class="arrow-icon right">
                                 <use xlink:href="../../assets/svg/sprite.svg#button-arrow-right"></use>
                             </svg>
                         </div>
-                        <button type="button" class="button" onclick="document.location='../pets/index.html'">Get to know the rest</button>
+                        <div class="popup">
+                            <button type="button" class="close">&times;</button>
+                            <img alt="pet-photo" src="../../assets/images/Katrine.png">
+                            <div class="text-block">
+                                <div class="intro">
+                                    <p class="title">Jennifer</p>
+                                    <p class="subtitle">Dog - Labrador</p>
+                                </div>
+                                <p class="description">Jennifer is a sweet 2 months old Labrador that is patiently
+                                    waiting to find a new forever home. This girl really enjoys being able to go outside
+                                    to run and play, but won't hesitate to play up a storm in the house if she has all
+                                    of her favorite toys.</p>
+                                <ul class="pet-data">
+                                    <li><span>Age: </span>2 months</li>
+                                    <li><span>Inoculations: </span>none</li>
+                                    <li><span>Diseases: </span>none</li>
+                                    <li><span>Parasites: </span>none</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="button" class="button" onclick="document.location='../pets/index.html'">Get to
+                            know the rest</button>
                     </div>
                 </section>
             </div>
@@ -239,6 +268,7 @@
             </div>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>
