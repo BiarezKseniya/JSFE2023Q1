@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="modal-cover"></div>
+    <div id="menu-cover"></div>
     <header>
         <div class="background-white">
             <div class="wrapper  nav-bar">
@@ -48,12 +48,14 @@
                     <div class="flex-container">
                         <h1 class="section-title">Our friends who<br>are looking for a house</h1>
                         <div class="photo-slider">
-                            <div class="pet-card show">
-                                <img src="../../assets/images/Katrine.png" alt="Katrine">
-                                <p class="pet-name">Katrine</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card show">
+                            <template id="template">
+                                <div class="pet-card">
+                                    <img src="temp" alt="temp">
+                                    <p class="pet-name"></p>
+                                    <button type="button" class="learn-more">Learn more</button>
+                                </div>
+                            </template>
+                            <!-- <div class="pet-card show">
                                 <img src="../../assets/images/Jennifer.png" alt="Jennifer">
                                 <p class="pet-name">Jennifer</p>
                                 <button type="button" class="learn-more">Learn more</button>
@@ -87,14 +89,14 @@
                                 <img src="../../assets/images/Freddie.png" alt="Freddie">
                                 <p class="pet-name">Freddie</p>
                                 <button type="button" class="learn-more">Learn more</button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="controls">
-                            <button type="button" class="button paginator inactive" disabled>&lt;&lt;</button>
-                            <button type="button" class="button paginator inactive" disabled>&lt;</button>
+                            <button type="button" id="switch-to-final-left" class="button paginator inactive" disabled>&lt;&lt;</button>
+                            <button type="button" id="switch-left" class="button paginator inactive" disabled>&lt;</button>
                             <button type="button" class="button page-number">1</button>
-                            <button type="button" class="button paginator">&gt;</button>
-                            <button type="button" class="button paginator">&gt;&gt;</button>
+                            <button type="button" id="switch-right" class="button paginator">&gt;</button>
+                            <button type="button" id="switch-to-final-right" class="button paginator">&gt;&gt;</button>
                         </div>
                     </div>
                 </section>
@@ -140,6 +142,7 @@
             </div>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>

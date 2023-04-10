@@ -393,14 +393,6 @@ footer .section-title {
         gap: 100px;
     }
 
-    .photo-slider div:nth-child(7) {
-        display: none;
-    }
-
-    .photo-slider div:nth-child(8) {
-        display: none;
-    }
-
     .photo-slider {
         gap: 30px 40px;
         padding: 0 0 10px 0;
@@ -539,14 +531,6 @@ footer .section-title {
     .photo-slider {
         padding: 0;
         gap: 30px;
-    }
-
-    .pet-card {
-        display: none;
-    }
-
-    .pet-card.show {
-        display: flex;
     }
 
     footer .flex-container {
