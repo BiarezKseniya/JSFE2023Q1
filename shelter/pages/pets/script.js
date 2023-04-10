@@ -1,12 +1,12 @@
 let menu = document.getElementById("menu");
-let modalCover = document.getElementById("modal-cover");
+let menuCover = document.getElementById("menu-cover");
 let menuItems = document.querySelectorAll(".nav-list a");
 
 function toggleMenu () {
     document.getElementById("menu-box").classList.toggle("open");
     menu.classList.toggle("open");
     document.getElementsByTagName("html")[0].classList.toggle("open");
-    modalCover.classList.toggle("shadow");
+    menuCover.classList.toggle("shadow");
 }
 
 
@@ -15,7 +15,7 @@ menu.addEventListener("click",(event) => {
     toggleMenu();  
 })
 
-modalCover.addEventListener("click",(event) => {
+menuCover.addEventListener("click",(event) => {
     toggleMenu();
 })
 

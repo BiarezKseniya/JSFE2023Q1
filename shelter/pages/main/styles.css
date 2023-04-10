@@ -261,6 +261,7 @@ h1 {
     gap: 30px;
     align-items: center;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 .pet-card img {
@@ -316,19 +317,19 @@ h1 {
 }
 
 .popup {
-    /* background-color: var(--color-light-s); */
-    background-color: purple;
-    width: 900px;
-    height: 500px;
+    background-color: var(--color-light-s);
+    max-width: 900px;
+    width: 90%;
+    height: fit-content;
     position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
     border-radius: 9px;
     display: none;
-    /* display: flex; */
     gap: 30px;
     color: #000000;
+    z-index: 95;
 }
 
 .popup .text-block {
@@ -345,8 +346,9 @@ h1 {
 }
 
 .popup img {
-    height: 500px;
     width: 500px;
+    height: 500px;
+    border-radius: 9px;
 }
 
 .popup .title {
@@ -376,7 +378,7 @@ h1 {
     font: var(--small-header-font-mobile);
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 20px 0;
 }
 
 .popup .pet-data li {
@@ -391,7 +393,7 @@ h1 {
     width: 1em; 
 }
 
-.popup .pet-data span {
+.popup .data-label {
     font-weight: 700;
 }
 
@@ -411,6 +413,16 @@ h1 {
     outline: none;
     cursor: pointer;
     padding: 0;
+}
+
+.popup-shadow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(41, 41, 41, 0.6);
+    z-index: 95;
 }
 
 .arrow-icon {
@@ -700,6 +712,35 @@ footer .section-title {
         gap: 60px;
     }
 
+    .popup {
+        max-width: 630px;
+        gap: 11px;
+    }
+
+    .popup .title {
+        margin: 10px 0;
+    }
+
+    .popup img {
+        width: 350px;
+        height: 350px;
+        border-radius: 9px;
+    }
+
+    .popup .text-block {
+        gap: 20px;
+        padding-right: 9px;
+    }
+
+    .popup .pet-data {
+        gap: 6px;
+    }
+
+    .popup .description {
+        font-size: 12.98px;
+        line-height: 110%;
+    }
+
     .help-box {
         gap: 55px 60px;
     }
@@ -797,7 +838,7 @@ footer .section-title {
         transition: 0.5s;
     }
 
-    .modal-cover {
+    .menu-cover {
         transition: 0.5s;
     }
 
@@ -891,6 +932,43 @@ footer .section-title {
 
     .right {
         right: 16%;
+    }
+
+    .popup {
+        min-width: 240px;
+        width: 75%;
+    }
+
+    .popup .title {
+        margin: 0 0 10px 0;
+    }
+
+    .popup .text-block {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .popup .intro {
+        text-align: center;
+    }
+
+    .popup .pet-data {
+        gap: 6px;
+        padding: 0;
+    }
+
+    .popup .description {
+        font-size: 13px;
+        line-height: 110%;
+        text-align: justify;
+    }
+
+    .popup img {
+        display: none;
+    }
+
+    .close {
+        transform: translate(60%, -100%)
     }
 
     .help .section-title {

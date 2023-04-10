@@ -1,6 +1,40 @@
 import pets from '../../assets/json/pets.json' assert { type: 'json' };
 
+// Burger-menu
 
+let menu = document.getElementById("menu");
+let menuCover = document.getElementById("menu-cover");
+let menuItems = document.querySelectorAll(".nav-list a");
+
+function toggleMenu() {
+    document.getElementById("menu-box").classList.toggle("open");
+    menu.classList.toggle("open");
+    document.getElementsByTagName("html")[0].classList.toggle("open");
+    menuCover.classList.toggle("shadow");
+}
+
+menu.addEventListener("click", (event) => {
+    toggleMenu();
+})
+
+menuCover.addEventListener("click", (event) => {
+    toggleMenu();
+})
+
+menuItems.forEach(item => {
+
+    item.addEventListener("click", (event) => {
+        if (menu.classList.contains("open")) {
+            event.preventDefault();
+            let linkLocation = event.currentTarget.href;
+            toggleMenu();
+            setTimeout(() => { window.location = linkLocation; }, 500);
+        }
+    });
+
+})
+
+// Slider scroll
 
 const scrollDirectionRight = true;
 const scrollDirectionLeft = false;
@@ -70,11 +104,17 @@ function scrollPetCards(direction, noDelay = false) {
         });
         const template = document.querySelector("#template");
         for (let j = 0; j < currentState.length; j++) {
+            const pet = currentState[j];
             let clone = template.content.cloneNode(true);
-            clone.querySelector(".pet-name").textContent = currentState[j].name;
-            clone.querySelector(".pet-card img").src = currentState[j].img;
-            clone.querySelector(".pet-card img").alt = currentState[j].name;
+            clone.querySelector(".pet-name").textContent = pet.name;
+            clone.querySelector(".pet-card img").src = pet.img;
+            clone.querySelector(".pet-card img").alt = pet.name;
             clone.lastElementChild.style.opacity = noDelay ? 1 : 0;
+            clone.querySelector(".pet-card").addEventListener("click", (event) => {
+                openPopup(pet);
+                console.log(pet);
+            })
+
             document.querySelector(".photo-slider").append(clone);
         }
         setTimeout(() => {
@@ -99,37 +139,45 @@ rightArrow.addEventListener("click", (event) => {
     };
 })
 
-let menu = document.getElementById("menu");
-let modalCover = document.getElementById("modal-cover");
-let menuItems = document.querySelectorAll(".nav-list a");
+// Pop-up window
 
-function toggleMenu() {
-    document.getElementById("menu-box").classList.toggle("open");
-    menu.classList.toggle("open");
-    document.getElementsByTagName("html")[0].classList.toggle("open");
-    modalCover.classList.toggle("shadow");
+let popUp = document.querySelector(".popup");
+let modalCover = document.querySelector("#modal-cover");
+
+function openPopup (pet) {
+    popUp.style.display = "flex";
+    modalCover.classList.add("popup-shadow");
+    document.getElementsByTagName("html")[0].classList.add("open");
+    document.querySelector(".popup img").src = pet.img;
+    document.querySelector(".popup .title").innerHTML = pet.name;
+    document.querySelector(".popup .subtitle").innerHTML = pet.type + ' - ' + pet.breed;
+    document.querySelector(".popup .description").innerHTML = pet.description;
+    document.querySelector("#age").innerHTML = pet.age;
+    document.querySelector("#inoculations").innerHTML = pet.inoculations.join(", ");
+    document.querySelector("#diseases").innerHTML = pet.diseases.join(", ");
+    document.querySelector("#parasites").innerHTML = pet.parasites.join(", ");
+
 }
 
-menu.addEventListener("click", (event) => {
-    toggleMenu();
+popUp.querySelector(".close").addEventListener("click", (event) =>{
+    closePopup();
 })
 
 modalCover.addEventListener("click", (event) => {
-    toggleMenu();
+    closePopup();
 })
 
-menuItems.forEach(item => {
+function closePopup () {
+    popUp.style.display = "none";
+    modalCover.classList.remove("popup-shadow");
+    document.getElementsByTagName("html")[0].classList.remove("open");
+}
 
-    item.addEventListener("click", (event) => {
-        if (menu.classList.contains("open")) {
-            event.preventDefault();
-            let linkLocation = event.currentTarget.href;
-            toggleMenu();
-            setTimeout(() => { window.location = linkLocation; }, 500);
-        }
-    });
 
-})
+
+
+
+
 
 
 
