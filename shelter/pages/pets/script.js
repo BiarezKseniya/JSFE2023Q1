@@ -175,6 +175,10 @@ function renderPets(petPages, pageNumber) {
         clone.querySelector(".pet-name").textContent = pet.name;
         clone.querySelector(".pet-card img").src = pet.img;
         clone.querySelector(".pet-card img").alt = pet.name;
+        clone.querySelector(".pet-card").addEventListener("click", (event) => {
+            openPopup(pet);
+            console.log(pet);
+        })
         document.querySelector(".photo-slider").append(clone);
     });
 
@@ -191,6 +195,42 @@ function determineCardsNumber() {
     }
     return cardsNumber;
 }
+
+// Pop-up window
+
+let popUp = document.querySelector(".popup");
+let modalCover = document.querySelector("#modal-cover");
+
+function openPopup (pet) {
+    popUp.style.display = "flex";
+    modalCover.classList.add("popup-shadow");
+    document.getElementsByTagName("html")[0].classList.add("open");
+    document.querySelector(".popup img").src = pet.img;
+    document.querySelector(".popup .title").innerHTML = pet.name;
+    document.querySelector(".popup .subtitle").innerHTML = pet.type + ' - ' + pet.breed;
+    document.querySelector(".popup .description").innerHTML = pet.description;
+    document.querySelector("#age").innerHTML = pet.age;
+    document.querySelector("#inoculations").innerHTML = pet.inoculations.join(", ");
+    document.querySelector("#diseases").innerHTML = pet.diseases.join(", ");
+    document.querySelector("#parasites").innerHTML = pet.parasites.join(", ");
+
+}
+
+popUp.querySelector(".close").addEventListener("click", (event) =>{
+    closePopup();
+})
+
+modalCover.addEventListener("click", (event) => {
+    closePopup();
+})
+
+function closePopup () {
+    popUp.style.display = "none";
+    modalCover.classList.remove("popup-shadow");
+    document.getElementsByTagName("html")[0].classList.remove("open");
+}
+
+
 
 
 // console.log(

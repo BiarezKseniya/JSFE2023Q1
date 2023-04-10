@@ -208,6 +208,7 @@ body {
     color: var(--color-dark-3xl);
     box-sizing: border-box;
     transition: 0.2s;
+    cursor: pointer;
 }
 
 .our-friends .flex-container {
@@ -220,6 +221,115 @@ body {
 
 .background-light {
     background-color: var(--color-light-l);
+}
+
+.popup {
+    background-color: var(--color-light-s);
+    max-width: 900px;
+    width: 90%;
+    height: fit-content;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 9px;
+    display: none;
+    gap: 30px;
+    color: #000000;
+    z-index: 95;
+}
+
+.popup .text-block {
+    gap: 40px;
+    padding-right: 20px;
+}
+
+.popup .title {
+    margin: 50px 0 10px;
+}
+
+.popup .subtitle {
+    margin: 0;
+}
+
+.popup img {
+    width: 500px;
+    height: 500px;
+    border-radius: 9px;
+}
+
+.popup .title {
+    font: var(--section-title-font);
+    line-height: 130%;
+    letter-spacing: 0.06em;
+}
+
+.popup .subtitle {
+    font: var(--small-header-font);
+    line-height: 115%;
+    letter-spacing: 0.06em;
+
+}
+
+.popup .description {
+    font: var(--small-header-font-mobile);
+    line-height: 110%;
+    letter-spacing: 0.06em;
+    margin: 0;
+}
+
+.popup .pet-data {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    font: var(--small-header-font-mobile);
+    list-style: none;
+    margin: 0;
+    padding: 0 0 20px 0;
+}
+
+.popup .pet-data li {
+    letter-spacing: 0.06em;
+}
+
+.popup .pet-data li::before {
+    content: "\2022"; 
+    color: var(--color-primary); 
+    font-weight: bold; 
+    display: inline-block; 
+    width: 1em; 
+}
+
+.popup .data-label {
+    font-weight: 700;
+}
+
+.close {
+    display: block;
+    position: absolute;
+    right: 0;
+    transform: translate(80%, -100%);
+    background-color: transparent;
+    font-size: 30px;
+    color: var(--color-dark-3xl);
+    border-radius: 100%;
+    box-sizing: border-box;
+    width: 52px;
+    height: 52px;
+    border: 2px solid var(--color-primary);
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.popup-shadow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(41, 41, 41, 0.6);
+    z-index: 95;
 }
 
 .controls {
@@ -403,6 +513,35 @@ footer .section-title {
         padding-bottom: 76px;
     }
 
+    .popup {
+        max-width: 630px;
+        gap: 11px;
+    }
+
+    .popup .title {
+        margin: 10px 0;
+    }
+
+    .popup img {
+        width: 350px;
+        height: 350px;
+        border-radius: 9px;
+    }
+
+    .popup .text-block {
+        gap: 20px;
+        padding-right: 9px;
+    }
+
+    .popup .pet-data {
+        gap: 6px;
+    }
+
+    .popup .description {
+        font-size: 12.98px;
+        line-height: 110%;
+    }
+
     footer .flex-container {
         justify-content: center;
         gap: 65px 60px;
@@ -531,6 +670,43 @@ footer .section-title {
     .photo-slider {
         padding: 0;
         gap: 30px;
+    }
+
+    .popup {
+        min-width: 240px;
+        width: 75%;
+    }
+
+    .popup .title {
+        margin: 0 0 10px 0;
+    }
+
+    .popup .text-block {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .popup .intro {
+        text-align: center;
+    }
+
+    .popup .pet-data {
+        gap: 6px;
+        padding: 0;
+    }
+
+    .popup .description {
+        font-size: 13px;
+        line-height: 110%;
+        text-align: justify;
+    }
+
+    .popup img {
+        display: none;
+    }
+
+    .close {
+        transform: translate(60%, -100%)
     }
 
     footer .flex-container {
