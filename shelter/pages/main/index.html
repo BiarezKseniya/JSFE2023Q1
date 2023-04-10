@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../../assets/images/favicon.png">
-    <script src="script.js"></script>
     <title>Cozy shelter</title>
 </head>
 
 <body>
+    <div id="menu-cover"></div>
     <div class="background-dark">
         <header class="header">
             <div class="wrapper nav-bar">
@@ -20,7 +20,7 @@
                     <p class="logo-sub">Shelter for pets in Boston</p>
                 </a>
                 <nav class="nav">
-                    <ul class="nav-list">
+                    <ul class="nav-list" id="menu-box">
                         <li>
                             <a class="active" href="#about-pets">About the shelter</a>
                         </li>
@@ -34,9 +34,9 @@
                             <a href="#contacts">Contacts</a>
                         </li>
                     </ul>
-                    <svg class="menu">
-                        <use xlink:href="../../assets/svg/sprite.svg#burger"></use>
-                    </svg>
+                    <div class="menu" id="menu">
+                        <span></span>
+                    </div>
                 </nav>
             </div>
             <div class="wrapper">
@@ -47,7 +47,8 @@
                             wide
                             and open heart. He or
                             she will love you more than anybody else in the world, you will see!</p>
-                        <button type="button" class="button" onclick="document.location='#our-friends'">Make a friend</button>
+                        <button type="button" class="button" onclick="document.location='#our-friends'">Make a
+                            friend</button>
                     </div>
                     <img class="welcome-puppy" alt="welcome-puppy" src="../../assets/images/start-screen-puppy.png">
                 </section>
@@ -89,26 +90,46 @@
                             <svg class="arrow-icon left">
                                 <use xlink:href="../../assets/svg/sprite.svg#button-arrow-left"></use>
                             </svg>
-                            <div class="pet-card show">
-                                <img src="../../assets/images/Katrine.png" alt="Katrine">
-                                <p class="pet-name">Katrine</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Jennifer.png" alt="Jennifer">
-                                <p class="pet-name">Jennifer</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Woody.png" alt="Woody">
-                                <p class="pet-name">Woody</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
+                            <template id="template">
+                                <div class="pet-card">
+                                    <img src="temp" alt="temp">
+                                    <p class="pet-name"></p>
+                                    <button type="button" class="learn-more">Learn more</button>
+                                </div>
+                            </template>
                             <svg class="arrow-icon right">
                                 <use xlink:href="../../assets/svg/sprite.svg#button-arrow-right"></use>
                             </svg>
                         </div>
-                        <button type="button" class="button" onclick="document.location='../pets/index.html'">Get to know the rest</button>
+                        <button type="button" class="button" onclick="document.location='../pets/index.html'">Get to
+                            know the rest</button>
+                    </div>
+                    <div id="modal-cover">
+                        <div class="popup">
+                            <button type="button" class="close">&times;</button>
+                            <img alt="pet-photo" src="../../assets/images/Katrine.png">
+                            <div class="text-block">
+                                <div class="intro">
+                                    <p class="title">Jennifer</p>
+                                    <p class="subtitle">Dog - Labrador</p>
+                                </div>
+                                <p class="description">Jennifer is a sweet 2 months old Labrador that is patiently
+                                    waiting to find a new forever home. This girl really enjoys being able to go
+                                    outside
+                                    to run and play, but won't hesitate to play up a storm in the house if she has
+                                    all
+                                    of her favorite toys.</p>
+                                <ul class="pet-data">
+                                    <li><span class="data-label">Age: </span><span id="age">2 months</span></li>
+                                    <li><span class="data-label">Inoculations: </span><span id="inoculations">2
+                                            months</span></li>
+                                    <li><span class="data-label">Diseases: </span><span id="diseases">2
+                                            months</span></li>
+                                    <li><span class="data-label">Parasites: </span><span id="parasites">2
+                                            months</span></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -239,6 +260,7 @@
             </div>
         </div>
     </footer>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

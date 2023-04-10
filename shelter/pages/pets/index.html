@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../../assets/images/favicon.png">
-    <script src="script.js"></script>
     <title>Cozy shelter</title>
 </head>
 
 <body>
+    <div id="menu-cover"></div>
     <header>
         <div class="background-white">
             <div class="wrapper  nav-bar">
@@ -20,7 +20,7 @@
                     <p class="logo-sub">Shelter for pets in Boston</p>
                 </a>
                 <nav class="nav">
-                    <ul class="nav-list">
+                    <ul class="nav-list" id="menu-box">
                         <li>
                             <a href="../main/index.html">About the shelter</a>
                         </li>
@@ -34,9 +34,9 @@
                             <a href="#contacts">Contacts</a>
                         </li>
                     </ul>
-                    <svg class="menu">
-                        <use xlink:href="../../assets/svg/sprite.svg#burger"></use>
-                    </svg>
+                    <div class="menu" id="menu">
+                        <span></span>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -48,53 +48,47 @@
                     <div class="flex-container">
                         <h1 class="section-title">Our friends who<br>are looking for a house</h1>
                         <div class="photo-slider">
-                            <div class="pet-card show">
-                                <img src="../../assets/images/Katrine.png" alt="Katrine">
-                                <p class="pet-name">Katrine</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card show">
-                                <img src="../../assets/images/Jennifer.png" alt="Jennifer">
-                                <p class="pet-name">Jennifer</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card show">
-                                <img src="../../assets/images/Woody.png" alt="Woody">
-                                <p class="pet-name">Woody</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Sophia.png" alt="Sophia">
-                                <p class="pet-name">Sophia</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Timmy.png" alt="Timmy">
-                                <p class="pet-name">Timmy</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Charly.png" alt="Charly">
-                                <p class="pet-name">Charly</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Scarlet.png" alt="Scarlett">
-                                <p class="pet-name">Scarlett</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
-                            <div class="pet-card">
-                                <img src="../../assets/images/Freddie.png" alt="Freddie">
-                                <p class="pet-name">Freddie</p>
-                                <button type="button" class="learn-more">Learn more</button>
-                            </div>
+                            <template id="template">
+                                <div class="pet-card">
+                                    <img src="temp" alt="temp">
+                                    <p class="pet-name"></p>
+                                    <button type="button" class="learn-more">Learn more</button>
+                                </div>
+                            </template>
                         </div>
                         <div class="controls">
-                            <button type="button" class="button paginator inactive" disabled>&lt;&lt;</button>
-                            <button type="button" class="button paginator inactive" disabled>&lt;</button>
+                            <button type="button" id="switch-to-final-left" class="button paginator inactive" disabled>&lt;&lt;</button>
+                            <button type="button" id="switch-left" class="button paginator inactive" disabled>&lt;</button>
                             <button type="button" class="button page-number">1</button>
-                            <button type="button" class="button paginator">&gt;</button>
-                            <button type="button" class="button paginator">&gt;&gt;</button>
+                            <button type="button" id="switch-right" class="button paginator">&gt;</button>
+                            <button type="button" id="switch-to-final-right" class="button paginator">&gt;&gt;</button>
+                        </div>
+                    </div>
+                    <div id="modal-cover">
+                        <div class="popup">
+                            <button type="button" class="close">&times;</button>
+                            <img alt="pet-photo" src="../../assets/images/Katrine.png">
+                            <div class="text-block">
+                                <div class="intro">
+                                    <p class="title">Jennifer</p>
+                                    <p class="subtitle">Dog - Labrador</p>
+                                </div>
+                                <p class="description">Jennifer is a sweet 2 months old Labrador that is patiently
+                                    waiting to find a new forever home. This girl really enjoys being able to go
+                                    outside
+                                    to run and play, but won't hesitate to play up a storm in the house if she has
+                                    all
+                                    of her favorite toys.</p>
+                                <ul class="pet-data">
+                                    <li><span class="data-label">Age: </span><span id="age">2 months</span></li>
+                                    <li><span class="data-label">Inoculations: </span><span id="inoculations">2
+                                            months</span></li>
+                                    <li><span class="data-label">Diseases: </span><span id="diseases">2
+                                            months</span></li>
+                                    <li><span class="data-label">Parasites: </span><span id="parasites">2
+                                            months</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -140,6 +134,7 @@
             </div>
         </div>
     </footer>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
