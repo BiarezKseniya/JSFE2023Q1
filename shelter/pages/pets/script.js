@@ -28,9 +28,13 @@ menuItems.forEach(item => {
     item.addEventListener("click", (event) => {
         if (menu.classList.contains("open")) {
             event.preventDefault();
-            let linkLocation = event.currentTarget.href;
-            toggleMenu();
-            setTimeout(() => { window.location = linkLocation; }, 500);
+            if (!event.target.classList.contains('active')) {
+                let linkLocation = event.currentTarget.href;
+                toggleMenu();
+                setTimeout(() => { window.location = linkLocation; }, 500);
+            } else {
+                toggleMenu();
+            }
         }
     });
 
@@ -114,10 +118,10 @@ firstPageBtn.addEventListener('click', (event) => {
     previousPageBtn.classList.add('inactive');
     firstPageBtn.setAttribute("disabled", "true");
     firstPageBtn.classList.add('inactive');
-    })
+})
 
 lastPageBtn.addEventListener('click', (event) => {
-    if (pageNumber ===1) {
+    if (pageNumber === 1) {
         previousPageBtn.removeAttribute("disabled");
         previousPageBtn.classList.remove('inactive');
         firstPageBtn.removeAttribute("disabled");
@@ -201,7 +205,7 @@ function determineCardsNumber() {
 let popUp = document.querySelector(".popup");
 let modalCover = document.querySelector("#modal-cover");
 
-function openPopup (pet) {
+function openPopup(pet) {
     popUp.style.display = "flex";
     modalCover.classList.add("popup-shadow");
     document.getElementsByTagName("html")[0].classList.add("open");
@@ -216,15 +220,16 @@ function openPopup (pet) {
 
 }
 
-popUp.querySelector(".close").addEventListener("click", (event) =>{
+popUp.querySelector(".close").addEventListener("click", (event) => {
     closePopup();
 })
 
 modalCover.addEventListener("click", (event) => {
-    closePopup();
+    if (event.target === modalCover)
+        closePopup();
 })
 
-function closePopup () {
+function closePopup() {
     popUp.style.display = "none";
     modalCover.classList.remove("popup-shadow");
     document.getElementsByTagName("html")[0].classList.remove("open");
