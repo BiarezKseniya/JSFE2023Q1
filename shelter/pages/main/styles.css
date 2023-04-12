@@ -81,7 +81,6 @@ body {
 .nav-list .active {
     color: var(--color-light-s);
     border-bottom: 3px solid var(--color-primary);
-    pointer-events: none;
 }
 
 .menu {
@@ -413,6 +412,7 @@ h1 {
     outline: none;
     cursor: pointer;
     padding: 0;
+    transition: 0.2s;
 }
 
 .popup-shadow {
@@ -644,6 +644,10 @@ footer .section-title {
     .arrow-icon:hover {
         fill: currentcolor;
         color: var(--color-primary-light);
+    }
+
+    .close:hover {
+        background-color: var(--color-primary);
     }
 
     .credit-card:hover {
@@ -968,7 +972,7 @@ footer .section-title {
     }
 
     .close {
-        transform: translate(60%, -100%)
+        transform: translate(60%, -100%)ж
     }
 
     .help .section-title {

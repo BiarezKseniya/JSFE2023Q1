@@ -82,17 +82,8 @@ body {
 .nav-list .active {
     border-bottom: 3px solid var(--color-primary);
     color: var(--color-dark-3xl);
-    pointer-events: none;
+    /* pointer-events: none; */
 }
-
-/* .menu {
-    display: none;
-    width: 30px;
-    height: 22px;
-    color: black;
-    stroke: currentcolor;
-    cursor: pointer;
-} */
 
 .menu {
     display: none;
@@ -470,6 +461,10 @@ footer .section-title {
     .button:hover:not(.inactive) {
         background-color: var(--color-primary-light);
         border-color: var(--color-primary-light);
+    }
+
+    .close:hover {
+        background-color: var(--color-primary);
     }
 
     .page-number:hover {
