@@ -17,10 +17,13 @@ body {
   font-size: 18px;
   color: #bbb;
   gap: 20px;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .title {
-  margin: 4rem 0 0.5rem;
+  font-size: 2rem;
+  margin: 2.5rem 0 0.5rem;
   text-align: center;
   font-family: sans-serif;
   font-weight: 500;
@@ -38,8 +41,8 @@ body {
 .board {
   display: inline-grid;
   background-color: grey;
-  grid-template-columns: repeat(var(--size), 50px);
-  grid-template-rows: repeat(var(--size), 50px);
+  grid-template-columns: repeat(var(--size), 30px);
+  grid-template-rows: repeat(var(--size), 30px);
   gap: 4px;
   border: 6px solid grey;
   max-width: 80%;
