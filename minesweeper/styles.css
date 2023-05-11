@@ -1,0 +1,52 @@
+:root {
+  --size: 10;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  font-family: sans-serif;
+  font-size: 18px;
+  color: #bbb;
+  gap: 20px;
+}
+
+.title {
+  margin: 4rem 0 0.5rem;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 500;
+  color: white;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: inline-grid;
+  background-color: grey;
+  grid-template-columns: repeat(var(--size), 50px);
+  grid-template-rows: repeat(var(--size), 50px);
+  gap: 4px;
+  border: 6px solid grey;
+  max-width: 80%;
+  user-select: none;
+}
+
+.cell {
+  background-color: #bbb;
+  cursor: pointer;
+}
