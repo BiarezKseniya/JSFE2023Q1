@@ -1,7 +1,3 @@
-:root {
-  --size: 10;
-}
-
 body {
   margin: 0;
 }
@@ -49,7 +45,21 @@ body {
   user-select: none;
 }
 
-.cell {
+.tile {
   background-color: #bbb;
   cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+[data-status="marked"] {
+  background-color: yellow;
+}
+
+[data-status="mine"] {
+  background-color: red;
+}
+
+[data-status="number"] {
+  background-color: #333;
 }
