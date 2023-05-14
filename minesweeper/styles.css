@@ -63,3 +63,62 @@ body {
 [data-status="number"] {
   background-color: #333;
 }
+
+.game-over-msg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 250px;
+  height: 150px;
+  background-color: grey;
+  border: 4px solid #bbb;
+  border-radius: 15px;
+  color: white;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: -1;
+  display: none;
+}
+
+.game-over-msg.show {
+  display: flex;
+  z-index: 100;
+  opacity: 100%;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  display: none;
+  transition: 0.3s;
+  z-index: -1;
+}
+
+.overlay.show {
+  display: block;
+  opacity: 65%;
+  z-index: 99;
+}
+
+.close-msg {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #bbb;
+}
+
+.close-msg:hover {
+  color: white;
+}
+
+.text-msg {
+  text-align: center;
+  padding: 0 5px;
+  margin: auto 0;
+}

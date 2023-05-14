@@ -1,5 +1,5 @@
 let boardSize = 10;
-let numberOfMines = 10;
+let numberOfMines = 3;
 const statuses = {
   hidden: 'hidden',
   mine: 'mine',
@@ -8,10 +8,28 @@ const statuses = {
 };
 let boardArray = [];
 let stepsCount = 0;
+let gameOver = 0;
 
 function createBoardLayout() {
   const main = document.createElement('main');
   main.classList.add('container');
+
+  const overlay = document.createElement('div');
+  overlay.classList.add('overlay');
+
+  const gameOverMsg = document.createElement('div');
+  gameOverMsg.classList.add('game-over-msg');
+
+  const closeMsg = document.createElement('div');
+  closeMsg.classList.add('close-msg');
+  closeMsg.innerText = '✖';
+  closeMsg.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    gameOverMsg.classList.remove('show');
+  })
+
+  const textMsg = document.createElement('p');
+  textMsg.classList.add('text-msg');
 
   const title = document.createElement('h1');
   title.classList.add('title');
@@ -65,6 +83,7 @@ function createBoardLayout() {
       tileElem.addEventListener('contextmenu', (event) => {
         event.preventDefault();
         markTile(tile);
+        checkGameEnd(tile);
       })
       board.appendChild(tileElem);
 
@@ -75,11 +94,15 @@ function createBoardLayout() {
 
   }
 
+  gameOverMsg.appendChild(closeMsg);
+  gameOverMsg.appendChild(textMsg);
   gameInfo.appendChild(steps);
   gameInfo.appendChild(time);
   main.appendChild(title);
   main.appendChild(gameInfo);
   main.appendChild(board);
+  main.appendChild(overlay);
+  main.appendChild(gameOverMsg);
   document.body.appendChild(main);
 
 }
@@ -123,38 +146,47 @@ function markTile(tile) {
 
 function onTilePress(tile) {
   countSteps(tile);
-  revealTile(tile);
+  revealTile(tile).then(() => {
+    checkGameEnd(tile);
+  });
 }
 
 function revealTile(tile) {
   if (tile.status !== statuses.hidden)
-    return;
+    return Promise.resolve();
 
   if (tile.mine) {
     tile.status = statuses.mine;
+    return Promise.resolve();
   } else {
     tile.status = statuses.number;
     if (tile.minesAround) {
       tile.tileNumber = tile.minesAround;
     }
 
-    revealNeihbourTiles(tile);
+    return revealNeihbourTiles(tile);
   }
 }
 
 function revealNeihbourTiles(tile) {
   if (tile.minesAround !== 0) {
-    return;
+    return Promise.resolve();
   }
 
+  let promises = [];
   for (let yOffset = -1; yOffset <= 1; yOffset++) {
     for (let xOffset = -1; xOffset <= 1; xOffset++) {
       const neihbourTile = boardArray[tile.y + yOffset]?.[tile.x + xOffset];
       if (neihbourTile) {
-        setTimeout(revealTile.bind(this, neihbourTile), 100);
+        promises.push(new Promise(resolve => {
+          setTimeout(() => {
+            revealTile(neihbourTile).then(() => resolve());
+          }, 100);
+        }));
       }
     }
   }
+  return Promise.all(promises);
 }
 
 function countSteps(tile) {
@@ -187,4 +219,25 @@ function checkNeighbours() {
       }
     })
   })
+}
+
+function checkGameEnd(tile) {
+  let msg = '';
+  if (tile.status === statuses.mine) {
+    msg = 'Game over. Try again';
+  } else if (
+    !boardArray.flat(2).some((element) =>
+      element.status === statuses.hidden && !element.mine) ||
+    !boardArray.flat(2).some((element) =>
+      element.mine && element.status !== statuses.marked)
+  ) {
+    msg = `Hooray! You found all mines in ## seconds and ${stepsCount} move(s)!`
+  }
+
+  if (msg) {
+    document.querySelector('.text-msg').innerText = msg;
+    document.querySelector('.overlay').classList.add('show');
+    document.querySelector('.game-over-msg').classList.add('show');
+    document.querySelector('.board').style.pointerEvents = "none";
+  }
 }
