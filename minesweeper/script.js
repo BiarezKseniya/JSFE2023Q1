@@ -9,6 +9,8 @@ const statuses = {
 let boardArray = [];
 let stepsCount = 0;
 let gameOver = 0;
+let timer = 0;
+let timerInterval;
 
 function createBoardLayout() {
   const main = document.createElement('main');
@@ -44,7 +46,7 @@ function createBoardLayout() {
 
   const time = document.createElement('div');
   time.classList.add('time')
-  time.innerText = 'Time spent: ';
+  time.innerText = `Time spent: ${timer} sec`;
 
   const board = document.createElement('div');
   board.classList.add('board');
@@ -191,6 +193,7 @@ function revealNeihbourTiles(tile) {
 
 function countSteps(tile) {
   if (!stepsCount) {
+    setTimer();
     getMinePositions(tile);
     checkNeighbours();
   }
@@ -231,13 +234,27 @@ function checkGameEnd(tile) {
     !boardArray.flat(2).some((element) =>
       element.mine && element.status !== statuses.marked)
   ) {
-    msg = `Hooray! You found all mines in ## seconds and ${stepsCount} move(s)!`
+    msg = `Hooray! You found all mines in ${timer} seconds and ${stepsCount} move(s)!`
   }
 
   if (msg) {
+    stopTimer();
     document.querySelector('.text-msg').innerText = msg;
     document.querySelector('.overlay').classList.add('show');
     document.querySelector('.game-over-msg').classList.add('show');
     document.querySelector('.board').style.pointerEvents = "none";
   }
+}
+
+function runTimer() {
+  timer += 1;
+  document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
+}
+
+function setTimer() {
+  timerInterval = setInterval(runTimer, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
 }
