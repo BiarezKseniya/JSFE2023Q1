@@ -8,7 +8,7 @@ const statuses = {
 };
 let boardArray = [];
 let stepsCount = 0;
-let gameOver = 0;
+let gameRun = false;
 let timer = 0;
 let timerInterval;
 
@@ -83,6 +83,8 @@ function createBoardLayout() {
         onTilePress(tile);
       })
       tileElem.addEventListener('contextmenu', (event) => {
+        chrckAndStartGame(tile);
+
         event.preventDefault();
         markTile(tile);
         checkGameEnd(tile);
@@ -96,6 +98,13 @@ function createBoardLayout() {
 
   }
 
+  const newGameBtn = document.createElement('button');
+  newGameBtn.classList.add('new-game-btn');
+  newGameBtn.innerText = 'Start new game'
+  newGameBtn.addEventListener('click', () => {
+    startNewGame();
+  })
+
   gameOverMsg.appendChild(closeMsg);
   gameOverMsg.appendChild(textMsg);
   gameInfo.appendChild(steps);
@@ -105,8 +114,18 @@ function createBoardLayout() {
   main.appendChild(board);
   main.appendChild(overlay);
   main.appendChild(gameOverMsg);
+  main.appendChild(newGameBtn);
   document.body.appendChild(main);
 
+}
+
+function chrckAndStartGame(tile) {
+  if (!gameRun) {
+    setTimer();
+    getMinePositions(tile);
+    checkNeighbours();
+    gameRun = true;
+  }
 }
 
 function getMinePositions(tile) {
@@ -148,7 +167,11 @@ function markTile(tile) {
 
 function onTilePress(tile) {
   countSteps(tile);
+  document.querySelector('.board').style.pointerEvents = "none";
+  document.querySelector('.new-game-btn').style.pointerEvents = "none";
   revealTile(tile).then(() => {
+    document.querySelector('.board').style.pointerEvents = "auto";
+    document.querySelector('.new-game-btn').style.pointerEvents = "auto";
     checkGameEnd(tile);
   });
 }
@@ -192,11 +215,7 @@ function revealNeihbourTiles(tile) {
 }
 
 function countSteps(tile) {
-  if (!stepsCount) {
-    setTimer();
-    getMinePositions(tile);
-    checkNeighbours();
-  }
+  chrckAndStartGame(tile);
 
   if (tile.status === statuses.hidden) {
     stepsCount = stepsCount + 1;
@@ -256,5 +275,30 @@ function setTimer() {
 }
 
 function stopTimer() {
+  gameRun = false;
+  timer = 0;
   clearInterval(timerInterval);
+}
+
+function startNewGame() {
+  stopTimer();
+  stepsCount = 0;
+  timer = 0;
+  document.querySelector('.steps').innerText = `Steps: ${stepsCount}`;
+  document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
+  document.querySelector('.board').style.pointerEvents = "auto";
+
+  for (let y = 0; y < boardSize; y++) {
+    let boardArrayRow = [];
+
+    for (let x = 0; x < boardSize; x++) {
+      let tile = boardArray[y][x];
+      tile.status = statuses.hidden;
+      tile.mine = false;
+      tile.minesAround = undefined;
+      tile.tileNumber = '';
+    }
+  }
+
+  //createBoardLayout();
 }

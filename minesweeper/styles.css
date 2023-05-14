@@ -122,3 +122,26 @@ body {
   padding: 0 5px;
   margin: auto;
 }
+
+.new-game-btn {
+  appearance: none;
+  font-size: 24px;
+  background-color: grey;
+  border: 4px solid #bbb;
+  border-radius: 15px;
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+  color: #bbb;
+  transition: 0.3s;
+}
+
+.new-game-btn:hover{
+  color: white;
+}
+
+.new-game-btn:active{
+  color: white;
+  background-color: #bbb;
+}
