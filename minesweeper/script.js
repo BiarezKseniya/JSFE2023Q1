@@ -164,8 +164,6 @@ function matchPosition(baseValue, compareValue) {
   return baseValue.x === compareValue.x && baseValue.y === compareValue.y;
 }
 
-createBoardLayout();
-
 function markTile(tile) {
   if (tile.status !== statuses.hidden && tile.status !== statuses.marked)
     return
@@ -313,4 +311,23 @@ function startNewGame() {
 
 }
 
-  // createBoardLayout();
+  window.addEventListener('load', () => {
+    if (!+localStorage.timer) {
+        createBoardLayout();
+    } else {
+      createBoardLayout();
+    boardArray = JSON.parse(localStorage.getItem('boardArray'));
+    stepsCount = +localStorage.getItem('stepsCount');
+    gameRun = +localStorage.getItem('gameRun');
+    timer = +localStorage.getItem('timer');
+    timerInterval = +localStorage.getItem('timerInterval');
+    }
+  });
+  
+  // window.addEventListener('beforeunload', () => {
+  //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
+  //   localStorage.setItem('stepsCount', JSON.stringify(stepsCount));
+  //   localStorage.setItem('gameRun', JSON.stringify(gameRun));
+  //   localStorage.setItem('timer', JSON.stringify(timer));
+  //   localStorage.setItem('timerInterval', JSON.stringify(timerInterval));
+  // });
