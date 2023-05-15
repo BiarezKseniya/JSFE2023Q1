@@ -94,7 +94,7 @@ function createBoardLayout() {
         onTilePress(tile);
       })
       tileElem.addEventListener('contextmenu', (event) => {
-        chrckAndStartGame(tile);
+        checkAndStartGame(tile);
 
         event.preventDefault();
         markTile(tile);
@@ -130,7 +130,7 @@ function createBoardLayout() {
 
 }
 
-function chrckAndStartGame(tile) {
+function checkAndStartGame(tile) {
   if (!gameRun) {
     setTimer();
     getMinePositions(tile);
@@ -165,6 +165,8 @@ function matchPosition(baseValue, compareValue) {
 }
 
 function markTile(tile) {
+  const clickSound = new Audio('./assets/click.mp3');
+  clickSound.play();
   if (tile.status !== statuses.hidden && tile.status !== statuses.marked)
     return
   if (tile.status === statuses.marked)
@@ -175,6 +177,10 @@ function markTile(tile) {
 }
 
 function onTilePress(tile) {
+  if ((!tile.mine) && (tile.status === statuses.hidden)) {
+    const clickSound = new Audio('./assets/click.mp3');
+    clickSound.play();
+  }
   countSteps(tile);
   document.querySelector('.board').style.pointerEvents = "none";
   document.querySelector('.new-game-btn').style.pointerEvents = "none";
@@ -191,6 +197,8 @@ function revealTile(tile) {
 
   if (tile.mine) {
     tile.status = statuses.mine;
+    const mineSound = new Audio('./assets/explosion.mp3');
+    mineSound.play();
     return Promise.resolve();
   } else {
     tile.status = statuses.number;
@@ -224,7 +232,7 @@ function revealNeihbourTiles(tile) {
 }
 
 function countSteps(tile) {
-  chrckAndStartGame(tile);
+  checkAndStartGame(tile);
 
   if (tile.status === statuses.hidden) {
     stepsCount = stepsCount + 1;
@@ -255,6 +263,10 @@ function checkNeighbours() {
 function checkGameEnd(tile) {
   let msg = '';
   if (tile.status === statuses.mine) {
+    setTimeout(()=> {
+      const loseSound = new Audio('./assets/lose.mp3');
+      loseSound.play();
+    }, 1000);
     msg = 'Game over. Try again';
   } else if (
     !boardArray.flat(2).some((element) =>
@@ -262,6 +274,8 @@ function checkGameEnd(tile) {
     !boardArray.flat(2).some((element) =>
       element.mine && element.status !== statuses.marked)
   ) {
+    const winSound = new Audio('./assets/win.mp3');
+    winSound.play();
     msg = `Hooray! You found all mines in ${timer} seconds and ${stepsCount} move(s)!`
   }
 
@@ -311,19 +325,19 @@ function startNewGame() {
 
 }
 
-  window.addEventListener('load', () => {
-    if (!+localStorage.timer) {
-        createBoardLayout();
-    } else {
-      createBoardLayout();
+window.addEventListener('load', () => {
+  if (!+localStorage.timer) {
+    createBoardLayout();
+  } else {
+    createBoardLayout();
     boardArray = JSON.parse(localStorage.getItem('boardArray'));
     stepsCount = +localStorage.getItem('stepsCount');
     gameRun = +localStorage.getItem('gameRun');
     timer = +localStorage.getItem('timer');
     timerInterval = +localStorage.getItem('timerInterval');
-    }
-  });
-  
+  }
+});
+
   // window.addEventListener('beforeunload', () => {
   //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
   //   localStorage.setItem('stepsCount', JSON.stringify(stepsCount));
