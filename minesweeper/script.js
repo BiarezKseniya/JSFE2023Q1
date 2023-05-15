@@ -1,11 +1,21 @@
 let boardSize = 10;
-let numberOfMines = 3;
+let numberOfMines = 10;
 const statuses = {
   hidden: 'hidden',
   mine: 'mine',
   number: 'number',
   marked: 'marked'
 };
+const colorScheme = {
+  1: 'rgb(164, 68, 253)',
+  2: 'rgb(0, 128, 255)',
+  3: 'lightblue',
+  4: 'green',
+  5: 'yellow',
+  6: 'orange',
+  7: 'red',
+  8: 'black'
+}
 let boardArray = [];
 let stepsCount = 0;
 let gameRun = false;
@@ -76,6 +86,7 @@ function createBoardLayout() {
         },
         set tileNumber(value) {
           tileElem.innerText = value;
+          tileElem.style.color = colorScheme[value];
         }
       };
 
@@ -300,5 +311,6 @@ function startNewGame() {
     }
   }
 
-  //createBoardLayout();
 }
+
+  // createBoardLayout();

@@ -1,3 +1,7 @@
+:root {
+  --tileSize: 30px;
+}
+
 body {
   margin: 0;
 }
@@ -37,12 +41,13 @@ body {
 .board {
   display: inline-grid;
   background-color: grey;
-  grid-template-columns: repeat(var(--size), 30px);
-  grid-template-rows: repeat(var(--size), 30px);
+  grid-template-columns: repeat(var(--size), var(--tileSize));
+  grid-template-rows: repeat(var(--size), var(--tileSize));
   gap: 4px;
   border: 6px solid grey;
   max-width: 80%;
   user-select: none;
+  vertical-align: middle;
 }
 
 .tile {
@@ -50,6 +55,8 @@ body {
   cursor: pointer;
   transition: 0.3s;
   text-align: center;
+  font-weight: 600;
+  line-height: 30px;
 }
 
 [data-status="marked"] {
