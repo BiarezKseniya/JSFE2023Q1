@@ -1,5 +1,5 @@
 let boardSize = 10;
-let numberOfMines = 10;
+let numberOfMines = 1;
 const statuses = {
   hidden: 'hidden',
   mine: 'mine',
@@ -17,6 +17,7 @@ const colorScheme = {
   8: 'black'
 }
 let boardArray = [];
+let gameResults = [];
 let stepsCount = 0;
 let gameRun = false;
 let timer = 0;
@@ -31,6 +32,14 @@ function createBoardLayout() {
 
   const gameOverMsg = document.createElement('div');
   gameOverMsg.classList.add('game-over-msg');
+  gameOverMsg.classList.add('pop-up');
+
+  const checkHistMsg = document.createElement('div');
+  checkHistMsg.classList.add('check-hist-msg');
+  checkHistMsg.classList.add('pop-up');
+
+  const resultsList = document.createElement('ol');
+  resultsList.classList.add('results-list');
 
   const closeMsg = document.createElement('div');
   closeMsg.classList.add('close-msg');
@@ -38,6 +47,12 @@ function createBoardLayout() {
   closeMsg.addEventListener('click', () => {
     overlay.classList.remove('show');
     gameOverMsg.classList.remove('show');
+  })
+
+  const closeHist = closeMsg.cloneNode(true);
+  closeHist.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    checkHistMsg.classList.remove('show');
   })
 
   const textMsg = document.createElement('p');
@@ -57,6 +72,9 @@ function createBoardLayout() {
   const time = document.createElement('div');
   time.classList.add('time')
   time.innerText = `Time spent: ${timer} sec`;
+
+  const gameField = document.createElement('div');
+  gameField.classList.add('game-field');
 
   const board = document.createElement('div');
   board.classList.add('board');
@@ -109,6 +127,9 @@ function createBoardLayout() {
 
   }
 
+  const settings = document.createElement('div');
+  settings.classList.add('settings');
+
   const newGameBtn = document.createElement('button');
   newGameBtn.classList.add('new-game-btn');
   newGameBtn.innerText = 'Start new game'
@@ -116,16 +137,29 @@ function createBoardLayout() {
     startNewGame();
   })
 
+  const checkHistBtn = document.createElement('button');
+  checkHistBtn.classList.add('check-hist-btn');
+  checkHistBtn.innerText = 'Check history'
+  checkHistBtn.addEventListener('click', () => {
+    checkHist();
+  })
+
   gameOverMsg.appendChild(closeMsg);
   gameOverMsg.appendChild(textMsg);
+  checkHistMsg.appendChild(closeHist);
+  checkHistMsg.appendChild(resultsList);
   gameInfo.appendChild(steps);
   gameInfo.appendChild(time);
+  settings.appendChild(newGameBtn);
+  settings.appendChild(checkHistBtn);
+  gameField.appendChild(board);
+  gameField.appendChild(settings);
   main.appendChild(title);
   main.appendChild(gameInfo);
-  main.appendChild(board);
+  main.appendChild(gameField);
   main.appendChild(overlay);
   main.appendChild(gameOverMsg);
-  main.appendChild(newGameBtn);
+  main.appendChild(checkHistMsg);
   document.body.appendChild(main);
 
 }
@@ -263,7 +297,8 @@ function checkNeighbours() {
 function checkGameEnd(tile) {
   let msg = '';
   if (tile.status === statuses.mine) {
-    setTimeout(()=> {
+    saveGameRes(false);
+    setTimeout(() => {
       const loseSound = new Audio('./assets/lose.mp3');
       loseSound.play();
     }, 1000);
@@ -274,12 +309,14 @@ function checkGameEnd(tile) {
     !boardArray.flat(2).some((element) =>
       element.mine && element.status !== statuses.marked)
   ) {
+    saveGameRes(true);
     const winSound = new Audio('./assets/win.mp3');
     winSound.play();
     msg = `Hooray! You found all mines in ${timer} seconds and ${stepsCount} move(s)!`
   }
 
   if (msg) {
+    console.log(gameResults);
     stopTimer();
     document.querySelector('.text-msg').innerText = msg;
     document.querySelector('.overlay').classList.add('show');
@@ -325,6 +362,39 @@ function startNewGame() {
 
 }
 
+function saveGameRes(winFlag) {
+  const currentResult = {
+    win: winFlag,
+    steps: stepsCount,
+    time: timer
+  }
+
+  gameResults.unshift(currentResult);
+  if (gameResults.length > 10)
+    gameResults.pop();
+}
+
+function checkHist() {
+  const resultsList = document.querySelector('.results-list');
+  resultsList.innerHTML = '';
+
+  if (!gameResults.length) {
+    let noResults = document.createElement('p');
+    noResults.innerText = "You haven't played yet";
+    resultsList.appendChild(noResults);
+  } else {
+    for (let i = 0; i < gameResults.length; i++) {
+      let gameResult = document.createElement('li');
+      gameResult.innerText = `You ${gameResults[i].win ? 'won' : 'lost'} in ${gameResults[i].time} seconds and ${gameResults[i].steps} move(s)`;
+      resultsList.appendChild(gameResult);
+    }
+  }
+
+  document.querySelector('.overlay').classList.add('show');
+  document.querySelector('.check-hist-msg').classList.add('show');
+}
+
+
 window.addEventListener('load', () => {
   if (!+localStorage.timer) {
     createBoardLayout();
@@ -338,10 +408,10 @@ window.addEventListener('load', () => {
   }
 });
 
-  // window.addEventListener('beforeunload', () => {
-  //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
-  //   localStorage.setItem('stepsCount', JSON.stringify(stepsCount));
-  //   localStorage.setItem('gameRun', JSON.stringify(gameRun));
-  //   localStorage.setItem('timer', JSON.stringify(timer));
-  //   localStorage.setItem('timerInterval', JSON.stringify(timerInterval));
-  // });
+    // window.addEventListener('beforeunload', () => {
+    //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
+    //   localStorage.setItem('stepsCount', JSON.stringify(stepsCount));
+    //   localStorage.setItem('gameRun', JSON.stringify(gameRun));
+    //   localStorage.setItem('timer', JSON.stringify(timer));
+    //   localStorage.setItem('timerInterval', JSON.stringify(timerInterval));
+    // });
