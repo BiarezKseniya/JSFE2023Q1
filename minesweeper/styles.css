@@ -161,6 +161,19 @@ body {
   gap: 10px;
 }
 
+.levels-list {
+  font-size: 18px;
+  padding: 5px;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 5px;
+  cursor: ponyer;
+}
+
+.levels-list:focus {
+  outline: none;
+}
+
 .new-game-btn,
 .check-hist-btn {
   appearance: none;

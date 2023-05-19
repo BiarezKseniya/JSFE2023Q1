@@ -1,5 +1,5 @@
 let boardSize = 10;
-let numberOfMines = 1;
+let numberOfMines = 10;
 const statuses = {
   hidden: 'hidden',
   mine: 'mine',
@@ -16,6 +16,23 @@ const colorScheme = {
   7: 'red',
   8: 'black'
 }
+const levels = [
+  {
+    level: 'easy',
+    boardSize: 10,
+    numberOfMines: 10
+  },
+  {
+    level: 'medium',
+    boardSize: 15,
+    numberOfMines: 40
+  },
+  {
+    level: 'hard',
+    boardSize: 25,
+    numberOfMines: 99
+  },
+];
 let boardArray = [];
 let gameResults = [];
 let stepsCount = 0;
@@ -144,6 +161,18 @@ function createBoardLayout() {
     checkHist();
   })
 
+  const levelsList = document.createElement('select');
+  levelsList.classList.add('levels-list');
+  for (let i = 0; i < levels.length; i++) {
+    let levelOption = document.createElement('option');
+    levelOption.value = levels[i].level;
+    levelOption.innerText = levels[i].level;
+    levelsList.appendChild(levelOption);
+  }
+  levelsList.addEventListener('change', () => {
+    changeLevel();
+  })
+
   gameOverMsg.appendChild(closeMsg);
   gameOverMsg.appendChild(textMsg);
   checkHistMsg.appendChild(closeHist);
@@ -152,6 +181,7 @@ function createBoardLayout() {
   gameInfo.appendChild(time);
   settings.appendChild(newGameBtn);
   settings.appendChild(checkHistBtn);
+  settings.appendChild(levelsList);
   gameField.appendChild(board);
   gameField.appendChild(settings);
   main.appendChild(title);
@@ -407,6 +437,73 @@ window.addEventListener('load', () => {
     timerInterval = +localStorage.getItem('timerInterval');
   }
 });
+
+function changeLevel() {
+  stopTimer();
+  stepsCount = 0;
+  timer = 0;
+  document.querySelector('.steps').innerText = `Steps: ${stepsCount}`;
+  document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
+  document.querySelector('.board').style.pointerEvents = "auto";
+
+  const board = document.querySelector('.board');
+  const levelName = document.querySelector('.levels-list').value;
+  const levelObj = levels.find((levelObj) => levelObj.level === levelName);
+  boardSize = levelObj.boardSize;
+  numberOfMines = levelObj.numberOfMines;
+
+  boardArray = [];
+  board.innerHTML = '';
+  board.style.setProperty('--size', boardSize);
+
+  for (let y = 0; y < boardSize; y++) {
+    let boardArrayRow = [];
+
+    for (let x = 0; x < boardSize; x++) {
+      const tileElem = document.createElement('div');
+      tileElem.dataset.status = statuses.hidden;
+      tileElem.classList.add('tile');
+
+      const tile = {
+        x: x,
+        y: y,
+        get status() {
+          return tileElem.dataset.status;
+        },
+        set status(value) {
+          tileElem.dataset.status = value;
+        },
+        mine: false,
+        minesAround: undefined,
+        get tileNumber() {
+          return tileElem.innerText;
+        },
+        set tileNumber(value) {
+          tileElem.innerText = value;
+          tileElem.style.color = colorScheme[value];
+        }
+      };
+
+      tileElem.addEventListener('click', () => {
+        onTilePress(tile);
+      })
+      tileElem.addEventListener('contextmenu', (event) => {
+        checkAndStartGame(tile);
+
+        event.preventDefault();
+        markTile(tile);
+        checkGameEnd(tile);
+      })
+      board.appendChild(tileElem);
+
+      boardArrayRow.push(tile);
+    }
+
+    boardArray.push(boardArrayRow);
+
+  }
+}
+
 
     // window.addEventListener('beforeunload', () => {
     //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
