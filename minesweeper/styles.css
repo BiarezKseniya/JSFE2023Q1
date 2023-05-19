@@ -1,5 +1,13 @@
 :root {
-  --tileSize: 30px;
+  --tile-size: 30px;
+  --small-tile-size: 16px;
+  --main-font-size: 18px;
+  --small-font-size: 14px;
+  --super-small-font-size: 10px;
+}
+
+html {
+  font-size: var(--main-font-size);
 }
 
 body {
@@ -14,7 +22,7 @@ body {
   justify-content: center;
   background-color: #333;
   font-family: sans-serif;
-  font-size: 18px;
+  font-size: var(--main-font-size);
   color: #bbb;
   gap: 20px;
   min-height: 100vh;
@@ -41,8 +49,8 @@ body {
 .board {
   display: inline-grid;
   background-color: grey;
-  grid-template-columns: repeat(var(--size), var(--tileSize));
-  grid-template-rows: repeat(var(--size), var(--tileSize));
+  grid-template-columns: repeat(var(--size), var(--tile-size));
+  grid-template-rows: repeat(var(--size), var(--tile-size));
   gap: 4px;
   border: 6px solid grey;
   user-select: none;
@@ -55,7 +63,7 @@ body {
   transition: 0.3s;
   text-align: center;
   font-weight: 600;
-  line-height: 30px;
+  line-height: var(--tile-size);
 }
 
 [data-status="marked"] {
@@ -111,7 +119,7 @@ body {
 }
 
 .overlay {
-  position: fixed; 
+  position: fixed;
   width: 100%;
   height: 100%;
   background-color: black;
@@ -119,8 +127,8 @@ body {
   display: none;
   transition: 0.3s;
   z-index: -1;
-  top: 0; 
-  left: 0; 
+  top: 0;
+  left: 0;
 }
 
 .overlay.show {
@@ -162,7 +170,7 @@ body {
 }
 
 .levels-list {
-  font-size: 18px;
+  font-size: var(--main-font-size);
   padding: 5px;
   text-align: center;
   text-transform: capitalize;
@@ -181,7 +189,7 @@ body {
   background-color: grey;
   border: 4px solid #bbb;
   border-radius: 15px;
-  font-size: 18px;
+  font-size: var(--main-font-size);
   width: 200px;
   height: 50px;
   cursor: pointer;
@@ -190,19 +198,72 @@ body {
 }
 
 .new-game-btn:hover,
-.check-hist-btn:hover{
+.check-hist-btn:hover {
   color: white;
 }
 
 .new-game-btn:active,
-.check-hist-btn:active{
+.check-hist-btn:active {
   color: white;
   background-color: #bbb;
 }
 
-@media (max-width: 670px) {
+@media (max-width: 1200px) {
+
   .game-field {
     flex-direction: column;
     align-items: center;
+    gap: 20px;
   }
+
+}
+
+@media (max-width: 920px) {
+
+  html {
+    font-size: var(--small-font-size);
+  }
+
+  .container {
+    font-size: var(--small-font-size);
+    gap: 10px;
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .game-field {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .board {
+    grid-template-columns: repeat(var(--size), var(--small-tile-size));
+    grid-template-rows: repeat(var(--size), var(--small-tile-size));
+    gap: 2px;
+    border: 2px solid grey;
+    user-select: none;
+    vertical-align: middle;
+    font-size: var(--super-small-font-size);
+  }
+
+  .tile {
+    line-height: var(--small-tile-size);
+  }
+
+  .new-game-btn,
+  .check-hist-btn {
+    font-size: var(--small-font-size);
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #bbb;
+  }
+
+  .levels-list {
+    font-size: var(--small-font-size);
+  }
+
 }
