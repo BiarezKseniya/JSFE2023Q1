@@ -1,0 +1,19 @@
+:root {
+  --tile-size: 30px;
+  --small-tile-size: 16px;
+  --main-font-size: 18px;
+  --small-font-size: 14px;
+  --super-small-font-size: 10px;
+  --background-color: #FFEBC9;
+  --text-color: #b47c67;
+  --additional-color: #dcac90; 
+  --heading-color: #7b4739;
+}
+
+.dark-theme {
+  rotate: 30deg;
+}
+
+.light-theme {
+  display: none;
+}

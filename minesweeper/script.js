@@ -33,6 +33,7 @@ const levels = [
     numberOfMines: 99
   },
 ];
+
 let boardArray = [];
 let gameResults = [];
 let stepsCount = 0;
@@ -147,6 +148,22 @@ function createBoardLayout() {
   const settings = document.createElement('div');
   settings.classList.add('settings');
 
+  const themeSwitch = document.createElement('button');
+  themeSwitch.classList.add('theme-switch');
+
+  const lightTheme = document.createElement('div');
+  lightTheme.classList.add('light-theme');
+  lightTheme.innerText = '☀';
+
+  const darkTheme = document.createElement('div');
+  darkTheme.classList.add('hidden');
+  darkTheme.classList.add('dark-theme');
+  darkTheme.innerText = '☽';
+
+  themeSwitch.addEventListener('click', () => {
+    changeTheme();
+  })
+
   const newGameBtn = document.createElement('button');
   newGameBtn.classList.add('new-game-btn');
   newGameBtn.innerText = 'Start new game'
@@ -179,6 +196,9 @@ function createBoardLayout() {
   checkHistMsg.appendChild(resultsList);
   gameInfo.appendChild(steps);
   gameInfo.appendChild(time);
+  themeSwitch.appendChild(darkTheme);
+  themeSwitch.appendChild(lightTheme);
+  settings.appendChild(themeSwitch);
   settings.appendChild(newGameBtn);
   settings.appendChild(checkHistBtn);
   settings.appendChild(levelsList);
@@ -502,6 +522,27 @@ function changeLevel() {
     boardArray.push(boardArrayRow);
 
   }
+}
+
+function changeTheme() {
+
+  const link = document.getElementById("theme-link");
+  const lightTheme = "styles/light.css";
+  const darkTheme = "styles/dark.css";
+
+  let currTheme = link.getAttribute("href");
+  let theme = '';
+
+  if (currTheme == lightTheme) {
+    currTheme = darkTheme;
+    theme = 'dark';
+  }
+  else {
+    currTheme = lightTheme;
+    theme = 'light';
+  }
+
+  link.setAttribute('href', currTheme);
 }
 
 
