@@ -35,6 +35,11 @@ const levels = [
   },
 ];
 
+const clickSound = new Audio('./assets/click.mp3');
+const mineSound = new Audio('./assets/explosion.mp3');
+const loseSound = new Audio('./assets/lose.mp3');
+const winSound = new Audio('./assets/win.mp3');
+
 let curentLevelObj;
 let boardArray = [];
 let gameResults = [];
@@ -311,7 +316,6 @@ function markTile(tile) {
   if (tile.status === statuses.marked)
     tile.status = statuses.hidden;
   else {
-    const clickSound = new Audio('./assets/click.mp3');
     clickSound.play();
     tile.status = statuses.marked;
   }
@@ -319,7 +323,6 @@ function markTile(tile) {
 
 function onTilePress(tile) {
   if ((!tile.mine) && (tile.status === statuses.hidden)) {
-    const clickSound = new Audio('./assets/click.mp3');
     clickSound.play();
   }
   countSteps(tile);
@@ -338,7 +341,6 @@ function revealTile(tile, auto) {
 
   if (tile.mine) {
     tile.status = statuses.mine;
-    const mineSound = new Audio('./assets/explosion.mp3');
     mineSound.play();
     return Promise.resolve();
   } else {
@@ -406,7 +408,6 @@ function checkGameEnd(tile) {
   if (tile.status === statuses.mine) {
     saveGameRes(false);
     setTimeout(() => {
-      const loseSound = new Audio('./assets/lose.mp3');
       loseSound.play();
     }, 1000);
     msg = 'Game over. Try again';
@@ -422,7 +423,6 @@ function checkGameEnd(tile) {
       }
     })
     saveGameRes(true);
-    const winSound = new Audio('./assets/win.mp3');
     winSound.play();
     msg = `Hooray! You found all mines in ${timer} seconds and ${stepsCount} move(s)!`
   }
