@@ -40,6 +40,7 @@ let boardArray = [];
 let gameResults = [];
 let stepsCount = 0;
 let gameRun = false;
+let gameOver = false;
 let timer = 0;
 let currTheme;
 
@@ -50,6 +51,7 @@ window.addEventListener('beforeunload', () => {
     gameResults,
     stepsCount,
     gameRun,
+    gameOver,
     timer,
     currTheme
   }
@@ -68,6 +70,7 @@ window.addEventListener('load', () => {
   stepsCount = params.stepsCount;
   gameResults = params.gameResults;
   gameRun = params.gameRun;
+  gameOver = params.gameOver;
   timer = params.timer;
 
   changeTheme(params.currTheme);
@@ -85,10 +88,13 @@ window.addEventListener('load', () => {
     });
   });
 
-  if (gameRun) {
-    setTimer();
+  if (gameOver) {
+    document.querySelector('.board').style.pointerEvents = 'none';
+  } else {
+    if (gameRun) {
+      setTimer();
+    }
   }
-
 });
 
 
@@ -326,8 +332,8 @@ function onTilePress(tile) {
   });
 }
 
-function revealTile(tile) {
-  if (tile.status !== statuses.hidden)
+function revealTile(tile, auto) {
+  if (!(tile.status === statuses.hidden || (tile.status === statuses.marked && auto)))
     return Promise.resolve();
 
   if (tile.mine) {
@@ -357,7 +363,7 @@ function revealNeihbourTiles(tile) {
       if (neihbourTile) {
         promises.push(new Promise(resolve => {
           setTimeout(() => {
-            revealTile(neihbourTile).then(() => resolve());
+            revealTile(neihbourTile, true).then(() => resolve());
           }, 100);
         }));
       }
@@ -410,6 +416,11 @@ function checkGameEnd(tile) {
     !boardArray.flat(2).some((element) =>
       element.mine && element.status !== statuses.marked)
   ) {
+    boardArray.flat(2).forEach((element) => {
+      if (element.mine) {
+        element.status = statuses.marked;
+      }
+    })
     saveGameRes(true);
     const winSound = new Audio('./assets/win.mp3');
     winSound.play();
@@ -417,7 +428,7 @@ function checkGameEnd(tile) {
   }
 
   if (msg) {
-    console.log(gameResults);
+    gameOver = true;
     stopTimer();
     document.querySelector('.text-msg').innerText = msg;
     document.querySelector('.overlay').classList.add('show');
@@ -437,11 +448,12 @@ function setTimer() {
 
 function stopTimer() {
   gameRun = false;
-  timer = 0;
   clearInterval(timerInterval);
 }
 
 function resetGameProgress() {
+  gameOver = false;
+  timer = 0;
   stopTimer();
   stepsCount = 0;
   timer = 0;
@@ -551,7 +563,7 @@ function changeLevel(levelObj) {
       })
       tileElem.addEventListener('contextmenu', (event) => {
         event.preventDefault();
-        
+
         checkAndStartGame(tile);
         markTile(tile);
         checkGameEnd(tile);
