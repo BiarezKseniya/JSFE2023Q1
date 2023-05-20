@@ -300,13 +300,13 @@ function matchPosition(baseValue, compareValue) {
 }
 
 function markTile(tile) {
-  const clickSound = new Audio('./assets/click.mp3');
-  clickSound.play();
   if (tile.status !== statuses.hidden && tile.status !== statuses.marked)
     return
   if (tile.status === statuses.marked)
     tile.status = statuses.hidden;
   else {
+    const clickSound = new Audio('./assets/click.mp3');
+    clickSound.play();
     tile.status = statuses.marked;
   }
 }
@@ -550,9 +550,9 @@ function changeLevel(levelObj) {
         onTilePress(tile);
       })
       tileElem.addEventListener('contextmenu', (event) => {
-        checkAndStartGame(tile);
-
         event.preventDefault();
+        
+        checkAndStartGame(tile);
         markTile(tile);
         checkGameEnd(tile);
       })
