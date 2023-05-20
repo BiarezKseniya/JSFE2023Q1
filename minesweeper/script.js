@@ -587,12 +587,3 @@ function changeTheme(theme) {
 
   link.setAttribute('href', currTheme);
 }
-
-
-    // window.addEventListener('beforeunload', () => {
-    //   localStorage.setItem('boardArray', JSON.stringify(boardArray));
-    //   localStorage.setItem('stepsCount', JSON.stringify(stepsCount));
-    //   localStorage.setItem('gameRun', JSON.stringify(gameRun));
-    //   localStorage.setItem('timer', JSON.stringify(timer));
-    //   localStorage.setItem('timerInterval', JSON.stringify(timerInterval));
-    // });
