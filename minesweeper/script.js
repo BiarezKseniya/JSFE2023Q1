@@ -1,5 +1,6 @@
 let boardSize = 10;
 let numberOfMines = 10;
+let timerInterval;
 const statuses = {
   hidden: 'hidden',
   mine: 'mine',
@@ -34,12 +35,62 @@ const levels = [
   },
 ];
 
+let curentLevelObj;
 let boardArray = [];
 let gameResults = [];
 let stepsCount = 0;
 let gameRun = false;
 let timer = 0;
-let timerInterval;
+let currTheme;
+
+window.addEventListener('beforeunload', () => {
+  const params = {
+    curentLevelObj,
+    boardArray,
+    gameResults,
+    stepsCount,
+    gameRun,
+    timer,
+    currTheme
+  }
+
+  localStorage.setItem('params', JSON.stringify(params));
+});
+
+window.addEventListener('load', () => {
+  const params = JSON.parse(localStorage.getItem('params'));
+
+  if (!params) {
+    createBoardLayout();
+    return;
+  }
+
+  stepsCount = params.stepsCount;
+  gameResults = params.gameResults;
+  gameRun = params.gameRun;
+  timer = params.timer;
+
+  changeTheme(params.currTheme);
+  createBoardLayout();
+  changeLevel(params.curentLevelObj);
+
+
+  params.boardArray.forEach((row, y) => {
+    row.forEach((tile, x) => {
+      const currentTile = boardArray[y][x];
+      currentTile.status = tile.status;
+      currentTile.mine = tile.mine;
+      currentTile.minesAround = tile.minesAround;
+      currentTile.tileNumber = tile.tileNumber;
+    });
+  });
+
+  if (gameRun) {
+    setTimer();
+  }
+
+});
+
 
 function createBoardLayout() {
   const main = document.createElement('main');
@@ -156,7 +207,6 @@ function createBoardLayout() {
   lightTheme.innerText = '☀';
 
   const darkTheme = document.createElement('div');
-  darkTheme.classList.add('hidden');
   darkTheme.classList.add('dark-theme');
   darkTheme.innerText = '☽';
 
@@ -187,6 +237,7 @@ function createBoardLayout() {
     levelsList.appendChild(levelOption);
   }
   levelsList.addEventListener('change', () => {
+    resetGameProgress();
     changeLevel();
   })
 
@@ -390,13 +441,17 @@ function stopTimer() {
   clearInterval(timerInterval);
 }
 
-function startNewGame() {
+function resetGameProgress() {
   stopTimer();
   stepsCount = 0;
   timer = 0;
   document.querySelector('.steps').innerText = `Steps: ${stepsCount}`;
   document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
   document.querySelector('.board').style.pointerEvents = "auto";
+}
+
+function startNewGame() {
+  resetGameProgress();
 
   for (let y = 0; y < boardSize; y++) {
     let boardArrayRow = [];
@@ -444,31 +499,18 @@ function checkHist() {
   document.querySelector('.check-hist-msg').classList.add('show');
 }
 
-
-window.addEventListener('load', () => {
-  if (!+localStorage.timer) {
-    createBoardLayout();
-  } else {
-    createBoardLayout();
-    boardArray = JSON.parse(localStorage.getItem('boardArray'));
-    stepsCount = +localStorage.getItem('stepsCount');
-    gameRun = +localStorage.getItem('gameRun');
-    timer = +localStorage.getItem('timer');
-    timerInterval = +localStorage.getItem('timerInterval');
-  }
-});
-
-function changeLevel() {
-  stopTimer();
-  stepsCount = 0;
-  timer = 0;
-  document.querySelector('.steps').innerText = `Steps: ${stepsCount}`;
-  document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
-  document.querySelector('.board').style.pointerEvents = "auto";
-
+function changeLevel(levelObj) {
   const board = document.querySelector('.board');
-  const levelName = document.querySelector('.levels-list').value;
-  const levelObj = levels.find((levelObj) => levelObj.level === levelName);
+
+  const levelList = document.querySelector('.levels-list');
+  if (!levelObj) {
+    const levelName = levelList.value;
+    levelObj = levels.find((levelObj) => levelObj.level === levelName);
+  } else {
+    levelList.value = levelObj.level;
+  }
+
+  curentLevelObj = levelObj;
   boardSize = levelObj.boardSize;
   numberOfMines = levelObj.numberOfMines;
 
@@ -524,22 +566,23 @@ function changeLevel() {
   }
 }
 
-function changeTheme() {
+function changeTheme(theme) {
 
   const link = document.getElementById("theme-link");
   const lightTheme = "styles/light.css";
   const darkTheme = "styles/dark.css";
 
-  let currTheme = link.getAttribute("href");
-  let theme = '';
+  if (theme) {
+    currTheme = theme;
+  } else {
+    currTheme = link.getAttribute("href");
 
-  if (currTheme == lightTheme) {
-    currTheme = darkTheme;
-    theme = 'dark';
-  }
-  else {
-    currTheme = lightTheme;
-    theme = 'light';
+    if (currTheme == lightTheme) {
+      currTheme = darkTheme;
+    }
+    else {
+      currTheme = lightTheme;
+    }
   }
 
   link.setAttribute('href', currTheme);
