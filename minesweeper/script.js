@@ -47,7 +47,7 @@ let stepsCount = 0;
 let gameRun = false;
 let gameOver = false;
 let timer = 0;
-let currTheme;
+let currTheme = document.getElementById('theme-link').getAttribute('href');
 
 window.addEventListener('beforeunload', () => {
   const params = {
@@ -580,14 +580,14 @@ function changeLevel(levelObj) {
 
 function changeTheme(theme) {
 
-  const link = document.getElementById("theme-link");
+  // const link = document.getElementById("theme-link");
   const lightTheme = "styles/light.css";
   const darkTheme = "styles/dark.css";
 
   if (theme) {
     currTheme = theme;
   } else {
-    currTheme = link.getAttribute("href");
+    // currTheme = link.getAttribute("href");
 
     if (currTheme == lightTheme) {
       currTheme = darkTheme;
@@ -597,5 +597,5 @@ function changeTheme(theme) {
     }
   }
 
-  link.setAttribute('href', currTheme);
+  document.getElementById('theme-link').setAttribute('href', currTheme);
 }
