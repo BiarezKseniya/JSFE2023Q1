@@ -40,7 +40,9 @@ const mineSound = new Audio('./assets/explosion.mp3');
 const loseSound = new Audio('./assets/lose.mp3');
 const winSound = new Audio('./assets/win.mp3');
 
-let curentLevelObj;
+let currentLevelObj = levels.find((object) => {
+  object.level === 'easy';
+});
 let boardArray = [];
 let gameResults = [];
 let stepsCount = 0;
@@ -51,14 +53,15 @@ let currTheme = document.getElementById('theme-link').getAttribute('href');
 
 window.addEventListener('beforeunload', () => {
   const params = {
-    curentLevelObj,
+    currentLevelObj,
     boardArray,
     gameResults,
     stepsCount,
     gameRun,
     gameOver,
     timer,
-    currTheme
+    currTheme,
+    numberOfMines: numberOfMines
   }
 
   localStorage.setItem('params', JSON.stringify(params));
@@ -77,11 +80,11 @@ window.addEventListener('load', () => {
   gameRun = params.gameRun;
   gameOver = params.gameOver;
   timer = params.timer;
+  numberOfMines = params.numberOfMines;
 
   changeTheme(params.currTheme);
   createBoardLayout();
-  changeLevel(params.curentLevelObj);
-
+  changeLevel(params.currentLevelObj, numberOfMines);
 
   params.boardArray.forEach((row, y) => {
     row.forEach((tile, x) => {
@@ -240,7 +243,10 @@ function createBoardLayout() {
   })
 
   const levelsList = document.createElement('select');
-  levelsList.classList.add('levels-list');
+  levelsList.setAttribute('id', 'levels-list');
+  const levelsLabel = document.createElement('label');
+  levelsLabel.setAttribute('for', 'levels-list');
+  levelsLabel.innerText = 'Choose your level:';
   for (let i = 0; i < levels.length; i++) {
     let levelOption = document.createElement('option');
     levelOption.value = levels[i].level;
@@ -252,6 +258,26 @@ function createBoardLayout() {
     changeLevel();
   })
 
+  const numOfMinesInput = document.createElement('input');
+  numOfMinesInput.setAttribute('id', 'num-of-mines-input');
+  numOfMinesInput.setAttribute('type', 'number');
+  numOfMinesInput.setAttribute('min', '10');
+  numOfMinesInput.setAttribute('max', '99');
+  numOfMinesInput.setAttribute('step', '1');
+  numOfMinesInput.required = true;
+  numOfMinesInput.setAttribute('value', numberOfMines);
+  const numOfMinesLabel = document.createElement('label');
+  numOfMinesLabel.setAttribute('for', 'num-of-mines-input');
+  numOfMinesLabel.innerText = 'Enter number of mines:';
+  numOfMinesInput.addEventListener('change', () => {
+    if (numOfMinesInput.value < 10 || numOfMinesInput.value > 99) {
+      numOfMinesInput.value = currentLevelObj.numberOfMines;
+    } else {
+      resetGameProgress();
+      changeLevel(undefined, +numOfMinesInput.value);
+    }
+  })
+
   gameOverMsg.appendChild(closeMsg);
   gameOverMsg.appendChild(textMsg);
   checkHistMsg.appendChild(closeHist);
@@ -260,10 +286,13 @@ function createBoardLayout() {
   gameInfo.appendChild(time);
   themeSwitch.appendChild(darkTheme);
   themeSwitch.appendChild(lightTheme);
+  settings.appendChild(numOfMinesLabel);
+  settings.appendChild(numOfMinesInput);
+  settings.appendChild(levelsLabel);
+  settings.appendChild(levelsList);
   settings.appendChild(themeSwitch);
   settings.appendChild(newGameBtn);
   settings.appendChild(checkHistBtn);
-  settings.appendChild(levelsList);
   gameField.appendChild(board);
   gameField.appendChild(settings);
   main.appendChild(title);
@@ -511,10 +540,10 @@ function checkHist() {
   document.querySelector('.check-hist-msg').classList.add('show');
 }
 
-function changeLevel(levelObj) {
+function changeLevel(levelObj, newNumOfMines) {
   const board = document.querySelector('.board');
 
-  const levelList = document.querySelector('.levels-list');
+  const levelList = document.querySelector('#levels-list');
   if (!levelObj) {
     const levelName = levelList.value;
     levelObj = levels.find((levelObj) => levelObj.level === levelName);
@@ -522,9 +551,15 @@ function changeLevel(levelObj) {
     levelList.value = levelObj.level;
   }
 
-  curentLevelObj = levelObj;
+  currentLevelObj = levelObj;
   boardSize = levelObj.boardSize;
-  numberOfMines = levelObj.numberOfMines;
+
+  if (newNumOfMines) {
+    numberOfMines = newNumOfMines;
+  } else {
+    numberOfMines = levelObj.numberOfMines;
+    document.querySelector('#num-of-mines-input').value = numberOfMines;
+  }
 
   boardArray = [];
   board.innerHTML = '';

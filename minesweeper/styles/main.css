@@ -163,17 +163,25 @@ body {
   gap: 10px;
 }
 
-.levels-list {
+#levels-list,
+#num-of-mines-input {
+  box-sizing: border-box;
+  border: none;
   font-size: var(--main-font-size);
   padding: 5px;
   text-align: center;
   text-transform: capitalize;
   border-radius: 5px;
-  cursor: ponyer;
+  cursor: pointer;
 }
 
-.levels-list:focus {
+#levels-list:focus,
+#num-of-mines-input:focus {
   outline: none;
+}
+
+#num-of-mines-input:invalid {
+  box-shadow: 0px 0px 2px 2px red;
 }
 
 .new-game-btn,
@@ -190,6 +198,7 @@ body {
   cursor: pointer;
   color: var(--text-color);
   transition: 0.3s;
+  align-self: center;
 }
 
 .new-game-btn:hover,
@@ -269,7 +278,8 @@ body {
     font-size: 20px;
   }
 
-  .levels-list {
+  #levels-list,
+  #num-of-mines-input {
     font-size: var(--small-font-size);
   }
 
