@@ -327,7 +327,6 @@ function getMinePositions(tile) {
       boardArray[position.y][position.x].mine = true;
     }
   }
-  console.log(positions);
   return positions;
 }
 
@@ -355,11 +354,11 @@ function onTilePress(tile) {
     clickSound.play();
   }
   countSteps(tile);
-  document.querySelector('.board').style.pointerEvents = "none";
-  document.querySelector('.new-game-btn').style.pointerEvents = "none";
+  document.querySelector('.board').style.pointerEvents = 'none';
+  document.querySelector('.new-game-btn').style.pointerEvents = 'none';
   revealTile(tile).then(() => {
-    document.querySelector('.board').style.pointerEvents = "auto";
-    document.querySelector('.new-game-btn').style.pointerEvents = "auto";
+    document.querySelector('.board').style.pointerEvents = 'auto';
+    document.querySelector('.new-game-btn').style.pointerEvents = 'auto';
     checkGameEnd(tile);
   });
 }
@@ -462,7 +461,7 @@ function checkGameEnd(tile) {
     document.querySelector('.text-msg').innerText = msg;
     document.querySelector('.overlay').classList.add('show');
     document.querySelector('.game-over-msg').classList.add('show');
-    document.querySelector('.board').style.pointerEvents = "none";
+    document.querySelector('.board').style.pointerEvents = 'none';
   }
 }
 
@@ -488,7 +487,7 @@ function resetGameProgress() {
   timer = 0;
   document.querySelector('.steps').innerText = `Steps: ${stepsCount}`;
   document.querySelector('.time').innerText = `Time spent: ${timer} sec`;
-  document.querySelector('.board').style.pointerEvents = "auto";
+  document.querySelector('.board').style.pointerEvents = 'auto';
 }
 
 function startNewGame() {
@@ -615,15 +614,12 @@ function changeLevel(levelObj, newNumOfMines) {
 
 function changeTheme(theme) {
 
-  // const link = document.getElementById("theme-link");
-  const lightTheme = "styles/light.css";
-  const darkTheme = "styles/dark.css";
+  const lightTheme = 'styles/light.css';
+  const darkTheme = 'styles/dark.css';
 
   if (theme) {
     currTheme = theme;
   } else {
-    // currTheme = link.getAttribute("href");
-
     if (currTheme == lightTheme) {
       currTheme = darkTheme;
     }
