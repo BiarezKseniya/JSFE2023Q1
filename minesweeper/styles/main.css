@@ -1,0 +1,286 @@
+html {
+  font-size: var(--main-font-size);
+}
+
+body {
+  background-color: var(--background-color);
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  font-family: sans-serif;
+  font-size: var(--main-font-size);
+  color: var(--text-color);
+  gap: 20px;
+  min-height: 100vh;
+  height: 100%;
+  max-width: 1280px;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 2.5rem 0 0.5rem;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 500;
+  color: var(--heading-color);
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: inline-grid;
+  background-color: var(--additional-color);
+  grid-template-columns: repeat(var(--size), var(--tile-size));
+  grid-template-rows: repeat(var(--size), var(--tile-size));
+  gap: 4px;
+  border: 6px solid var(--additional-color);
+  user-select: none;
+  vertical-align: middle;
+}
+
+.tile {
+  background-color: var(--text-color);
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+  font-weight: 600;
+  line-height: var(--tile-size);
+}
+
+[data-status="marked"] {
+  background-color: yellow;
+}
+
+[data-status="mine"] {
+  background-color: red;
+}
+
+[data-status="number"] {
+  background-color: var(--background-color);
+}
+
+.pop-up {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--additional-color);
+  border: 4px solid var(--text-color);
+  border-radius: 15px;
+  color: var(--heading-color);
+  opacity: 0;
+  transition: 0.3s;
+  z-index: -1;
+  display: none;
+}
+
+.game-over-msg {
+  width: 250px;
+  height: 150px;
+}
+
+.check-hist-msg {
+  max-width: 90%;
+}
+
+.game-over-msg.show,
+.check-hist-msg.show {
+  display: flex;
+  z-index: 100;
+  opacity: 100%;
+}
+
+.results-list {
+  width: 100%;
+  margin: 45px;
+  padding: 0;
+}
+
+.results-list li {
+  padding: 2px;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  display: none;
+  transition: 0.3s;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+.overlay.show {
+  display: block;
+  opacity: 65%;
+  z-index: 99;
+}
+
+.close-msg {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: var(--text-color);
+}
+
+.close-msg:hover {
+  color: var(--heading-color);
+}
+
+.text-msg {
+  text-align: center;
+  padding: 0 5px;
+  margin: auto;
+}
+
+.game-field {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#levels-list,
+#num-of-mines-input {
+  box-sizing: border-box;
+  border: none;
+  font-size: var(--main-font-size);
+  padding: 5px;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#levels-list:focus,
+#num-of-mines-input:focus {
+  outline: none;
+}
+
+#num-of-mines-input:invalid {
+  box-shadow: 0px 0px 2px 2px red;
+}
+
+.new-game-btn,
+.check-hist-btn,
+.theme-switch {
+  appearance: none;
+  font-size: 24px;
+  background-color: var(--additional-color);
+  border: 4px solid var(--text-color);
+  border-radius: 15px;
+  font-size: var(--main-font-size);
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: 0.3s;
+  align-self: center;
+}
+
+.new-game-btn:hover,
+.check-hist-btn:hover,
+.theme-switch:hover {
+  color: var(--heading-color);
+}
+
+.new-game-btn:active,
+.check-hist-btn:active,
+.theme-switch:active {
+  color: var(--heading-color);
+  background-color: var(--text-color);
+}
+
+.theme-switch {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+
+  .game-field {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+}
+
+@media (max-width: 920px) {
+
+  html {
+    font-size: var(--small-font-size);
+  }
+
+  .container {
+    font-size: var(--small-font-size);
+    gap: 10px;
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .game-field {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .board {
+    grid-template-columns: repeat(var(--size), var(--small-tile-size));
+    grid-template-rows: repeat(var(--size), var(--small-tile-size));
+    gap: 2px;
+    border: 2px solid var(--additional-color);
+    user-select: none;
+    vertical-align: middle;
+    font-size: var(--super-small-font-size);
+  }
+
+  .tile {
+    line-height: var(--small-tile-size);
+  }
+
+  .new-game-btn,
+  .check-hist-btn,
+  .theme-switch {
+    font-size: var(--small-font-size);
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid var(--text-color);
+  }
+
+  .theme-switch {
+    font-size: 20px;
+  }
+
+  #levels-list,
+  #num-of-mines-input {
+    font-size: var(--small-font-size);
+  }
+
+}
