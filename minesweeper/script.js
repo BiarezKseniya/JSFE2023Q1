@@ -266,6 +266,7 @@ function createBoardLayout() {
   numOfMinesInput.setAttribute('step', '1');
   numOfMinesInput.required = true;
   numOfMinesInput.setAttribute('value', numberOfMines);
+  numOfMinesInput.setAttribute('title', 'A number from 10 to 99');
   const numOfMinesLabel = document.createElement('label');
   numOfMinesLabel.setAttribute('for', 'num-of-mines-input');
   numOfMinesLabel.innerText = 'Enter number of mines:';
