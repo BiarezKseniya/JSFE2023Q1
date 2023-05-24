@@ -35,10 +35,17 @@ const levels = [
   },
 ];
 
+const audioElements = [];
+
 const clickSound = new Audio('./assets/click.mp3');
 const mineSound = new Audio('./assets/explosion.mp3');
 const loseSound = new Audio('./assets/lose.mp3');
 const winSound = new Audio('./assets/win.mp3');
+
+audioElements.push(clickSound);
+audioElements.push(mineSound);
+audioElements.push(loseSound);
+audioElements.push(winSound);
 
 let currentLevelObj = levels.find((object) => {
   object.level === 'easy';
@@ -50,6 +57,7 @@ let gameRun = false;
 let gameOver = false;
 let timer = 0;
 let currTheme = document.getElementById('theme-link').getAttribute('href');
+let soundOff = false;
 
 window.addEventListener('beforeunload', () => {
   const params = {
@@ -61,7 +69,8 @@ window.addEventListener('beforeunload', () => {
     gameOver,
     timer,
     currTheme,
-    numberOfMines: numberOfMines
+    numberOfMines,
+    soundOff
   }
 
   localStorage.setItem('params', JSON.stringify(params));
@@ -81,10 +90,12 @@ window.addEventListener('load', () => {
   gameOver = params.gameOver;
   timer = params.timer;
   numberOfMines = params.numberOfMines;
+  soundOff = params.soundOff;
 
   changeTheme(params.currTheme);
   createBoardLayout();
   changeLevel(params.currentLevelObj, numberOfMines);
+  switchSound();
 
   params.boardArray.forEach((row, y) => {
     row.forEach((tile, x) => {
@@ -213,6 +224,9 @@ function createBoardLayout() {
   const settings = document.createElement('div');
   settings.classList.add('settings');
 
+  const switches = document.createElement('div');
+  switches.classList.add('switches');
+
   const themeSwitch = document.createElement('button');
   themeSwitch.classList.add('theme-switch');
 
@@ -223,6 +237,22 @@ function createBoardLayout() {
   const darkTheme = document.createElement('div');
   darkTheme.classList.add('dark-theme');
   darkTheme.innerText = '☽';
+
+  const soundSwitch = document.createElement('button');
+  const soundOffImg = '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor"><path d="M15 23l-9.309-6h-5.691v-10h5.691l9.309-6v22zm-9-15.009v8.018l8 5.157v-18.332l-8 5.157zm14.228-4.219c2.327 1.989 3.772 4.942 3.772 8.229 0 3.288-1.445 6.241-3.77 8.229l-.708-.708c2.136-1.791 3.478-4.501 3.478-7.522s-1.342-5.731-3.478-7.522l.706-.706zm-2.929 2.929c1.521 1.257 2.476 3.167 2.476 5.299 0 2.132-.955 4.042-2.476 5.299l-.706-.706c1.331-1.063 2.182-2.729 2.182-4.591 0-1.863-.851-3.529-2.184-4.593l.708-.708zm-12.299 1.299h-4v8h4v-8z"/></svg>';
+  const soundOnImg =  '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor"><path d="M18 23l-9.305-5.998.835-.651 7.47 4.815v-10.65l1-.781v13.265zm0-15.794l5.384-4.206.616.788-23.384 18.264-.616-.788 5.46-4.264h-2.46v-10h5.691l9.309-6v6.206zm-11.26 8.794l1.26-.984v-7.016h-4v8h2.74zm10.26-8.013v-5.153l-8 5.157v6.244l8-6.248z"/></svg>'
+  soundSwitch.innerHTML = soundOff ? soundOffImg : soundOnImg;
+  soundSwitch.classList.add('sound-switch');
+  soundSwitch.addEventListener('click', () => {
+    if (soundOff) {
+      soundOff = false;
+      soundSwitch.innerHTML = soundOnImg;
+    } else {
+      soundOff = true;
+      soundSwitch.innerHTML = soundOffImg;
+    }
+    switchSound();
+  })
 
   themeSwitch.addEventListener('click', () => {
     changeTheme();
@@ -287,11 +317,13 @@ function createBoardLayout() {
   gameInfo.appendChild(time);
   themeSwitch.appendChild(darkTheme);
   themeSwitch.appendChild(lightTheme);
+  switches.appendChild(themeSwitch);
+  switches.appendChild(soundSwitch);
   settings.appendChild(numOfMinesLabel);
   settings.appendChild(numOfMinesInput);
   settings.appendChild(levelsLabel);
   settings.appendChild(levelsList);
-  settings.appendChild(themeSwitch);
+  settings.appendChild(switches);
   settings.appendChild(newGameBtn);
   settings.appendChild(checkHistBtn);
   gameField.appendChild(board);
@@ -630,4 +662,10 @@ function changeTheme(theme) {
   }
 
   document.getElementById('theme-link').setAttribute('href', currTheme);
+}
+
+function switchSound() {
+  audioElements.forEach((audio) => {
+      soundOff ? audio.muted = true : audio.muted = false;
+  })
 }
