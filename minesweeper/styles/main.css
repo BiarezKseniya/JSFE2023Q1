@@ -185,15 +185,20 @@ body {
 }
 
 .new-game-btn,
+.check-hist-btn {
+  width: 200px;
+}
+
+.new-game-btn,
 .check-hist-btn,
-.theme-switch {
+.theme-switch,
+.sound-switch {
   appearance: none;
   font-size: 24px;
   background-color: var(--additional-color);
   border: 4px solid var(--text-color);
   border-radius: 15px;
   font-size: var(--main-font-size);
-  width: 200px;
   height: 50px;
   cursor: pointer;
   color: var(--text-color);
@@ -203,20 +208,37 @@ body {
 
 .new-game-btn:hover,
 .check-hist-btn:hover,
-.theme-switch:hover {
+.theme-switch:hover,
+.sound-switch:hover {
   color: var(--heading-color);
 }
 
 .new-game-btn:active,
 .check-hist-btn:active,
-.theme-switch:active {
+.theme-switch:active,
+.sound-switch:active {
   color: var(--heading-color);
   background-color: var(--text-color);
+}
+
+.switches {
+  display: flex;
+  gap: 10px;
 }
 
 .theme-switch {
   font-size: 30px;
   cursor: pointer;
+  width:50%;
+}
+
+.sound-switch {
+  width:50%;
+}
+
+.sound-switch svg {
+  display: block;
+  margin: auto;
 }
 
 @media (max-width: 1200px) {
@@ -265,10 +287,15 @@ body {
   }
 
   .new-game-btn,
-  .check-hist-btn,
-  .theme-switch {
-    font-size: var(--small-font-size);
+  .check-hist-btn {
     width: 150px;
+  }
+
+  .new-game-btn,
+  .check-hist-btn,
+  .theme-switch,
+  .sound-switch {
+    font-size: var(--small-font-size);
     height: 40px;
     border-radius: 10px;
     border: 2px solid var(--text-color);
