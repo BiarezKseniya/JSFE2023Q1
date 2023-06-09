@@ -12,7 +12,7 @@
     "parserOptions": {
         "ecmaVersion": 2020,
         "sourceType": "module",
-        "project": "./migration-newip-to-ts/tsconfig.json"
+        "project": "./tsconfig.json"
     },
     "env": {
         "es6": true,
