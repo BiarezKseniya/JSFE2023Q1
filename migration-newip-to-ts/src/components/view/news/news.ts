@@ -9,7 +9,7 @@ export class News {
     if (!(newsItemTemp instanceof HTMLTemplateElement)) {
       throw new Error('There is no instance of template element.');
     }
-
+    this.checkIfEmpty(news, fragment);
     news.forEach((item: Article, idx: number) => {
       const newsClone: Node = newsItemTemp.content.cloneNode(true);
       if (!(newsClone instanceof DocumentFragment)) {
@@ -49,5 +49,22 @@ export class News {
       throw new Error(`Element with selector ${selector} was not found`);
     }
     return element;
+  }
+
+  private checkIfEmpty(news: Article[], fragment: DocumentFragment): void {
+    if (news.length === 0) {
+      const notFoundTemp: HTMLElement = this.getElement(document, '#notFound');
+      if (!(notFoundTemp instanceof HTMLTemplateElement)) {
+        throw new Error('There is no instance of template element.');
+      }
+      const newsClone: Node = notFoundTemp.content.cloneNode(true);
+      if (!(newsClone instanceof DocumentFragment)) {
+        throw new Error('There is no instance of document fragment.');
+      }
+
+      const newsItem = this.getElement(newsClone, '.news__not-found');
+      newsItem.innerText = 'Nothing was found, try to check another source';
+      fragment.append(newsClone);
+    }
   }
 }

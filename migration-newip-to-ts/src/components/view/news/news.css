@@ -121,6 +121,10 @@
     left: 0%;
 }
 
+.news__not-found {
+    padding: 1rem;
+}
+
 @media (min-width: 640px) {
     .news__item {
         flex-direction: row;
