@@ -5,31 +5,103 @@ body {
 }
 
 header {
-    padding: 10px 30px;
+    padding: 0.6rem 1.8rem;
 }
 
 header h1 {
-    font-size: 40px;
+    font-size: 2.5rem;
     font-weight: 800;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 footer {
-    height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    color: #444;
+    padding: 1rem 1.8rem;
 }
+
+footer p {
+    margin: 0;
+}
+
 footer .copyright {
-    font-size: 14px;
-    color: #333;
     text-align: center;
 }
-footer .copyright a {
+
+footer .credentials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+footer a {
     color: #444;
+    transition: 0.25s;
 }
-footer .copyright a:hover {
-    color: #555;
-}
+
 footer .copyright:before {
     content: '©';
+}
+
+footer .github-image {
+    width: 50px;
+    height: 50px;
+}
+
+@media (hover: hover) {
+
+    footer a:hover {
+        color: #555;
+    }
+  }
+
+@media (max-width: 1000px) {
+
+    html {
+        font-size: 14px;
+    }
+
+}
+
+@media (max-width: 783px) {
+
+    header {
+        padding: 0.6rem;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    html {
+        font-size: 12px;
+    }
+
+    header h1 {
+        text-align: center;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    footer .copyright {
+        order: -1;
+    }
+
+    footer .github-image {
+        width: 35px;
+        height: 35px;
+    }
+
 }
