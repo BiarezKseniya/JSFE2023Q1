@@ -2,10 +2,18 @@ body {
     color: #fff;
     background: #17181c;
     font-family: sans-serif;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 header {
     padding: 0.6rem 1.8rem;
+    flex: 0 0 auto;
 }
 
 header h1 {
@@ -15,9 +23,9 @@ header h1 {
 
 main {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
+    flex: 1 0 auto;
 }
 
 footer {
@@ -26,6 +34,7 @@ footer {
     justify-content: space-between;
     color: #444;
     padding: 1rem 1.8rem;
+    flex: 0 0 auto;
 }
 
 footer p {
