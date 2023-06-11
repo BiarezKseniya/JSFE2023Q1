@@ -18,9 +18,9 @@ class App {
       throw new Error('Sources are null');
     }
     sources.addEventListener('click', (e: Event) =>
-      this.controller.getNews(e, (data: ResponseData) => this.view.drawNews(data)),
+      this.controller.getNews(e, (data: Partial<ResponseData>) => this.view.drawNews(data)),
     );
-    this.controller.getSources((data: ResponseData) => this.view.drawSources(data));
+    this.controller.getSources((data: Partial<ResponseData>) => this.view.drawSources(data));
   }
 }
 

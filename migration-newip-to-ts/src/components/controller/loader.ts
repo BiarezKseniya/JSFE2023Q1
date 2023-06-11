@@ -5,11 +5,11 @@ export interface Options {
 export interface Source {
   readonly id: string;
   readonly name: string;
-  readonly language?: string;
-  readonly category?: string;
-  readonly country?: string;
-  readonly description?: string;
-  readonly url?: string;
+  readonly language: string;
+  readonly category: string;
+  readonly country: string;
+  readonly description: string;
+  readonly url: string;
 }
 
 export interface Article {
@@ -17,7 +17,7 @@ export interface Article {
   readonly content: string;
   readonly description: string;
   readonly publishedAt: string;
-  readonly source: Source;
+  readonly source: Pick<Source, 'id' | 'name'>;
   readonly id: string;
   readonly name: string;
   readonly title: string;
@@ -27,12 +27,12 @@ export interface Article {
 
 export interface ResponseData {
   readonly status: string;
-  readonly sources?: Source[];
-  readonly articles?: Article[];
+  readonly sources: Source[];
+  readonly articles: Article[];
   readonly totalResults: number;
 }
 
-export type Callback = (data: ResponseData) => void;
+export type Callback = (data: Partial<ResponseData>) => void;
 
 enum HttpMethod {
   GET = 'GET',
