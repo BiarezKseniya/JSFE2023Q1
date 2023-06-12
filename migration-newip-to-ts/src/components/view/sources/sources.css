@@ -55,6 +55,8 @@
     color: #70d6ff;
     transition: 0.25s;
     cursor: pointer;
+    width: max-content;
+    box-sizing: content-box;
 }
 
 .source__item.focus {

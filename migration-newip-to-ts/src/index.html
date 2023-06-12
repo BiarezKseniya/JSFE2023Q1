@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>NewsPortal</title>
 </head>
 
@@ -12,6 +13,10 @@
     <div class="wrapper">
         <header>
             <h1>News Portal</h1>
+            <div class="search">
+            <input type="text" class="search__field" id="searchVal" placeholder="Search for sources...">
+            <button type="button" class="search__button" aria-hidden="true"><i class="fa fa-search"></i></button>
+        </div>
         </header>
         <main>
             <div class="sources buttons"></div>

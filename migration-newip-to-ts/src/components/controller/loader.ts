@@ -27,7 +27,7 @@ export interface Article {
 
 export interface ResponseData {
   readonly status: string;
-  readonly sources: Source[];
+  sources: Source[];
   readonly articles: Article[];
   readonly totalResults: number;
 }
