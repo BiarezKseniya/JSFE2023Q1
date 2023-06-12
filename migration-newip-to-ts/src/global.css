@@ -105,6 +105,12 @@ footer .credentials {
     gap: 10px;
 }
 
+footer .rs-school-logo {
+    display: block;
+    width: 120px;
+    cursor: pointer;
+}
+
 footer a {
     color: #444;
     transition: 0.25s;
@@ -186,6 +192,12 @@ footer .github-image {
     footer .github-image {
         width: 35px;
         height: 35px;
+    }
+
+    footer .rs-school-logo {
+        display: block;
+        width: 100px;
+        cursor: pointer;
     }
 
 }
