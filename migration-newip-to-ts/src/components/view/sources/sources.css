@@ -8,6 +8,43 @@
     font: 300 1em 'Fira Sans', sans-serif;
 }
 
+.sources::-webkit-scrollbar {
+    height: 15px;
+    cursor: pointer;
+}
+
+.sources::-webkit-scrollbar-thumb {
+    background: #333;
+}
+
+.sources::-webkit-scrollbar-track {
+    background-color: #555;
+}
+
+.sources::-webkit-scrollbar-button {
+    display: block;
+    background-color: #444;
+    background-repeat: no-repeat;   
+    background-size: 50%;
+    background-position: center;
+}
+
+.sources::-webkit-scrollbar-button:horizontal:start:increment {
+    display: none;
+}
+
+.sources::-webkit-scrollbar-button:horizontal:start:decrement {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f7/Chevron_left.svg');  
+}
+
+.sources::-webkit-scrollbar-button:horizontal:end:increment {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/47/Chevron_right.svg'); 
+}
+
+.sources::-webkit-scrollbar-button:horizontal:end:decrement {
+    display: none;  
+}
+
 .source__item {
     background: none;
     border: 2px solid #30c5ff;
@@ -40,14 +77,6 @@
     white-space: nowrap;
 }
 
-@media (max-width: 783px) {
-
-    .sources {
-        width: 100%
-    }
-
-}
-
 @media (hover: hover) {
 
     .source__item:hover {
@@ -62,4 +91,22 @@
         color: white;
     }
 
-  }
+}
+
+@media (max-width: 1000px) {
+
+    .sources::-webkit-scrollbar {
+        height: 10px;
+        cursor: pointer;
+    }
+
+}
+
+@media (max-width: 783px) {
+
+    .sources {
+        width: 100%
+    }
+
+}
+
