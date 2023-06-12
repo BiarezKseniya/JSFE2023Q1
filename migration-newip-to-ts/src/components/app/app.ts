@@ -17,15 +17,27 @@ class App {
     if (sources === null) {
       throw new Error('Sources are null');
     }
-    sources.addEventListener('click', (e: Event) =>
+    sources.addEventListener('click', (e: Event) => {
       this.controller.getNews(e, (data: Partial<ResponseData>) => {
         this.view.drawNews(data);
-        console.log(e);
-      }),
-    );
+      });
+    });
     this.controller.getSources((data: Partial<ResponseData>) => {
       this.view.drawSources(data);
       sources.firstElementChild?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      for (const child of sources.children) {
+        child.addEventListener('click', (e: Event) => {
+          if (e.currentTarget !== sources) {
+            for (const child of sources.children) {
+              child.classList.remove('focus');
+            }
+            if (!(e.currentTarget instanceof HTMLElement)) {
+              throw new Error('There is no HTMLElement to highlight');
+            }
+            e.currentTarget.classList.add('focus');
+          }
+        });
+      }
     });
   }
 }
