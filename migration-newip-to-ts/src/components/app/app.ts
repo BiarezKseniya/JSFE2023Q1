@@ -33,7 +33,6 @@ class App {
       }
       const searchVal: string = searchInput?.value;
       this.controller.getSources((data: Partial<ResponseData>) => {
-        console.log(data, searchVal);
         data.sources = data.sources?.filter((source): boolean =>
           source.name.toLowerCase().includes(searchVal.toLowerCase()),
         );
