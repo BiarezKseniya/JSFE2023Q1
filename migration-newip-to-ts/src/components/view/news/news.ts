@@ -1,5 +1,5 @@
 import './news.css';
-import { Article } from '../../controller/loader';
+import { Article } from '../../controller/types';
 
 export class News {
   public draw(data: Article[]): void {

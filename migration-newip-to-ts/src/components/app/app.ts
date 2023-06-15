@@ -1,7 +1,6 @@
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
-
-import { ResponseData } from '../controller/loader';
+import { ResponseData } from '../controller/types';
 
 class App {
   private readonly controller: AppController;

@@ -1,5 +1,5 @@
 import './sources.css';
-import { Source } from '../../controller/loader';
+import { Source } from '../../controller/types';
 
 export class Sources {
   public draw(data: Source[]): void {
