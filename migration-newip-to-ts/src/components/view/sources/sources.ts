@@ -4,7 +4,7 @@ import { Source } from '../../controller/loader';
 export class Sources {
   public draw(data: Source[]): void {
     const fragment: DocumentFragment = document.createDocumentFragment();
-    const sourceItemTemp: Element | null = document.querySelector('#sourceItemTemp');
+    const sourceItemTemp = document.querySelector('#sourceItemTemp');
     if (!(sourceItemTemp instanceof HTMLTemplateElement)) {
       throw new Error('There is no instance of template element.');
     }
@@ -14,12 +14,12 @@ export class Sources {
       if (!(sourceClone instanceof DocumentFragment)) {
         throw new Error('There is no instance of document fragment.');
       }
-      const sourceItemName: HTMLElement | null = sourceClone.querySelector('.source__item-name');
+      const sourceItemName = sourceClone.querySelector('.source__item-name');
       if (!sourceItemName) {
         throw new Error("Element with selector '.source__item-name' doesn't exist");
       }
       sourceItemName.textContent = item.name;
-      const sourceItem: HTMLElement | null = sourceClone.querySelector('.source__item');
+      const sourceItem = sourceClone.querySelector('.source__item');
       if (!sourceItem) {
         throw new Error("Element with selector '.source__item' doesn't exist");
       }
@@ -28,7 +28,7 @@ export class Sources {
       fragment.append(sourceClone);
     });
 
-    const sourcesDiv: HTMLElement | null = document.querySelector('.sources');
+    const sourcesDiv = document.querySelector('.sources');
     if (!sourcesDiv) {
       throw new Error("Element with selector '.sources' doesn't exist");
     }

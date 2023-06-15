@@ -14,7 +14,7 @@ class App {
   }
 
   public start(): void {
-    const sources: Element | null = document.querySelector('.sources');
+    const sources = document.querySelector('.sources');
     if (sources === null) {
       throw new Error('Sources are null');
     }
