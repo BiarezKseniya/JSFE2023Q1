@@ -2,7 +2,6 @@ import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
 
 import { ResponseData } from '../controller/loader';
-import { Source } from '../controller/loader';
 
 class App {
   private readonly controller: AppController;
@@ -19,11 +18,11 @@ class App {
       throw new Error('Sources are null');
     }
     sources.addEventListener('click', (e: Event) => {
-      this.controller.getNews(e, (data: Partial<ResponseData>) => {
+      this.controller.getNews(e, (data) => {
         this.view.drawNews(data);
       });
     });
-    this.controller.getSources((data: Partial<ResponseData>) => {
+    this.controller.getSources((data) => {
       this.view.drawSources(data);
       this.attachEvents(sources);
     });
@@ -36,7 +35,7 @@ class App {
       const searchVal: string = searchInput?.value;
       this.controller.getSources((data: Partial<ResponseData>) => {
         console.log(data, searchVal);
-        data.sources = data.sources?.filter((source: Source): boolean =>
+        data.sources = data.sources?.filter((source): boolean =>
           source.name.toLowerCase().includes(searchVal.toLowerCase()),
         );
         if (!data.sources?.length) {
