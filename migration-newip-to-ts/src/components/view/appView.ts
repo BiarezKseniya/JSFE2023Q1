@@ -1,8 +1,6 @@
 import { News } from './news/news';
 import { Sources } from './sources/sources';
-import { ResponseData } from '../controller/types';
-import { Source } from '../controller/types';
-import { Article } from '../controller/types';
+import { SourcesResponseData, ArticlesResponseData, Source, Article } from '../controller/types';
 
 export class AppView {
   private news: News;
@@ -13,12 +11,12 @@ export class AppView {
     this.sources = new Sources();
   }
 
-  public drawNews(data: Partial<ResponseData>): void {
+  public drawNews(data: ArticlesResponseData): void {
     const values: Article[] = data?.articles || [];
     this.news.draw(values);
   }
 
-  public drawSources(data: Partial<ResponseData>): void {
+  public drawSources(data: SourcesResponseData): void {
     const values: Source[] = data?.sources || [];
     this.sources.draw(values);
   }

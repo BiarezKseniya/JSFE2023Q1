@@ -1,6 +1,5 @@
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
-import { ResponseData } from '../controller/types';
 
 class App {
   private readonly controller: AppController;
@@ -32,7 +31,7 @@ class App {
         throw new Error('There is no input field.');
       }
       const searchVal: string = searchInput?.value;
-      this.controller.getSources((data: Partial<ResponseData>) => {
+      this.controller.getSources((data) => {
         data.sources = data.sources?.filter((source): boolean =>
           source.name.toLowerCase().includes(searchVal.toLowerCase()),
         );

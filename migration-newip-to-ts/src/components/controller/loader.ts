@@ -1,7 +1,4 @@
-import { Options } from './types';
-import { Callback } from './types';
-import { HttpMethod } from './types';
-import { HttpStatusCode } from './types';
+import { Options, Callback, HttpMethod, HttpStatusCode, ArticlesResponseData, SourcesResponseData } from './types';
 
 class Loader {
   private readonly baseLink: string;
@@ -14,7 +11,7 @@ class Loader {
 
   public getResp(
     { endpoint, options = {} }: { endpoint: string; options?: Options },
-    callback: Callback = (): void => {
+    callback: Callback<SourcesResponseData> | Callback<ArticlesResponseData> = (): void => {
       console.error('No callback for GET response');
     },
   ): void {
@@ -42,7 +39,12 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  private load(method: HttpMethod, endpoint: string, callback: Callback, options: Options = {}): void {
+  private load(
+    method: HttpMethod,
+    endpoint: string,
+    callback: Callback<SourcesResponseData> | Callback<ArticlesResponseData>,
+    options: Options = {},
+  ): void {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())

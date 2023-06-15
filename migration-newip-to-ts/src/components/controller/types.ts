@@ -25,14 +25,18 @@ export interface Article {
   readonly urlToImage: string;
 }
 
-export interface ResponseData {
-  readonly status: string;
-  sources: Source[];
+export interface ArticlesResponseData {
   readonly articles: Article[];
+  readonly status: string;
   readonly totalResults: number;
 }
 
-export type Callback = (data: Partial<ResponseData>) => void;
+export interface SourcesResponseData {
+  readonly status: string;
+  sources: Source[];
+}
+
+export type Callback<T> = (data: T) => void;
 
 export enum HttpMethod {
   GET = 'GET',
