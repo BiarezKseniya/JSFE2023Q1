@@ -41,6 +41,11 @@ enum HttpMethod {
   DELETE = 'DELETE',
 }
 
+enum HttpStatusCode {
+  Unauthorized = 401,
+  NotFound = 404,
+}
+
 class Loader {
   private readonly baseLink: string;
   private readonly options: Options;
@@ -61,7 +66,7 @@ class Loader {
 
   public errorHandler(res: Response): Response {
     if (!res.ok) {
-      if (res.status === 401 || res.status === 404)
+      if (res.status === HttpStatusCode.Unauthorized || res.status === HttpStatusCode.NotFound)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
       throw Error(res.statusText);
     }
