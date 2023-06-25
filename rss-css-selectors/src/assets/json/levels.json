@@ -1,0 +1,17 @@
+[
+  {
+    "task": "Select the plates",
+    "selector": "plate",
+    "tableMarkup": "<plate></plate><plate></plate>"
+  },
+  {
+    "task": "Select the yellow bento",
+    "selector": ".yellow",
+    "tableMarkup": "<bento class='yellow'><orange></orange></bento><bento></bento>"
+  },
+  {
+    "task": "Select the bentos",
+    "selector": "orange",
+    "tableMarkup": "<bento><orange></orange></bento><plate></plate>"
+  }
+]
