@@ -13,11 +13,11 @@
     <h1 class="header__app-name">CSS-Salad</h1>
     <div class="header__levels">
       <button class="header__levels-switch" aria-label="switch-to-the-left" type="button">
-        <img class="header__levels-switch-image" src="./assets/arrow-left.svg" alt="Arrow to the left">
+        <img class="header__levels-switch-image" src="./assets/img/arrow-left.svg" alt="Arrow to the left">
       </button>
       <div class="header__level">Level 1 of 10</div>
       <button class="header__levels-switch" aria-label="switch-to-the-right" type="button">
-        <img class="header__levels-switch-image" src="./assets/arrow-right.svg" alt="Arrow to the right">
+        <img class="header__levels-switch-image" src="./assets/img/arrow-right.svg" alt="Arrow to the right">
       </button>
     </div>
   </header>
@@ -43,7 +43,7 @@
           <div class="codebox__file-name">styles.css</div>
         </div>
         <div class="codebox__main">
-          <div class="codebox__line-numbers" id="css-editor">
+          <div class="codebox__line-numbers">
             <div class="codebox__line-number">1</div>
             <div class="codebox__line-number">2</div>
             <div class="codebox__line-number">3</div>
@@ -51,15 +51,15 @@
             <div class="codebox__line-number">5</div>
             <div class="codebox__line-number">6</div>
           </div>
-          <div class="codebox__code">
+          <div class="codebox__code" id="css-editor">
             <div class="codebox__line-code">
               <input type="text" class="codebox__input">
             </div>
             <div class="codebox__line-code">{</div>
             <div class="codebox__line-code">&nbsp;&nbsp;/* Styles would go here. */<br>}</div>
             <div class="codebox__buttons">
-              <button class="codebox__button" type="button">Help</button>
-              <button class="codebox__button" type="button">Submit</button>
+              <button class="codebox__button codebox__button_help" type="button">Help</button>
+              <button class="codebox__button codebox__button_submit" type="button">Submit</button>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
           <div class="codebox__file-name">table.html</div>
         </div>
         <div class="codebox__main">
-          <div class="codebox__line-numbers" id="html-viewer">
+          <div class="codebox__line-numbers">
             <div class="codebox__line-number">1</div>
             <div class="codebox__line-number">2</div>
             <div class="codebox__line-number">3</div>
@@ -78,8 +78,8 @@
             <div class="codebox__line-number">5</div>
             <div class="codebox__line-number">6</div>
           </div>
-          <div class="codebox__code">
-            <div class="codebox__line-code">Some code</div>
+          <div class="codebox__code" id="html-viewer">
+            <div class="codebox__line-code"></div>
           </div>
         </div>
       </div>

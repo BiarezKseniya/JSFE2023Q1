@@ -7,7 +7,7 @@
   --comment-color: #3b6573;
   --font-color: white;
   --button-color: #f55c96;
-  --link-color:  #1e5064;
+  --link-color: #1e5064;
   --main-font: "Dosis", sans-serif;
   --editor-font: 16px menlo, monospace;
   --table-width: 650px;
@@ -93,12 +93,19 @@ main {
 }
 
 .gameplay__table {
+  display: flex;
   width: var(--table-width);
   height: 120px;
   background-color: var(--table-color);
   box-shadow: 0px 40px 10px rgba(0, 0, 0, .2);
   transform: rotateX(20deg);
+  justify-content: center;
+  align-items: center;
 }
+
+.gameplay__table .hover {
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.4);
+} 
 
 .gameplay__table-edge {
   width: 686px;
@@ -169,6 +176,16 @@ main {
 .codebox__line-code {
   padding: 0 5px;
   line-height: 150%;
+  margin: 0;
+  cursor: default;
+}
+
+#html-viewer .codebox__line-code * {
+  transition: 0.3s ease-out;
+}
+
+#html-viewer .codebox__line-code .hover {
+  background-color: var(--link-color);
 }
 
 .codebox__input {
@@ -177,7 +194,7 @@ main {
   font: var(--editor-font);
   line-height: 150%;
   padding: 0 5px;
-  width: 95%;
+  width: 60%;
 }
 
 .codebox__input:focus {
