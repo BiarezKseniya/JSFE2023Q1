@@ -1,0 +1,93 @@
+plate,
+bento {
+  position: relative;
+  box-shadow: 0px 8px 0px rgba(0, 0, 0, .1);
+  height: 95px;
+  width: 95px;
+  margin: 0 10px;
+  transition: ease-out 0.3s;
+  cursor: pointer;
+}
+
+plate {
+  background: white;
+  border-radius: 100px;
+  border-bottom: solid 5px #ddd;
+}
+
+plate:before {
+  content: "";
+  /* display: block; */
+  position: absolute;
+  left: calc(50% - 32.5px);
+  top: calc(50% - 32.5px);
+  height: 65px;
+  width: 65px;
+  border-radius: 60px;
+  border-top: solid 6px #ccc;
+  opacity: 0.4;
+  background: rgba(255, 255, 255, 1);
+}
+
+bento {
+  position: relative;
+  height: 95px;
+  width: 95px;
+  background: brown;
+  position: relative;
+  border: solid 3px #711c12;
+  border-width: 20px 2px;
+  box-sizing: border-box;
+}
+
+orange {
+  position: relative;
+  margin: 20px 10px;
+  border-radius: 100px;
+  border-style: solid;
+  border-width: 1px 2px 8px 2px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.2);
+  background: orange;
+  border-color: #bd6e07;
+  transition: ease-out 0.3s;
+}
+
+orange:before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  height: 30%;
+  width: 30%;
+  top: 0px;
+  left: calc(50% - 15%);
+  border-radius: 100px;
+}
+
+bento orange,
+plate orange {
+  position: absolute;
+  left: calc(50% - 20px);
+  margin: 0;
+}
+
+.target {
+  animation: pulse 1s ease-in infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.0);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+
+}
