@@ -17,6 +17,7 @@ export class View {
   public render(levels: Levels): void {
     this.renderTable(levels);
     this.renderHTML();
+    this.setTarget(levels);
     this.highlight();
   }
 
@@ -30,10 +31,6 @@ export class View {
       throw new Error('There is no table element');
     }
     table.innerHTML = levels.getTableContent();
-
-    table?.querySelectorAll(levels.getTargetSelector())?.forEach((element) => {
-      element.classList.add('target');
-    });
   }
 
   private renderHTML(): void {
@@ -56,6 +53,13 @@ export class View {
     }
     codeLine.innerHTML = `&lt;div class="table"&gt;${HTMLContent}\n&lt;/div&gt;`;
     HTMLViewer.appendChild(codeLine);
+  }
+
+  public setTarget(levels: Levels): void {
+    const table = this.getTableElement();
+    table?.querySelectorAll(levels.getTargetSelector())?.forEach((element) => {
+      element.classList.add('target');
+    });
   }
 
   public highlight(): void {
