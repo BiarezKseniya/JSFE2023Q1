@@ -15,17 +15,23 @@
       <button class="header__levels-switch" aria-label="switch-to-the-left" type="button">
         <img class="header__levels-switch-image" src="./assets/img/arrow-left.svg" alt="Arrow to the left">
       </button>
-      <div class="header__level">Level 1 of 10</div>
+      <div class="header__level">Level <span class="header__current-level">1</span> of <span class="header__level-number">10</span></div>
       <button class="header__levels-switch" aria-label="switch-to-the-right" type="button">
         <img class="header__levels-switch-image" src="./assets/img/arrow-right.svg" alt="Arrow to the right">
       </button>
+      <div class="header__levels-window">
+      </div>
+      <template id="level-item-template">
+        <div class="header__level-item"></div>
+      </template>
     </div>
   </header>
   <main>
     <div class="gameplay">
       <div class="gameplay__task">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
+        make
         a type specimen book.
       </div>
       <div class="gameplay__table">
@@ -35,7 +41,6 @@
         <div class="gameplay__table-leg"></div>
       </div>
     </div>
-    <div class="levels"></div>
     <div class="editors">
       <div class="codebox">
         <div class="codebox__header">

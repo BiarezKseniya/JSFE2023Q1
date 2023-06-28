@@ -8,6 +8,7 @@
   --font-color: white;
   --button-color: #f55c96;
   --link-color: #1e5064;
+  --border-color: #9db2b6;
   --main-font: "Dosis", sans-serif;
   --editor-font: 16px menlo, monospace;
   --table-width: 650px;
@@ -53,17 +54,63 @@ body {
   font-size: 1.25rem;
 }
 
+.header__level,
+.header__levels-switch {
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
 .header__levels-switch {
   display: flex;
   align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   padding: 0;
-  cursor: pointer;
 }
+
+.header__level{
+  position: relative;
+  padding: 10px 30px 10px 10px;
+}
+
+.header__levels-switch:hover,
+.header__level:hover {
+  background-color: var(--link-color);
+}
+
+.header__levels-switch:disabled .header__levels-switch-image {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(35%) saturate(517%) hue-rotate(149deg) brightness(88%) contrast(87%);
+}
+
+.header__levels-switch:disabled:hover {
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.header__level::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 45%;
+  border: 7px solid rgba(0,0,0,0);
+  border-top: 7px solid #fff;
+  margin-left: -30px;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+
+.header__level.open::after {
+  top: 60%;
+  transform-origin: 45% 0;
+  transform: rotate(180deg);
+}
+
 
 .header__levels-switch-image {
   height: 1.25rem;
+  transition: 0.3s;
 }
 
 main {
@@ -71,8 +118,56 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.header__levels-window {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 4.8rem;
+  right: 0;
+  background-color: var(--editor-background);
+  width: 210px;
+  padding: 10px;
+  gap: 15px;
+  z-index: -1;
+  opacity: 95%; 
+  clip: rect(auto, auto, 0, auto);
+  transition: clip 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.header__levels-window.open {
+  z-index: 100;
+  visibility: visible;  
+  clip: rect(auto, auto, 10rem, auto);
+}
+
+.header__level-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #b3cacf;
+  transition: background-color border-color 0.3s;
+  border: 3px solid var(--border-color);
+  opacity: 100%;
+}
+
+.header__level-item.passed {
+  background-color: var(--shadow-color);
+  border-color: var(--shadow-color);
+}
+
+.header__level-item.active {
+  background-color: var(--table-color);
+  border-color: var(--shadow-color);
 }
 
 .gameplay {
