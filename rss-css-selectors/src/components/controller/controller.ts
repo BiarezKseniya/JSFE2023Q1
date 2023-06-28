@@ -18,13 +18,13 @@ export class Controller {
   public async start(): Promise<void> {
     await this.levels.fetchLevels();
     this.loadLevel();
+    this.setResponseHandler();
     this.toggleLevelsTable();
   }
 
   private loadLevel(): void {
     this.view.render(this.levels);
     this.handleButtonStyles();
-    this.setResponseHandler();
     this.handleLevelSwitch();
     this.handleLevelChoice();
   }
@@ -33,11 +33,21 @@ export class Controller {
     const submitBtn: HTMLButtonElement | null = document.querySelector('.codebox__button_submit');
     const response: HTMLInputElement | null = document.querySelector('.codebox__input');
 
-    submitBtn?.addEventListener('click', () => {
+    submitBtn?.addEventListener('click', (event) => {
       if (!response) {
         throw new Error('There is no response to handle');
       }
-      console.log(this.checkResponse(response.value));
+      if (response.value === '' || !this.checkResponse(response.value)) {
+        const editors = document.querySelector('.editors');
+        editors?.classList.add('shake');
+        setTimeout(() => {
+          editors?.classList.remove('shake');
+        }, 500)
+      } else {
+        this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
+        response.value = '';
+        this.loadLevel();
+      };
     });
 
     response?.addEventListener('keypress', (event: KeyboardEvent) => {
@@ -82,11 +92,10 @@ export class Controller {
           : (newLevel = this.levels.incrementLevel());
         if (this.levels.checkIfLevel(newLevel)) {
           this.levels.setCurrentLevel(newLevel);
-          this.view.updateLevel(newLevel);
           this.loadLevel();
           this.closeLevelsTable();
         }
-        
+
       });
     });
   }
@@ -148,10 +157,9 @@ export class Controller {
         levelItems.forEach((levelItem) => {
           levelItem.classList.remove('active')
         });
-        
+
         this.levels.setCurrentLevel(newLevel);
         levelItem.classList.add('active');
-        this.view.updateLevel(newLevel);
         this.loadLevel();
       })
     })

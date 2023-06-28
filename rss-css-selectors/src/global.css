@@ -7,6 +7,7 @@
   --comment-color: #3b6573;
   --font-color: white;
   --button-color: #f55c96;
+  --hover-button-color: #f33a80;
   --link-color: #1e5064;
   --border-color: #9db2b6;
   --main-font: "Dosis", sans-serif;
@@ -275,6 +276,10 @@ main {
   cursor: default;
 }
 
+.shake {
+  animation: shake 0.1s ease-in 5;
+}
+
 #html-viewer .codebox__line-code * {
   transition: 0.3s ease-out;
 }
@@ -320,10 +325,15 @@ main {
   text-transform: uppercase;
   color: var(--font-color);
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .codebox__submit-selector:focus {
   outline: none;
+}
+
+.codebox__button:hover {
+  background-color: var(--hover-button-color);
 }
 
 footer {
@@ -361,4 +371,22 @@ footer a:hover {
 
 .github-link:before {
   content: '2023';
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

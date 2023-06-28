@@ -18,6 +18,7 @@ export class View {
     this.renderTable(levels);
     this.renderHTML();
     this.renderLevels(levels);
+    this.updateLevel(levels);
     this.setTarget(levels);
     this.highlight();
   }
@@ -96,12 +97,12 @@ export class View {
     });
   }
 
-  public updateLevel(newLevel: number) {
+  public updateLevel(levels: Levels) {
     const levelDiv = document.querySelector('.header__current-level');
     if (!levelDiv) {
       throw new Error("Div doesn't exist");
     }
-    levelDiv.innerHTML = newLevel.toString();
+    levelDiv.innerHTML = levels.getCurrentLevel().toString();
   }
 
   private renderLevels(levels: Levels): void {
