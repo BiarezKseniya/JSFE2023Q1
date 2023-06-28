@@ -2,6 +2,7 @@ export interface Level {
   task: string;
   selector: string;
   tableMarkup: string;
+  passed?: boolean;
 }
 
 export class Levels {
@@ -25,5 +26,32 @@ export class Levels {
 
   public getTargetSelector(): string {
     return this.levels[this.levelIndex].selector;
+  }
+
+  public getCurrentLevel(): number {
+    return this.levelIndex + 1;
+  }
+
+  public setCurrentLevel(value: number): void {
+    this.levelIndex = value - 1;
+  }
+
+  public countLevels(): number {
+    return this.levels.length;
+  }
+
+  public incrementLevel(): number {
+    return this.levelIndex + 2;
+  }
+
+  public decrementLevel(): number {
+    return this.levelIndex;
+  }
+
+  public checkIfLevel(value: number): boolean {
+    if (value <= this.countLevels() && value > 0) {
+      return true;
+    }
+    return false;
   }
 }

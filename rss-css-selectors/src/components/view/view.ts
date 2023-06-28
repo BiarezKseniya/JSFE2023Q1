@@ -17,12 +17,17 @@ export class View {
   public render(levels: Levels): void {
     this.renderTable(levels);
     this.renderHTML();
+    this.renderLevels(levels);
     this.setTarget(levels);
     this.highlight();
   }
 
   public getTableElement(): Element | null {
     return document.querySelector('.gameplay__table');
+  }
+
+  public getLevelButtons(): NodeListOf<HTMLButtonElement> {
+    return document.querySelectorAll('.header__levels-switch');
   }
 
   private renderTable(levels: Levels): void {
@@ -89,6 +94,46 @@ export class View {
         editorElements[index].classList.remove('hover');
       });
     });
+  }
+
+  public updateLevel(newLevel: number) {
+    const levelDiv = document.querySelector('.header__current-level');
+    if (!levelDiv) {
+      throw new Error("Div doesn't exist");
+    }
+    levelDiv.innerHTML = newLevel.toString();
+  }
+
+  private renderLevels(levels: Levels): void {
+    const levelsDiv = document.querySelector('.header__levels-window');
+    if (!levelsDiv) {
+      throw new Error('Levels block was not found');
+    }
+    const fragment: DocumentFragment = document.createDocumentFragment();
+    const levelTemplate: HTMLTemplateElement | null = document.querySelector('#level-item-template');
+    levels.levels.forEach((level, index): void => {
+      const cloneLevel: Node | undefined = levelTemplate?.content.cloneNode(true);
+      if (!(cloneLevel instanceof DocumentFragment)) {
+        throw new Error('cloneLevel is not instance of Document Fragment');
+      }
+      const levelItem = cloneLevel?.querySelector('.header__level-item');
+      if (!levelItem) {
+        throw new Error('There is no levelItem');
+      }
+      const levelNumber: number = index + 1;
+      levelItem.innerHTML = levelNumber.toString();
+      if (index + 1 === levels.getCurrentLevel()) {
+        levelItem.classList.add('active');
+      }
+      fragment.append(cloneLevel);
+    });
+    levelsDiv.innerHTML = '';
+    levelsDiv?.appendChild(fragment);
+    const numOfLevelsDiv = document.querySelector('.header__level-number');
+    if (!numOfLevelsDiv) {
+      throw new Error('There is no element to show levels number');
+    }
+    numOfLevelsDiv.innerHTML = levels.countLevels().toString();
   }
 
   private parseCode(element: Element, indent: string = CodeParser.indent): string {
