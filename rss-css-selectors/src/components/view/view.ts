@@ -16,6 +16,7 @@ export enum CodeParser {
 export class View {
   public render(levels: Levels): void {
     this.renderTable(levels);
+    this.renderTask(levels);
     this.renderHTML();
     this.renderLevels(levels);
     this.updateLevel(levels);
@@ -37,6 +38,14 @@ export class View {
       throw new Error('There is no table element');
     }
     table.innerHTML = levels.getTableContent();
+  }
+
+  private renderTask(levels: Levels): void {
+    const task = document.querySelector('.gameplay__task');
+    if (!task) {
+      throw new Error('There is no task element');
+    }
+    task.innerHTML = levels.getTask();
   }
 
   private renderHTML(): void {

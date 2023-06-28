@@ -186,6 +186,7 @@ main {
   width: calc(1.2*var(--table-width));
   font-size: 1.5rem;
   padding: 1rem 0 2rem;
+  text-align: center;
 }
 
 .gameplay__table {

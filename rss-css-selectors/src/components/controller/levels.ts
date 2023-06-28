@@ -24,6 +24,10 @@ export class Levels {
     return this.levels[this.levelIndex].tableMarkup;
   }
 
+  public getTask(): string {
+    return this.levels[this.levelIndex].task;
+  }
+
   public getTargetSelector(): string {
     return this.levels[this.levelIndex].selector;
   }
