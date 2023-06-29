@@ -127,7 +127,6 @@ export class View {
       throw new Error('HTML element was not found');
     }
     const pos: DOMRect = element.getBoundingClientRect();
-    console.log(pos);
     tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + "px";
     tooltip.style.left = pos.left + element.offsetWidth / 2 + "px";
 
@@ -172,6 +171,9 @@ export class View {
       levelItem.innerHTML = levelNumber.toString();
       if (index + 1 === levels.getCurrentLevel()) {
         levelItem.classList.add('active');
+      }
+      if (level.passed === true) {
+        levelItem.classList.add('passed');
       }
       fragment.append(cloneLevel);
     });

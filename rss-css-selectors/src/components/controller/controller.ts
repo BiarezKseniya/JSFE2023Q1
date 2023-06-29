@@ -44,6 +44,7 @@ export class Controller {
           editors?.classList.remove('shake');
         }, 500)
       } else {
+        this.levels.setLevelCompleted();
         this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
         response.value = '';
         this.loadLevel();

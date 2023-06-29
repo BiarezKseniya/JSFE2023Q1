@@ -58,4 +58,8 @@ export class Levels {
     }
     return false;
   }
+
+  public setLevelCompleted(): void {
+    this.levels[this.levelIndex].passed = true;
+  }
 }
