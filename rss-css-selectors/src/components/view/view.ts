@@ -127,8 +127,8 @@ export class View {
       throw new Error('HTML element was not found');
     }
     const pos: DOMRect = element.getBoundingClientRect();
-    tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + "px";
-    tooltip.style.left = pos.left + element.offsetWidth / 2 + "px";
+    tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + window.scrollY + "px";
+    tooltip.style.left = pos.left + element.offsetWidth / 2 + window.scrollX + "px";
 
     tooltip.classList.add('hover');
   }
