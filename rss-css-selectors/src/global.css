@@ -189,6 +189,23 @@ main {
   text-align: center;
 }
 
+.gameplay__tooltip {
+  display: inline-block;
+  position: absolute;
+  width: max-content;
+  font-size: 1.25rem;
+  background-color: var(--link-color);
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 99;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.gameplay__tooltip.hover {
+  opacity: 100%;
+}
+
 .gameplay__table {
   display: flex;
   width: var(--table-width);

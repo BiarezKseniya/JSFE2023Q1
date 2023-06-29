@@ -20,12 +20,16 @@ export class View {
     this.renderHTML();
     this.renderLevels(levels);
     this.updateLevel(levels);
-    this.setTarget(levels);
     this.highlight();
+    this.setTarget(levels);
   }
 
-  public getTableElement(): Element | null {
-    return document.querySelector('.gameplay__table');
+  public getTableElement(): Element {
+    const table = document.querySelector('.gameplay__table');
+    if (!table) {
+      throw new Error('There is no table element');
+    }
+    return table
   }
 
   public getLevelButtons(): NodeListOf<HTMLButtonElement> {
@@ -34,9 +38,6 @@ export class View {
 
   private renderTable(levels: Levels): void {
     const table = this.getTableElement();
-    if (!table) {
-      throw new Error('There is no table element');
-    }
     table.innerHTML = levels.getTableContent();
   }
 
@@ -53,10 +54,7 @@ export class View {
     if (!HTMLViewer) {
       throw new Error('There is no element with id HTMLViewer');
     }
-    const table = document.querySelector('.gameplay__table');
-    if (!table) {
-      throw new Error('There is no table element');
-    }
+    const table = this.getTableElement();
     const codeLine = HTMLViewer.querySelector('.codebox__line-code');
     let HTMLContent: string = '';
 
@@ -72,7 +70,7 @@ export class View {
 
   public setTarget(levels: Levels): void {
     const table = this.getTableElement();
-    table?.querySelectorAll(levels.getTargetSelector())?.forEach((element) => {
+    table.querySelectorAll(levels.getTargetSelector()).forEach((element) => {
       element.classList.add('target');
     });
   }
@@ -80,30 +78,70 @@ export class View {
   public highlight(): void {
     const editorElements = document.querySelectorAll('#html-viewer .codebox__line-code *');
     const tableElements = document.querySelectorAll('.gameplay__table *');
-    editorElements?.forEach((element) => {
-      const index: number = Array.prototype.indexOf.call(editorElements, element);
-      element.addEventListener('mouseover', (event: Event) => {
-        event.stopImmediatePropagation();
-        element.classList.add('hover');
-        tableElements[index].classList.add('hover');
-      });
-      element.addEventListener('mouseout', () => {
-        element.classList.remove('hover');
-        tableElements[index].classList.remove('hover');
-      });
+
+    tableElements.forEach((tableElement, index) => {
+      const editorElement = editorElements[index];
+
+      this.setHoverHandler(tableElement, editorElement, true);
+      this.setHoverHandler(editorElement, tableElement, false);
+
     });
-    tableElements.forEach((element) => {
-      const index: number = Array.prototype.indexOf.call(tableElements, element);
-      element.addEventListener('mouseover', (event: Event) => {
-        event.stopImmediatePropagation();
-        element.classList.add('hover');
-        editorElements[index].classList.add('hover');
-      });
-      element.addEventListener('mouseout', () => {
-        element.classList.remove('hover');
-        editorElements[index].classList.remove('hover');
-      });
+  }
+
+  private setHoverHandler(main: Element, dependent: Element, tooltipFromMain: boolean): void {
+    main.addEventListener('mouseover', (event: Event) => {
+      event.stopImmediatePropagation();
+      main.classList.add('hover');
+      dependent.classList.add('hover');
+      this.showTooltip(tooltipFromMain ? main : dependent);
     });
+    main.addEventListener('mouseout', () => {
+      main.classList.remove('hover');
+      dependent.classList.remove('hover');
+      this.hideTooltip();
+    });
+  }
+
+  private showTooltip(element: Element): void {
+    const tooltip = document.querySelector('.gameplay__tooltip');
+
+    if (!(tooltip instanceof HTMLElement)) {
+      throw new Error('Tooltip is not found');
+    };
+
+    const elName: string = element.tagName.toLowerCase();
+    const attributeString: string = this.getAttributString(element);
+    const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
+
+    tooltip.innerHTML =
+      CodeParser.openTag +
+      elName +
+      attributeSpace +
+      attributeString +
+      CodeParser.closeTag +
+      CodeParser.openClosingTag +
+      elName +
+      CodeParser.closeTag;
+
+    if (!(element instanceof HTMLElement)) {
+      throw new Error('HTML element was not found');
+    }
+    const pos: DOMRect = element.getBoundingClientRect();
+    console.log(pos);
+    tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + "px";
+    tooltip.style.left = pos.left + element.offsetWidth / 2 + "px";
+
+    tooltip.classList.add('hover');
+  }
+
+  private hideTooltip(): void {
+    const tooltip = document.querySelector('.gameplay__tooltip');
+
+    if (!tooltip) {
+      throw new Error('Tooltip is not found');
+    };
+
+    tooltip.classList.remove('hover');
   }
 
   public updateLevel(levels: Levels) {
@@ -148,47 +186,59 @@ export class View {
 
   private parseCode(element: Element, indent: string = CodeParser.indent): string {
     let result: string = '';
-    if (element.nodeType === Node.ELEMENT_NODE) {
-      const elName: string = element.tagName.toLowerCase();
-      let attributeString: string = '';
-      for (let i = 0; i < element.attributes.length; i++) {
-        attributeString +=
-          CodeParser.attributeSpace +
-          element.attributes[i].name +
-          CodeParser.attributeAssignment +
-          CodeParser.quotes +
-          element.attributes[i].value +
-          CodeParser.quotes;
+    const elName: string = element.tagName.toLowerCase();
+    const attributeString: string = this.getAttributString(element);
+    const attributeSpace = attributeString.length > 0 ? CodeParser.attributeSpace : '';
+    let elementSpace: string = indent;
+    if (element.children.length > 0) {
+      result +=
+        CodeParser.openWrap +
+        elementSpace +
+        CodeParser.openTag +
+        elName +
+        attributeSpace +
+        attributeString +
+        CodeParser.closeTag;
+      elementSpace += CodeParser.indent;
+      for (let j = 0; j < element.children.length; j++) {
+        result += this.parseCode(element.children[j], elementSpace);
       }
-      const attributeSpace = attributeString.length > 0 ? CodeParser.attributeSpace : '';
-      let elementSpace: string = indent;
-      if (element.children.length > 0) {
-        result +=
-          CodeParser.openWrap +
-          elementSpace +
-          CodeParser.openTag +
-          elName +
-          attributeSpace +
-          attributeString +
-          CodeParser.closeTag;
-        elementSpace += CodeParser.indent;
-        for (let j = 0; j < element.children.length; j++) {
-          result += this.parseCode(element.children[j], elementSpace);
-        }
-        result += indent + CodeParser.openClosingTag + elName + CodeParser.closeTag + CodeParser.closeWrap;
-      } else {
-        result +=
-          CodeParser.openWrap +
-          elementSpace +
-          CodeParser.openTag +
-          elName +
-          attributeSpace +
-          attributeString +
-          CodeParser.closeOpenClosingTag +
-          elementSpace +
-          CodeParser.closeWrap;
-      }
+      result += indent + CodeParser.openClosingTag + elName + CodeParser.closeTag + CodeParser.closeWrap;
+    } else {
+      result +=
+        CodeParser.openWrap +
+        elementSpace +
+        CodeParser.openTag +
+        elName +
+        attributeSpace +
+        attributeString +
+        CodeParser.closeOpenClosingTag +
+        elementSpace +
+        CodeParser.closeWrap;
     }
     return result;
+  }
+
+  private getAttributString(element: Element): string {
+    let attributeString: string = '';
+    for (let i = 0; i < element.attributes.length; i++) {
+      const atr = element.attributes[i].name;
+      let val = element.attributes[i].value;
+
+      if (atr === 'class') {
+        val = val.split(' ').filter(element => element !== 'target' && element !== 'hover').join(' ');
+      }
+
+      if (val) {
+        attributeString +=
+          CodeParser.attributeSpace +
+          atr +
+          CodeParser.attributeAssignment +
+          CodeParser.quotes +
+          val +
+          CodeParser.quotes;
+      }
+    }
+    return attributeString;
   }
 }
