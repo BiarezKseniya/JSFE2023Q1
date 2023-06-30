@@ -1,4 +1,3 @@
-import Typed from 'typed.js';
 import { Level, Levels } from './levels';
 import { View, TechnicalClasses } from '../view/view';
 
@@ -203,13 +202,17 @@ export class Controller {
 
     document.querySelector('.codebox__button_help')?.addEventListener('click', () => {
       const currentLevelObj: Level = this.levels.levels[this.levels.getCurrentLevel() - 1];
+      const answer: string = currentLevelObj.selector;
+      let counter: number = 0;
+      const type = (): void => {
+        if (counter < answer.length) {
+        response.value += answer.charAt(counter);
+        counter++;
+        setTimeout(type, 100);
+        }
+      }
 
-      const typed = new Typed(response, {
-        strings: [currentLevelObj.selector],
-        typeSpeed: 50,
-        loop: false,
-      });
-
+      type();      
       currentLevelObj.helperUsed = true;
     })
   }
