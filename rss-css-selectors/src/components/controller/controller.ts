@@ -1,6 +1,6 @@
 import Typed from 'typed.js';
 import { Level, Levels } from './levels';
-import { View } from '../view/view';
+import { View, TechnicalClasses } from '../view/view';
 
 export enum Buttons {
   left = 0,
@@ -52,16 +52,19 @@ export class Controller {
           editors?.classList.remove('shake');
         }, 500)
       } else {
-        this.levels.setLevelCompleted();
-        response.value = '';
-        if (this.levels.levels.every((level) => level.passed === true)) {
-          this.handleLastLevel("Congrats, you're a CSS master chief now :)");
-        } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
-          this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
-          this.loadLevel();
-        } else {
-          this.handleLastLevel("Well done, but you've got still other levels to complete!");
-          }
+        this.view.setTargetAnimation(this.levels, TechnicalClasses.exit);
+          setTimeout(() => {
+            this.levels.setLevelCompleted();
+            response.value = '';
+            if (this.levels.levels.every((level) => level.passed === true)) {
+              this.handleLastLevel("Congrats, you're a CSS master chief now :)");
+            } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
+              this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
+              this.loadLevel();
+            } else {
+              this.handleLastLevel("Well done, but you've got still other levels to complete!");
+              }
+        }, 1500)
       }
     });
 

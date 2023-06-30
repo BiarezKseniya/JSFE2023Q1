@@ -13,6 +13,12 @@ export enum CodeParser {
   quotes = '"',
 }
 
+export enum TechnicalClasses {
+  hover = 'hover',
+  strobe = 'strobe',
+  exit = 'exit'
+}
+
 export class View {
   public render(levels: Levels): void {
     this.renderTable(levels);
@@ -21,7 +27,7 @@ export class View {
     this.renderLevels(levels);
     this.updateLevel(levels);
     this.highlight();
-    this.setTarget(levels);
+    this.setTargetAnimation(levels, TechnicalClasses.strobe);
   }
 
   public getTableElement(): Element {
@@ -80,10 +86,10 @@ export class View {
     HTMLViewer.appendChild(codeLine);
   }
 
-  public setTarget(levels: Levels): void {
+  public setTargetAnimation(levels: Levels, animation: string): void {
     const table = this.getTableElement();
     table.querySelectorAll(levels.getTargetSelector()).forEach((element) => {
-      element.classList.add('target');
+      element.classList.add(animation);
     });
   }
 
@@ -103,13 +109,13 @@ export class View {
   private setHoverHandler(main: Element, dependent: Element, tooltipFromMain: boolean): void {
     main.addEventListener('mouseover', (event: Event) => {
       event.stopImmediatePropagation();
-      main.classList.add('hover');
-      dependent.classList.add('hover');
+      main.classList.add(TechnicalClasses.hover);
+      dependent.classList.add(TechnicalClasses.hover);
       this.showTooltip(tooltipFromMain ? main : dependent);
     });
     main.addEventListener('mouseout', () => {
-      main.classList.remove('hover');
-      dependent.classList.remove('hover');
+      main.classList.remove(TechnicalClasses.hover);
+      dependent.classList.remove(TechnicalClasses.hover);
       this.hideTooltip();
     });
   }
@@ -142,7 +148,7 @@ export class View {
     tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + window.scrollY + "px";
     tooltip.style.left = pos.left + element.offsetWidth / 2 + window.scrollX + "px";
 
-    tooltip.classList.add('hover');
+    tooltip.classList.add(TechnicalClasses.hover);
   }
 
   private hideTooltip(): void {
@@ -152,7 +158,7 @@ export class View {
       throw new Error('Tooltip is not found');
     };
 
-    tooltip.classList.remove('hover');
+    tooltip.classList.remove(TechnicalClasses.hover);
   }
 
   public updateLevel(levels: Levels) {
@@ -244,7 +250,7 @@ export class View {
       let val = element.attributes[i].value;
 
       if (atr === 'class') {
-        val = val.split(' ').filter(element => element !== 'target' && element !== 'hover').join(' ');
+        val = val.split(' ').filter(element => !Object.values(TechnicalClasses).includes(element as TechnicalClasses)).join(' ');
       }
 
       if (val) {
