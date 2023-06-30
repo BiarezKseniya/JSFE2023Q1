@@ -3,6 +3,7 @@ export interface Level {
   selector: string;
   tableMarkup: string;
   passed?: boolean;
+  helperUsed?: boolean;
 }
 
 export class Levels {

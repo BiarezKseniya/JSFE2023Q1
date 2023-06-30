@@ -7,6 +7,13 @@ export enum Buttons {
   right = 1,
 }
 
+export enum Styles {
+  disablePointerEvents = 'none',
+  enablePointerEvents = 'auto',
+  disableButton = 1,
+  enableButton = 0,
+}
+
 export class Controller {
   public levels: Levels;
   public view: View;
@@ -26,6 +33,7 @@ export class Controller {
 
   private loadLevel(): void {
     this.view.render(this.levels);
+    this.handleHighlight(Styles.enablePointerEvents, Boolean(Styles.enableButton));
     this.handleButtonStyles();
     this.handleLevelSwitch();
     this.handleLevelChoice();
@@ -46,14 +54,12 @@ export class Controller {
         this.levels.setLevelCompleted();
         response.value = '';
         if (this.levels.levels.every((level) => level.passed === true)) {
-          this.loadLevel();
-          this.view.drawMessage("Congrats, you're a CSS master chief now :)");
+          this.handleLastLevel("Congrats, you're a CSS master chief now :)");
         } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
           this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
           this.loadLevel();
         } else {
-          this.loadLevel();
-          this.view.drawMessage("Well done, but you've got still other levels to complete!");
+          this.handleLastLevel("Well done, but you've got still other levels to complete!");
           }
       }
     });
@@ -88,6 +94,29 @@ export class Controller {
     return true;
   }
 
+  private handleLastLevel(message: string): void {
+    this.view.renderLevels(this.levels);
+    this.handleLevelChoice();
+    this.handleHighlight(Styles.disablePointerEvents, Boolean(Styles.disableButton));
+    this.view.drawMessage(message);
+  }
+
+  private handleHighlight(mouseoverStyle: string, buttonStyle: boolean): void {
+    const HTMLViewer: HTMLElement | null = document.querySelector('#html-viewer');
+    if (!HTMLViewer) {
+      throw new Error('HTMLViewer was not found');
+    }
+    HTMLViewer.style.pointerEvents = mouseoverStyle;
+    const codeboxBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.codebox__button');
+    codeboxBtns.forEach((button) => {
+      this.handleButtonEvents(button, buttonStyle);
+    })
+  }
+
+  private handleButtonEvents(button: HTMLButtonElement, style: boolean) {
+    button.disabled = style;
+  }
+
   private handleLevelSwitch(): void {
     const buttons: NodeListOf<HTMLButtonElement> = this.view.getLevelButtons();
 
@@ -112,23 +141,15 @@ export class Controller {
     const buttons: NodeListOf<HTMLButtonElement> = this.view.getLevelButtons();
 
     if (level === 1) {
-      this.disableButton(buttons[Buttons.left]);
+      this.handleButtonEvents(buttons[Buttons.left], Boolean(Styles.disableButton));
     } else {
-      this.enableButton(buttons[Buttons.left]);
+      this.handleButtonEvents(buttons[Buttons.left], Boolean(Styles.enableButton));
     }
     if (level === this.levels.countLevels()) {
-      this.disableButton(buttons[Buttons.right]);
+      this.handleButtonEvents(buttons[Buttons.right], Boolean(Styles.disableButton));
     } else {
-      this.enableButton(buttons[Buttons.right]);
+      this.handleButtonEvents(buttons[Buttons.right], Boolean(Styles.enableButton));
     }
-  }
-
-  private disableButton(button: HTMLButtonElement): void {
-    button.setAttribute('disabled', 'true');
-  }
-
-  private enableButton(button: HTMLButtonElement): void {
-    button.removeAttribute('disabled');
   }
 
   private toggleLevelsTable(): void {

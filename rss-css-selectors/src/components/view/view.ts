@@ -163,7 +163,7 @@ export class View {
     levelDiv.innerHTML = levels.getCurrentLevel().toString();
   }
 
-  private renderLevels(levels: Levels): void {
+  public renderLevels(levels: Levels): void {
     const levelsDiv = document.querySelector('.header__levels-window');
     if (!levelsDiv) {
       throw new Error('Levels block was not found');
