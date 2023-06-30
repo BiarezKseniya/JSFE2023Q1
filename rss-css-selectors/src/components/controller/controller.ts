@@ -24,6 +24,7 @@ export class Controller {
 
   public async start(): Promise<void> {
     await this.levels.fetchLevels();
+    this.handleLevelSaving();
     this.loadLevel();
     this.setResponseHandler();
     this.toggleLevelsTable();
@@ -52,17 +53,17 @@ export class Controller {
         }, 500)
       } else {
         this.view.setTargetAnimation(this.levels, TechnicalClasses.exit);
-          setTimeout(() => {
-            this.levels.setLevelCompleted();
-            response.value = '';
-            if (this.levels.levels.every((level) => level.passed === true)) {
-              this.handleLastLevel("Congrats, you're a CSS master chief now :)");
-            } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
-              this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
-              this.loadLevel();
-            } else {
-              this.handleLastLevel("Well done, but you've got still other levels to complete!");
-              }
+        setTimeout(() => {
+          this.levels.setLevelCompleted();
+          response.value = '';
+          if (this.levels.levels.every((level) => level.passed === true)) {
+            this.handleLastLevel("Congrats, you're a CSS master chief now :)");
+          } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
+            this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
+            this.loadLevel();
+          } else {
+            this.handleLastLevel("Well done, but you've got still other levels to complete!");
+          }
         }, 1000)
       }
     });
@@ -206,21 +207,39 @@ export class Controller {
       let counter: number = 0;
       const type = (): void => {
         if (counter < answer.length) {
-        response.value += answer.charAt(counter);
-        counter++;
-        setTimeout(type, 100);
+          response.value += answer.charAt(counter);
+          counter++;
+          setTimeout(type, 100);
         }
       }
 
-      type();      
+      type();
       currentLevelObj.helperUsed = true;
     })
   }
 
-  private handleRefresh(){
+  private handleRefresh(): void {
     document.querySelector('.header__refresh-img')?.addEventListener('click', () => {
       this.levels.clearProgress();
       this.loadLevel();
     })
+  }
+
+  private handleLevelSaving(): void {
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('levels', JSON.stringify(this.levels.levels));
+      localStorage.setItem('currentLevel', JSON.stringify(this.levels.getCurrentLevel()));
+    });
+    window.addEventListener('load', () => {
+      const levels: string | null = localStorage.getItem('levels');
+      const currentLevel: string | null = localStorage.getItem('currentLevel');
+
+      if (levels !== null && currentLevel !== null) {
+        this.levels.levels = JSON.parse(levels);
+        this.levels.setCurrentLevel(+JSON.parse(currentLevel));
+      }
+
+      this.loadLevel();
+    });
   }
 }
