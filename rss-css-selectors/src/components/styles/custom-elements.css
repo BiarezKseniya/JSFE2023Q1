@@ -73,6 +73,18 @@ plate orange {
   margin: 0;
 }
 
+.yellow {
+  background: yellow;
+}
+
+.red {
+  background: red;
+}
+
+.green {
+  background: green;
+}
+
 .strobe {
   animation: pulse 1s ease-in infinite alternate;
 }

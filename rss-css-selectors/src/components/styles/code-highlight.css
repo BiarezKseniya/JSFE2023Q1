@@ -1,0 +1,20 @@
+
+.tag {
+  color: gray;
+}
+
+.attribute-assignment {
+  color: white;
+}
+
+.tagname {
+  color: #6194e0;
+}
+
+.attribute-name {
+  color: #1a99cb;
+}
+
+.attribute-value {
+  color: rgb(255, 189, 67);
+}

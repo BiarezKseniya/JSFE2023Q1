@@ -2,15 +2,24 @@ import { Levels } from '../controller/levels';
 
 export enum CodeParser {
   indent = '&nbsp;&nbsp;',
-  openTag = '&lt;',
-  closeTag = '&gt;',
-  openClosingTag = '&lt;/',
-  closeOpenClosingTag = ' /&gt;',
+  openTag = "<span class='tag'>&lt;</span>",
+  closeTag = "<span class='tag'>&gt;</span>",
+  openClosingTag = "<span class='tag'>&lt;/</span>",
+  closeOpenClosingTag = "<span class='tag'>/ &gt;</span>",
   openWrap = '<div>',
   closeWrap = '</div>',
   attributeSpace = ' ',
-  attributeAssignment = '=',
+  attributeAssignment = "<span class='attribute-assignment'>=</span>",
+  assignment = '=',
   quotes = '"',
+  quotesSchielded = '\"',
+  openSpan = '<span ',
+  closeOpenSpan = '>',
+  closeSpan = '</span>',
+  tagName = 'tagname',
+  class = 'class',
+  attributeName = 'attribute-name',
+  attributeValue = 'attribute-value',
 }
 
 export enum TechnicalClasses {
@@ -90,7 +99,10 @@ export class View {
     if (!codeLine) {
       throw new Error("Codeline doesn't exist");
     }
-    codeLine.innerHTML = `&lt;div class="table"&gt;${HTMLContent}\n&lt;/div&gt;`;
+    codeLine.innerHTML = `<span class="tag">&lt;</span><span class="tagname">div</span> 
+    <span class="attribute-name">class</span><span class="attribute-assignment">=</span><span class="attribute-value">"table"</span><span class="tag">&gt;</span>
+    ${HTMLContent}\n
+    <span class="tag">&lt;/</span><span class="tagname">div</span><span class="tag">&gt;</span>`;
     HTMLViewer.appendChild(codeLine);
   }
 
@@ -102,7 +114,7 @@ export class View {
   }
 
   public highlight(): void {
-    const editorElements = document.querySelectorAll('#html-viewer .codebox__line-code *');
+    const editorElements = document.querySelectorAll('#html-viewer .codebox__line-code div');
     const tableElements = document.querySelectorAll('.gameplay__table *');
 
     tableElements.forEach((tableElement, index) => {
@@ -135,7 +147,7 @@ export class View {
       throw new Error('Tooltip is not found');
     };
 
-    const elName: string = element.tagName.toLowerCase();
+    const elName: string = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
     const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
 
@@ -218,7 +230,7 @@ export class View {
 
   private parseCode(element: Element, indent: string = CodeParser.indent): string {
     let result: string = '';
-    const elName: string = element.tagName.toLowerCase();
+    const elName = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
     const attributeSpace = attributeString.length > 0 ? CodeParser.attributeSpace : '';
     let elementSpace: string = indent;
@@ -257,20 +269,48 @@ export class View {
       const atr = element.attributes[i].name;
       let val = element.attributes[i].value;
 
-      if (atr === 'class') {
+      if (atr === CodeParser.class) {
         val = val.split(' ').filter(element => !Object.values(TechnicalClasses).includes(element as TechnicalClasses)).join(' ');
       }
 
       if (val) {
         attributeString +=
           CodeParser.attributeSpace +
+          CodeParser.openSpan +
+          CodeParser.class +
+          CodeParser.assignment +
+          CodeParser.quotes +
+          CodeParser.attributeName +
+          CodeParser.quotes +
+          CodeParser.closeOpenSpan +
           atr +
+          CodeParser.closeSpan +
           CodeParser.attributeAssignment +
+          CodeParser.openSpan +
+          CodeParser.class +
+          CodeParser.assignment +
+          CodeParser.quotes +
+          CodeParser.attributeValue +
+          CodeParser.quotes +
+          CodeParser.closeOpenSpan +
           CodeParser.quotes +
           val +
-          CodeParser.quotes;
+          CodeParser.quotes +
+          CodeParser.closeSpan;
       }
     }
     return attributeString;
+  }
+
+  private getElementName(element: Element): string {
+    return CodeParser.openSpan +
+    CodeParser.class +
+    CodeParser.assignment +
+    CodeParser.quotes +
+    CodeParser.tagName +
+    CodeParser.quotes +
+    CodeParser.closeOpenSpan +
+    element.tagName.toLowerCase() +
+    CodeParser.closeSpan;
   }
 }
