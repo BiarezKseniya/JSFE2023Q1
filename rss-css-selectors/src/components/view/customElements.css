@@ -77,6 +77,14 @@ plate orange {
   animation: pulse 1s ease-in infinite alternate;
 }
 
+.exit {
+  animation: exit 1s ease-in;
+}
+
+.entrance {
+  animation: entrance 1s ease;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1.0);
@@ -90,10 +98,6 @@ plate orange {
     transform: scale(1);
   }
 
-}
-
-.exit {
-  animation: exit 1s ease-in;
 }
 
 @keyframes exit {
@@ -112,5 +116,22 @@ plate orange {
 
   100% {
     transform: translateY(-1000px) scale(0.7);
+  }
+}
+
+@keyframes entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% { 
+    transform: scale(0.9); 
+  }
+  100% { 
+    transform: scale(1); 
   }
 }

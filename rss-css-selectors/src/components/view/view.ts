@@ -16,6 +16,7 @@ export enum CodeParser {
 export enum TechnicalClasses {
   hover = 'hover',
   strobe = 'strobe',
+  entrance = 'entrance',
   exit = 'exit'
 }
 
@@ -57,6 +58,13 @@ export class View {
   private renderTable(levels: Levels): void {
     const table = this.getTableElement();
     table.innerHTML = levels.getTableContent();
+    const elements = table.querySelectorAll('*');
+    elements.forEach((element) => {
+      element.classList.add(TechnicalClasses.entrance);
+      setTimeout(() => {
+        element.classList.remove(TechnicalClasses.entrance);
+      }, 1000)
+    });
   }
 
   private renderTask(levels: Levels): void {
