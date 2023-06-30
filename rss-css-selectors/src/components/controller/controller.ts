@@ -1,4 +1,5 @@
-import { Levels } from './levels';
+import Typed from 'typed.js';
+import { Level, Levels } from './levels';
 import { View } from '../view/view';
 
 export enum Buttons {
@@ -20,6 +21,7 @@ export class Controller {
     this.loadLevel();
     this.setResponseHandler();
     this.toggleLevelsTable();
+    this.getHelp();
   }
 
   private loadLevel(): void {
@@ -31,12 +33,9 @@ export class Controller {
 
   private setResponseHandler(): void {
     const submitBtn: HTMLButtonElement | null = document.querySelector('.codebox__button_submit');
-    const response: HTMLInputElement | null = document.querySelector('.codebox__input');
+    const response: HTMLInputElement = this.view.getResponseInput();
 
     submitBtn?.addEventListener('click', (event) => {
-      if (!response) {
-        throw new Error('There is no response to handle');
-      }
       if (response.value === '' || !this.checkResponse(response.value)) {
         const editors = document.querySelector('.editors');
         editors?.classList.add('shake');
@@ -45,10 +44,18 @@ export class Controller {
         }, 500)
       } else {
         this.levels.setLevelCompleted();
-        this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
         response.value = '';
-        this.loadLevel();
-      };
+        if (this.levels.levels.every((level) => level.passed === true)) {
+          this.loadLevel();
+          this.view.drawMessage("Congrats, you're a CSS master chief now :)");
+        } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
+          this.levels.setCurrentLevel(this.levels.getCurrentLevel() + 1);
+          this.loadLevel();
+        } else {
+          this.loadLevel();
+          this.view.drawMessage("Well done, but you've got still other levels to complete!");
+          }
+      }
     });
 
     response?.addEventListener('keypress', (event: KeyboardEvent) => {
@@ -163,6 +170,22 @@ export class Controller {
         levelItem.classList.add('active');
         this.loadLevel();
       })
+    })
+  }
+
+  private getHelp(): void {
+    const response: HTMLInputElement = this.view.getResponseInput();
+
+    document.querySelector('.codebox__button_help')?.addEventListener('click', () => {
+      const currentLevelObj: Level = this.levels.levels[this.levels.getCurrentLevel() - 1];
+
+      const typed = new Typed(response, {
+        strings: [currentLevelObj.selector],
+        typeSpeed: 50,
+        loop: false,
+      });
+
+      currentLevelObj.helperUsed = true;
     })
   }
 }

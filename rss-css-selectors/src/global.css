@@ -133,7 +133,7 @@ main {
   background-color: var(--editor-background);
   width: 210px;
   padding: 10px;
-  gap: 15px;
+  gap: 10px;
   z-index: -1;
   opacity: 95%; 
   clip: rect(auto, auto, 0, auto);
@@ -147,18 +147,35 @@ main {
 }
 
 .header__level-item {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 3rem;
+  height: 3rem;
   background-color: #b3cacf;
   transition: background-color border-color 0.3s;
   border: 3px solid var(--border-color);
   opacity: 100%;
+  transition: 0.3s ease-out;
+}
+
+.header__level-item-text {
+  position: absolute;
+}
+
+.help::after {
+  position: absolute;
+  display: inline-block;
+  content: "";
+  background-image: url(./assets/img/magic-stick.svg);
+  background-size: 0.75rem 0.75rem;
+  height: 0.7rem;
+  width: 0.7rem;
+  margin-top: 5px;
 }
 
 .header__level-item.passed {
@@ -166,7 +183,8 @@ main {
   border-color: var(--shadow-color);
 }
 
-.header__level-item.active {
+.header__level-item.active,
+.header__level-item:hover {
   background-color: var(--table-color);
   border-color: var(--shadow-color);
 }
@@ -215,6 +233,10 @@ main {
   transform: rotateX(20deg);
   justify-content: center;
   align-items: center;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--shadow-color);
 }
 
 .gameplay__table .hover {
@@ -344,6 +366,16 @@ main {
   color: var(--font-color);
   cursor: pointer;
   transition: 0.3s;
+}
+
+.codebox__button_help::after {
+  display: inline-block;
+  content: "";
+  background-image: url(./assets/img/magic-stick.svg);
+  background-size: 1rem 1rem;
+  height: 1rem;
+  width: 1rem;
+  vertical-align: -10%;
 }
 
 .codebox__submit-selector:focus {

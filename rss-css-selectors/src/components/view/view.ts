@@ -28,12 +28,24 @@ export class View {
     const table = document.querySelector('.gameplay__table');
     if (!table) {
       throw new Error('There is no table element');
-    }
-    return table
+    };
+    return table;
   }
 
   public getLevelButtons(): NodeListOf<HTMLButtonElement> {
     return document.querySelectorAll('.header__levels-switch');
+  }
+
+  public getResponseInput(): HTMLInputElement {
+    const response: HTMLInputElement | null = document.querySelector('.codebox__input');
+    if (!response) {
+      throw new Error('There is no response to handle');
+    };
+    return response
+  }
+
+  public drawMessage(message: string): void {
+    this.getTableElement().innerHTML = message;
   }
 
   private renderTable(levels: Levels): void {
@@ -164,16 +176,20 @@ export class View {
         throw new Error('cloneLevel is not instance of Document Fragment');
       }
       const levelItem = cloneLevel?.querySelector('.header__level-item');
-      if (!levelItem) {
-        throw new Error('There is no levelItem');
+      const levelItemText = cloneLevel?.querySelector('.header__level-item-text');
+      if (!levelItem || !levelItemText) {
+        throw new Error('There is no levelItem or levelItemText');
       }
       const levelNumber: number = index + 1;
-      levelItem.innerHTML = levelNumber.toString();
+      levelItemText.innerHTML = levelNumber.toString();
       if (index + 1 === levels.getCurrentLevel()) {
         levelItem.classList.add('active');
       }
       if (level.passed === true) {
         levelItem.classList.add('passed');
+      }
+      if (level.helperUsed === true) {
+        levelItemText.classList.add('help');
       }
       fragment.append(cloneLevel);
     });

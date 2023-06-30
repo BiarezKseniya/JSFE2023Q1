@@ -15,14 +15,17 @@
       <button class="header__levels-switch" aria-label="switch-to-the-left" type="button">
         <img class="header__levels-switch-image" src="./assets/img/arrow-left.svg" alt="Arrow to the left">
       </button>
-      <div class="header__level">Level <span class="header__current-level">1</span> of <span class="header__level-number">10</span></div>
+      <div class="header__level">Level <span class="header__current-level">1</span> of <span
+          class="header__level-number">10</span></div>
       <button class="header__levels-switch" aria-label="switch-to-the-right" type="button">
         <img class="header__levels-switch-image" src="./assets/img/arrow-right.svg" alt="Arrow to the right">
       </button>
       <div class="header__levels-window">
       </div>
       <template id="level-item-template">
-        <div class="header__level-item"></div>
+        <div class="header__level-item">
+          <div class="header__level-item-text"></div>
+        </div>
       </template>
     </div>
   </header>
@@ -56,7 +59,7 @@
           </div>
           <div class="codebox__code" id="css-editor">
             <div class="codebox__line-code">
-              <input type="text" class="codebox__input">
+              <input type="text" placeholder="Type your selector hier" class="codebox__input">
             </div>
             <div class="codebox__line-code">{</div>
             <div class="codebox__line-code">&nbsp;&nbsp;/* Styles would go here. */<br>}</div>
