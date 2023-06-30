@@ -63,4 +63,12 @@ export class Levels {
   public setLevelCompleted(): void {
     this.levels[this.levelIndex].passed = true;
   }
+
+  public clearProgress(): void {
+    this.setCurrentLevel(1);
+    this.levels.forEach((level: Level) => {
+      delete level.passed;
+      delete level.helperUsed;
+    })
+  }
 }

@@ -11,22 +11,25 @@
 <body>
   <header class="header">
     <h1 class="header__app-name">CSS-Salad</h1>
-    <div class="header__levels">
-      <button class="header__levels-switch" aria-label="switch-to-the-left" type="button">
-        <img class="header__levels-switch-image" src="./assets/img/arrow-left.svg" alt="Arrow to the left">
-      </button>
-      <div class="header__level">Level <span class="header__current-level">1</span> of <span
-          class="header__level-number">10</span></div>
-      <button class="header__levels-switch" aria-label="switch-to-the-right" type="button">
-        <img class="header__levels-switch-image" src="./assets/img/arrow-right.svg" alt="Arrow to the right">
-      </button>
-      <div class="header__levels-window">
-      </div>
-      <template id="level-item-template">
-        <div class="header__level-item">
-          <div class="header__level-item-text"></div>
+    <div class="header__controls">
+      <div class="header__levels">
+        <button class="header__levels-switch" aria-label="switch-to-the-left" type="button">
+          <img class="header__levels-switch-image" src="./assets/img/arrow-left.svg" alt="Arrow to the left">
+        </button>
+        <div class="header__level">Level <span class="header__current-level">1</span> of <span
+            class="header__level-number">10</span></div>
+        <button class="header__levels-switch" aria-label="switch-to-the-right" type="button">
+          <img class="header__levels-switch-image" src="./assets/img/arrow-right.svg" alt="Arrow to the right">
+        </button>
+        <div class="header__levels-window">
         </div>
-      </template>
+        <template id="level-item-template">
+          <div class="header__level-item">
+            <div class="header__level-item-text"></div>
+          </div>
+        </template>
+      </div>
+      <div class="header__refresh"><img class="header__refresh-img" src="./assets/img/refresh.svg" alt="Refresh image"></div>
     </div>
   </header>
   <main>

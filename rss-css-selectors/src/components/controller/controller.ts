@@ -29,6 +29,7 @@ export class Controller {
     this.setResponseHandler();
     this.toggleLevelsTable();
     this.getHelp();
+    this.handleRefresh();
   }
 
   private loadLevel(): void {
@@ -207,6 +208,13 @@ export class Controller {
       });
 
       currentLevelObj.helperUsed = true;
+    })
+  }
+
+  private handleRefresh(){
+    document.querySelector('.header__refresh-img')?.addEventListener('click', () => {
+      this.levels.clearProgress();
+      this.loadLevel();
     })
   }
 }
