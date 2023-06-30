@@ -64,7 +64,7 @@ export class Controller {
             } else {
               this.handleLastLevel("Well done, but you've got still other levels to complete!");
               }
-        }, 1500)
+        }, 1000)
       }
     });
 
