@@ -106,7 +106,7 @@ export class Controller {
   }
 
   private handleHighlight(mouseoverStyle: string, buttonStyle: boolean): void {
-    const HTMLViewer: HTMLElement | null = document.querySelector('#html-viewer');
+    const HTMLViewer: HTMLElement | null = document.querySelector('#html-viewer .codebox__code');
     if (!HTMLViewer) {
       throw new Error('HTMLViewer was not found');
     }

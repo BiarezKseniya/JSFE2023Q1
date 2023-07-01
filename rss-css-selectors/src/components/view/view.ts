@@ -85,7 +85,7 @@ export class View {
   }
 
   private renderHTML(): void {
-    const HTMLViewer = document.querySelector('#html-viewer');
+    const HTMLViewer = document.querySelector('#html-viewer .codebox__code');
     if (!HTMLViewer) {
       throw new Error('There is no element with id HTMLViewer');
     }

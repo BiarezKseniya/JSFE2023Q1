@@ -11,7 +11,7 @@
   --link-color: #1e5064;
   --border-color: #9db2b6;
   --main-font: "Dosis", sans-serif;
-  --editor-font: 16px menlo, monospace;
+  --editor-font: 1rem menlo, monospace;
   --table-width: 650px;
 }
 
@@ -75,24 +75,13 @@ body {
   padding: 0;
 }
 
-.header__level{
+.header__level {
   position: relative;
   padding: 10px 30px 10px 10px;
 }
 
-.header__levels-switch:hover,
-.header__level:hover,
-.header__refresh:hover {
-  background-color: var(--link-color);
-}
-
 .header__levels-switch:disabled .header__levels-switch-image {
   filter: brightness(0) saturate(100%) invert(37%) sepia(35%) saturate(517%) hue-rotate(149deg) brightness(88%) contrast(87%);
-}
-
-.header__levels-switch:disabled:hover {
-  background: transparent;
-  cursor: not-allowed;
 }
 
 .header__level::after {
@@ -100,7 +89,7 @@ body {
   position: absolute;
   right: 0;
   top: 45%;
-  border: 7px solid rgba(0,0,0,0);
+  border: 7px solid rgba(0, 0, 0, 0);
   border-top: 7px solid #fff;
   margin-left: -30px;
   margin-right: 10px;
@@ -152,18 +141,18 @@ main {
   top: 4.8rem;
   right: 0;
   background-color: var(--editor-background);
-  width: 210px;
+  width: 250px;
   padding: 10px;
   gap: 10px;
   z-index: -1;
-  opacity: 95%; 
+  opacity: 95%;
   clip: rect(auto, auto, 0, auto);
   transition: clip 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .header__levels-window.open {
   z-index: 100;
-  visibility: visible;  
+  visibility: visible;
   clip: rect(auto, auto, 10rem, auto);
 }
 
@@ -204,8 +193,7 @@ main {
   border-color: var(--shadow-color);
 }
 
-.header__level-item.active,
-.header__level-item:hover {
+.header__level-item.active {
   background-color: var(--table-color);
   border-color: var(--shadow-color);
 }
@@ -250,7 +238,7 @@ main {
   width: var(--table-width);
   height: 120px;
   background-color: var(--table-color);
-  box-shadow: 0px 40px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.2);
   transform: rotateX(20deg);
   justify-content: center;
   align-items: center;
@@ -262,7 +250,7 @@ main {
 
 .gameplay__table .hover {
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.4);
-} 
+}
 
 .gameplay__table-edge {
   width: 686px;
@@ -301,7 +289,6 @@ main {
   background-color: var(--header-color);
   display: flex;
   flex-direction: column;
-  font-size: 1rem;
   width: 50%;
   font: var(--editor-font);
   border-radius: 5px;
@@ -355,7 +342,8 @@ main {
   font: var(--editor-font);
   line-height: 150%;
   padding: 0 5px;
-  width: 60%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .codebox__input:focus {
@@ -403,10 +391,6 @@ main {
   outline: none;
 }
 
-.codebox__button:hover {
-  background-color: var(--hover-button-color);
-}
-
 footer {
   display: flex;
   align-items: center;
@@ -427,10 +411,6 @@ footer a {
   cursor: pointer;
 }
 
-footer a:hover {
-  color: var(--comment-color);
-}
-
 .rs-school-logo {
   width: 120px;
 }
@@ -448,16 +428,240 @@ footer a:hover {
   0% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(5px);
   }
+
   50% {
     transform: translateX(-5px);
   }
+
   75% {
     transform: translateX(5px);
   }
+
   100% {
     transform: translateX(0);
   }
+}
+
+@media (max-width: 800px) {
+
+  :root {
+    --table-width: 500px;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .gameplay {
+    padding: 15px 0 40px;
+  }
+
+  .gameplay__table {
+    font-size: 1.7rem;
+    height: 100px;
+  }
+
+  .gameplay__table-edge {
+    width: 523px;
+  }
+
+  .editors {
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+  }
+
+  .codebox {
+    width: 100%;
+  }
+
+  #css-editor {
+    order: 1;
+  }
+
+  #html-viewer {
+    order: 0;
+  }
+
+}
+
+@media (max-width: 800px) {
+
+  :root {
+    --table-width: 500px;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .gameplay {
+    padding: 15px 0 40px;
+  }
+
+  .gameplay__table {
+    font-size: 1.7rem;
+    height: 90px;
+    box-shadow: 0px 30px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .gameplay__table-edge {
+    width: 522px;
+    height: 15px;
+  }
+
+  .editors {
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+  }
+
+  .codebox {
+    width: 100%;
+  }
+
+  #css-editor {
+    order: 1;
+  }
+
+  #html-viewer {
+    order: 0;
+  }
+
+  .codebox__button {
+    padding: 5px;
+  }
+
+}
+
+@media (max-width: 800px) {
+
+  :root {
+    --table-width: 500px;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .header__levels-window {
+    width: 215px;
+    top: 5rem;
+  }
+
+  .gameplay {
+    padding: 5px 0 30px;
+  }
+
+  .gameplay__task {
+    padding: 1rem 0 1.1rem;
+  }
+
+  .gameplay__table {
+    font-size: 1.7rem;
+    height: 90px;
+  }
+
+  .gameplay__table .hover {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+  }
+
+  .gameplay__table-edge {
+    width: 521px;
+    margin-top: -1px;
+  }
+
+  .editors {
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+  }
+
+  .codebox {
+    width: 100%;
+  }
+
+  #css-editor {
+    order: 1;
+  }
+
+  #html-viewer {
+    order: 0;
+  }
+
+}
+
+@media (max-width: 680px) {
+
+  :root {
+    --table-width: 450px;
+  }
+
+  html {
+    font-size: 12px;
+  }
+
+  .header__levels-window {
+    width: 170px;
+    top: 5.2rem;
+  }
+
+  .gameplay {
+    padding: 0 0 20px;
+  }
+
+  .gameplay__task {
+    width: var(--table-width);
+    padding: 1rem 0 1rem;
+  }
+
+  .gameplay__table {
+    font-size: 1.5rem;
+  }
+
+  .gameplay__table-edge {
+    width: 468px;
+  }
+
+  .rs-school-logo {
+    width: 90px;
+  }
+
+  .github-image {
+    width: 40px;
+    height: 40px;
+  }
+
+}
+
+@media (hover: hover) {
+
+  .header__levels-switch:hover,
+  .header__level:hover,
+  .header__refresh:hover {
+    background-color: var(--link-color);
+  }
+
+  .header__levels-switch:disabled:hover {
+    background: transparent;
+    cursor: not-allowed;
+  }
+
+  .header__level-item:hover {
+    background-color: var(--table-color);
+    border-color: var(--shadow-color);
+  }
+
+  .codebox__button:hover {
+    background-color: var(--hover-button-color);
+  }
+
+  footer a:hover {
+    color: var(--comment-color);
+  }
+
 }

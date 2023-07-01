@@ -17,7 +17,6 @@ plate {
 
 plate:before {
   content: "";
-  /* display: block; */
   position: absolute;
   left: calc(50% - 32.5px);
   top: calc(50% - 32.5px);
@@ -146,4 +145,39 @@ plate orange {
   100% { 
     transform: scale(1); 
   }
+}
+
+@media (max-width: 800px) {
+
+  plate,
+  bento {
+    height: 65px;
+    width: 65px;
+  }
+
+  plate {
+    border-bottom: solid 3px #ddd;
+  }
+
+  plate:before {
+    left: calc(50% - 20px);
+    top: calc(50% - 20px);
+    height: 40px;
+    width: 40px;
+  }
+
+  bento {
+    border-width: 15px 2px;
+  }
+
+  orange {
+    height: 25px;
+    width: 25px;
+  }
+
+  bento orange,
+  plate orange {
+  left: calc(50% - 12.5px);
+}
+  
 }
