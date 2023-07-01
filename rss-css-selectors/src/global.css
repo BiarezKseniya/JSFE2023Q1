@@ -29,6 +29,19 @@ body {
   min-height: 100vh;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--link-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--comment-color);
+  transition: 0.3s;
+}
+
 .header {
   display: flex;
   width: 100%;
@@ -135,6 +148,7 @@ main {
 
 .header__levels-window {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -297,7 +311,7 @@ main {
 .codebox__header {
   display: flex;
   justify-content: space-between;
-  padding: 10px 10px 0;
+  padding: 10px 10px 5px;
 }
 
 .codebox__file-name {
@@ -306,7 +320,12 @@ main {
 
 .codebox__main {
   display: flex;
-  padding: 5px 0 0;
+  padding: 0;
+  height: calc(1rem * 1.5 * 6 + 10px);
+  overflow-y: auto;
+  scroll-padding: 0;
+  scroll-margin: 0;
+  box-sizing: border-box;
 }
 
 .codebox__line-numbers {
@@ -314,6 +333,8 @@ main {
   flex-direction: column;
   padding: 5px 0;
   color: var(--comment-color);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .codebox__line-number,
@@ -356,6 +377,9 @@ main {
   width: 100%;
   padding: 5px 0;
   border-radius: 0 0 5px 0;
+  box-sizing: border-box;
+  height: max-content;
+  min-height: 100%;
 }
 
 .codebox__buttons {
@@ -654,6 +678,10 @@ footer a {
   .header__level-item:hover {
     background-color: var(--table-color);
     border-color: var(--shadow-color);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-color);
   }
 
   .codebox__button:hover {

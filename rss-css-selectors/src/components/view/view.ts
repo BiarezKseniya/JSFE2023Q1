@@ -34,6 +34,7 @@ export class View {
     this.renderTable(levels);
     this.renderTask(levels);
     this.renderHTML();
+    this.alignEditors();
     this.renderLevels(levels);
     this.updateLevel(levels);
     this.highlight();
@@ -304,13 +305,24 @@ export class View {
 
   private getElementName(element: Element): string {
     return CodeParser.openSpan +
-    CodeParser.class +
-    CodeParser.assignment +
-    CodeParser.quotes +
-    CodeParser.tagName +
-    CodeParser.quotes +
-    CodeParser.closeOpenSpan +
-    element.tagName.toLowerCase() +
-    CodeParser.closeSpan;
+      CodeParser.class +
+      CodeParser.assignment +
+      CodeParser.quotes +
+      CodeParser.tagName +
+      CodeParser.quotes +
+      CodeParser.closeOpenSpan +
+      element.tagName.toLowerCase() +
+      CodeParser.closeSpan;
+  }
+
+  private alignEditors(): void {
+    const lineNumbersArr: NodeListOf<HTMLElement> = document.querySelectorAll('.codebox__line-numbers');
+    const codeArr: NodeListOf<HTMLElement> = document.querySelectorAll('.codebox__main');
+
+    lineNumbersArr.forEach((element: HTMLElement, index: number) => {
+      element.style.cssText = '';
+      const paddingTop: number = parseFloat(getComputedStyle(element).paddingTop);
+      element.style.height = `${codeArr[index].scrollHeight - paddingTop}px`;
+    });
   }
 }
