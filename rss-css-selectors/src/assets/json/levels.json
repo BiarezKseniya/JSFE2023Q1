@@ -1,17 +1,52 @@
 [
   {
-    "task": "Select the plates",
+    "task": "Select all the plates",
     "selector": "plate",
-    "tableMarkup": "<plate></plate><plate></plate>"
+    "tableMarkup": "<plate class='green'></plate><plate></plate>"
   },
   {
-    "task": "Select the yellow bento",
-    "selector": ".yellow",
-    "tableMarkup": "<bento class='yellow'><orange></orange></bento><bento></bento>"
+    "task": "Select the orange bento",
+    "selector": ".orange",
+    "tableMarkup": "<bento><orange class='small'></orange></bento><bento class='orange'></bento>"
   },
   {
-    "task": "Select the bentos",
-    "selector": "orange",
-    "tableMarkup": "<bento><orange></orange></bento><plate></plate>"
+    "task": "Select the orange on the plate",
+    "selector": "plate orange",
+    "tableMarkup": "<bento class='orange'></bento><plate><orange></orange></plate><orange></orange>"
+  },
+  {
+    "task": "Select the food from the fancy plate",
+    "selector": "#fancy *",
+    "tableMarkup": "<plate><tomato></tomato></plate><plate id='fancy'><orange></orange><tomato class='small'></tomato></plate><plate><orange class='small'></orange></plate>"
+  },
+  {
+    "task": "Select all the vegetables",
+    "selector": "tomato, pickle",
+    "tableMarkup": "<plate><tomato></tomato></plate><pickle></pickle><plate><orange></orange><tomato class='small'></tomato></plate><plate><orange class='small'></orange></plate>"
+  },
+  {
+    "task": "Select all the oranges lying immediately on the bento",
+    "selector": "bento orange:first-of-type",
+    "tableMarkup": "<bento><orange></orange><orange class='small'></orange></bento><orange></orange><bento><tomato class='small'></bento><plate><orange></orange></plate><bento><orange class='small'></orange></bento>"
+  },
+  {
+    "task": "Select all the products that are the only ones on the dishes",
+    "selector": ":only-child",
+    "tableMarkup": "<bento><orange></orange><orange class='small'></orange></bento><orange class='small'></orange><plate><tomato></tomato></plate><plate><orange></orange></plate><bento><orange class='small'></orange></bento>"
+  },
+  {
+    "task": "Select all the dishes with tomatoes",
+    "selector": "*:has(tomato)",
+    "tableMarkup": "<bento><tomato></tomato></bento><plate><tomato class='small'></tomato></plate><tomato></tomato><bento><orange></orange></bento>"
+  },
+  {
+    "task": "Select all the yammy products",
+    "selector": "[data-taste~='yammy']",
+    "tableMarkup": "<tomato data-taste='yammy'></tomato><bento><orange></orange><tomato class=small data-taste='yammy'></tomato></bento><pickle data-taste='yammy spicy'></pickle><bento><orange data-taste='yammy'></orange></bento><orange class='small'></orange>"
+  },
+  {
+    "task": "Select every dish except the empty",
+    "selector": "plate:not(:empty), bento:not(:empty)",
+    "tableMarkup": "<bento></bento><plate><tomato></tomato></plate><pickle></pickle><plate></plate><bento><orange></orange><orange class='small'></orange></bento><bento><orange></orange></bento>"
   }
 ]

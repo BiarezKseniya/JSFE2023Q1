@@ -1,7 +1,7 @@
 plate,
 bento {
   position: relative;
-  box-shadow: 0px 8px 0px rgba(0, 0, 0, .1);
+  box-shadow: 0px 8px 0px rgba(0, 0, 0, 0.1);
   height: 95px;
   width: 95px;
   margin: 0 10px;
@@ -39,7 +39,8 @@ bento {
   box-sizing: border-box;
 }
 
-orange {
+orange,
+tomato {
   position: relative;
   margin: 20px 10px;
   border-radius: 100px;
@@ -48,12 +49,22 @@ orange {
   height: 40px;
   width: 40px;
   box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.2);
-  background: orange;
-  border-color: #bd6e07;
   transition: ease-out 0.3s;
+  z-index: 60;
 }
 
-orange:before {
+orange {
+  background: orange;
+  border-color: #bd6e07;
+}
+
+tomato {
+  background: red;
+  border-color: #ab1212;
+}
+
+orange:before,
+tomato:before {
   content: "";
   display: block;
   position: absolute;
@@ -66,22 +77,109 @@ orange:before {
 }
 
 bento orange,
-plate orange {
+plate orange,
+bento tomato,
+plate tomato {
   position: absolute;
   left: calc(50% - 20px);
   margin: 0;
 }
 
-.yellow {
-  background: yellow;
+bento orange:nth-child(2).small,
+bento tomato:nth-child(2).small {
+  top: -13px;
 }
 
-.red {
-  background: red;
+plate orange:nth-child(2).small,
+plate tomato:nth-child(2).small {
+  top: 9px;
+}
+
+plate orange,
+plate tomato {
+  top: calc(50% - 25px);
+}
+
+orange.small,
+tomato.small {
+  height: 20px;
+  width: 20px;
+  border-width: 1px 2px 5px 2px;
+}
+
+bento orange.small,
+plate orange.small,
+bento tomato.small,
+plate tomato.small {
+  left: calc(50% - 10px);
+  top: calc(50% - 15px);
+}
+
+pickle {
+  position: relative;
+  background: #179837;
+  width: 20px;
+  height: 45px;
+  border-radius: 30px;
+  position: relative;
+  border: solid 2px #025a18;
+  border-width: 2px 2px 8px 2px;
+  margin: 20px 10px;
+  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.2);
+  transition: ease-out 0.3s;
+  z-index: 60;
+}
+
+#fancy:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: calc(50% - 45px);
+  top: calc(50% - 43px);
+  height: 73px;
+  width: 74px;
+  border-radius: 60px;
+  border: solid 8px #009ff2;
+  opacity: 0.4;
+  z-index: 50;
+}
+
+[data-taste~="yammy"]:after {
+  position: absolute;
+  content: '★';
+  z-index: 70;
+  right: 3px;
+  color: yellow;
+  font-size: 0.75rem;
+}
+
+orange[data-taste~="yammy"]::after,
+tomato[data-taste~="yammy"]::after {
+  right: 7px;
+}
+
+[data-taste="yammy spicy"]::after {
+  content: '★🔥';
+}
+
+[data-taste~="yammy"].small:after {
+  top: -2px;
+  right: 1px;
+}
+
+.yellow {
+  background: rgb(241, 241, 33);
+  border-color: rgb(185, 185, 26);
+}
+
+.orange {
+  background: orange;
+  border-color: #bd6e07;
 }
 
 .green {
-  background: green;
+  background: #3a874e;
+  border-color: #025a18;
 }
 
 .strobe {
@@ -135,15 +233,18 @@ plate orange {
     opacity: 0;
     transform: scale(0.3);
   }
+
   50% {
     opacity: 1;
     transform: scale(1);
   }
-  70% { 
-    transform: scale(0.9); 
+
+  70% {
+    transform: scale(0.9);
   }
-  100% { 
-    transform: scale(1); 
+
+  100% {
+    transform: scale(1);
   }
 }
 
@@ -161,7 +262,7 @@ plate orange {
 
   plate:before {
     left: calc(50% - 20px);
-    top: calc(50% - 20px);
+    top: calc(50% - 22px);
     height: 40px;
     width: 40px;
   }
@@ -170,14 +271,78 @@ plate orange {
     border-width: 15px 2px;
   }
 
-  orange {
+  orange,
+  tomato {
     height: 25px;
     width: 25px;
+    border-width: 1px 2px 6px 2px;
   }
 
   bento orange,
-  plate orange {
-  left: calc(50% - 12.5px);
-}
+  bento tomato {
+    left: calc(50% - 12.5px);
+  }
+
+  plate orange,
+  plate tomato {
+    left: calc(50% - 15px);
+    top: calc(50% - 20px);
+  }
+
+  orange.small,
+  tomato.small {
+    height: 10px;
+    width: 10px;
+  }
+
+  bento orange.small,
+  plate orange.small,
+  bento tomato.small,
+  plate tomato.small {
+    left: calc(50% - 7px);
+    top: calc(50% - 10px);
+  }
+
+  bento orange:nth-child(2).small,
+  bento tomato:nth-child(2).small {
+    top: -5px;
+    left: calc(50% - 5px);
+  }
+
+  plate orange:nth-child(2).small,
+  plate tomato:nth-child(2).small {
+    top: 5px;
+    left: calc(50% - 7px);
+  }
+
+  #fancy:after {
+    left: calc(50% - 29.5px);
+    top: calc(50% - 29px);
+    height: 47px;
+    width: 47px;
+    border: solid 6px #009ff2;
+  }
+
+  pickle {
+    width: 15px;
+    height: 35px;
+    border-width: 2px 2px 6px 2px;
+    margin: 20px 10px;
+    box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  [data-taste~="yammy"]:after {
+    right: 0;
+  }
   
+  orange[data-taste~="yammy"]::after,
+  tomato[data-taste~="yammy"]::after {
+    right: 3px;
+  }
+  
+  [data-taste~="yammy"].small:after {
+    top: -3px;
+    right: -0.5px;
+  }
+
 }

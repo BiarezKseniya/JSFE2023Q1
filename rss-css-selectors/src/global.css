@@ -292,7 +292,7 @@ main {
 }
 
 .editors {
-  max-width: 1000px;
+  max-width: 1010px;
   width: 90%;
   display: flex;
   gap: 15px;
