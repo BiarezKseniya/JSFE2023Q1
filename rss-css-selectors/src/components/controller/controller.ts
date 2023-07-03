@@ -110,7 +110,7 @@ export class Controller {
   private handleHighlight(mouseoverStyle: string, buttonStyle: boolean): void {
     const HTMLViewer: HTMLElement = this.view.getHTMLElement('#html-viewer .codebox__code');
     HTMLViewer.style.pointerEvents = mouseoverStyle;
-    const codeboxBtns: NodeListOf<HTMLButtonElement> = this.view.getButtons('.codebox__button');
+    const codeboxBtns: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.codebox__button');
     codeboxBtns.forEach((button: HTMLButtonElement) => {
       this.handleButtonEvents(button, buttonStyle);
     })
@@ -121,7 +121,7 @@ export class Controller {
   }
 
   private handleLevelSwitch(): void {
-    this.view.getButtons('.header__levels-switch').forEach((button: Element, buttonIndex: number) => {
+    this.view.getAllElements<HTMLButtonElement>('.header__levels-switch').forEach((button: Element, buttonIndex: number) => {
       button.addEventListener('click', (event: Event): void => {
         event.stopImmediatePropagation();
         let newLevel: number;
@@ -138,7 +138,7 @@ export class Controller {
   }
 
   private handleButtonStyles(level: number = this.levels.getCurrentLevel()): void {
-    const buttons: NodeListOf<HTMLButtonElement> = this.view.getButtons('.header__levels-switch');
+    const buttons: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.header__levels-switch');
 
     if (level === 1) {
       this.handleButtonEvents(buttons[Buttons.left], Boolean(Styles.disableButton));
@@ -176,7 +176,7 @@ export class Controller {
   }
 
   private handleLevelChoice(): void {
-    const levelItems: NodeListOf<HTMLButtonElement> = this.view.getButtons('.header__level-item');
+    const levelItems: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.header__level-item');
 
     levelItems.forEach((levelItem: HTMLButtonElement) => {
       levelItem.addEventListener('click', (): void => {

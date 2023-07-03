@@ -34,8 +34,8 @@ export class View {
     return element;
   }
 
-  public getButtons(selector: string): NodeListOf<HTMLButtonElement> {
-    return document.querySelectorAll(selector);
+  public getAllElements<T extends HTMLElement>(selector: string): NodeListOf<T> {
+    return document.querySelectorAll<T>(selector);
   }
 
   public getResponseInput(): string {
@@ -66,18 +66,12 @@ export class View {
   }
 
   private renderTask(levels: Levels): void {
-    const task = document.querySelector('.gameplay__task');
-    if (!task) {
-      throw new Error('There is no task element');
-    }
+    const task: HTMLElement = this.getHTMLElement('.gameplay__task');
     task.innerHTML = levels.getTask();
   }
 
   private renderHTML(): void {
-    const HTMLViewer = document.querySelector('#html-viewer .codebox__code');
-    if (!HTMLViewer) {
-      throw new Error('There is no element with id HTMLViewer');
-    }
+    const HTMLViewer: HTMLElement = this.getHTMLElement('#html-viewer .codebox__code');
     const codeLine = HTMLViewer.querySelector('.codebox__line-code');
     let HTMLContent: string = '';
 
@@ -101,11 +95,11 @@ export class View {
   }
 
   public highlight(): void {
-    const editorElements = document.querySelectorAll('#html-viewer .codebox__line-code div');
+    const editorElements: NodeListOf<HTMLElement> = this.getAllElements<HTMLElement>('#html-viewer .codebox__line-code div');
     const tableElements = this.table.querySelectorAll('*');
 
     tableElements.forEach((tableElement: Element, index: number) => {
-      const editorElement: Element = editorElements[index];
+      const editorElement: HTMLElement = editorElements[index];
 
       this.setHoverHandler(tableElement, editorElement, true);
       this.setHoverHandler(editorElement, tableElement, false);
@@ -301,8 +295,8 @@ export class View {
   }
 
   private alignEditors(): void {
-    const lineNumbersArr: NodeListOf<HTMLElement> = document.querySelectorAll('.codebox__line-numbers');
-    const codeArr: NodeListOf<HTMLElement> = document.querySelectorAll('.codebox__main');
+    const lineNumbersArr: NodeListOf<HTMLElement> = this.getAllElements<HTMLElement>('.codebox__line-numbers');
+    const codeArr: NodeListOf<HTMLElement> = this.getAllElements<HTMLElement>('.codebox__main');
 
     lineNumbersArr.forEach((element: HTMLElement, index: number) => {
       element.style.cssText = '';
