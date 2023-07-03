@@ -1,45 +1,18 @@
 import { Levels } from '../controller/levels';
+import { TechnicalClasses, CodeParser, Level } from '../types/types';
 
-import { EditorView, placeholder, keymap } from '@codemirror/view';
+import { EditorView, placeholder } from '@codemirror/view';
 import { EditorState } from "@codemirror/state";
 import { minimalSetup } from "codemirror";
 import { css } from '@codemirror/lang-css';
 
-
-export enum CodeParser {
-  indent = '&nbsp;&nbsp;',
-  openTag = "<span class='tag'>&lt;</span>",
-  closeTag = "<span class='tag'>&gt;</span>",
-  openClosingTag = "<span class='tag'>&lt;/</span>",
-  closeOpenClosingTag = "<span class='tag'>/ &gt;</span>",
-  openWrap = '<div>',
-  closeWrap = '</div>',
-  attributeSpace = ' ',
-  attributeAssignment = "<span class='attribute-assignment'>=</span>",
-  assignment = '=',
-  quotes = '"',
-  quotesSchielded = '\"',
-  openSpan = '<span ',
-  closeOpenSpan = '>',
-  closeSpan = '</span>',
-  tagName = 'tagname',
-  class = 'class',
-  attributeName = 'attribute-name',
-  attributeValue = 'attribute-value',
-}
-
-export enum TechnicalClasses {
-  hover = 'hover',
-  strobe = 'strobe',
-  entrance = 'entrance',
-  exit = 'exit'
-}
-
 export class View {
   public cssEditor: EditorView;
+  public table: HTMLElement;
 
   public constructor() {
     this.cssEditor = this.setupInput();
+    this.table = this.getHTMLElement('.gameplay__table');
   }
 
   public render(levels: Levels): void {
@@ -53,20 +26,20 @@ export class View {
     this.setTargetAnimation(levels, TechnicalClasses.strobe);
   }
 
-  public getTableElement(): Element {
-    const table = document.querySelector('.gameplay__table');
-    if (!table) {
-      throw new Error('There is no table element');
+  public getHTMLElement(selector: string): HTMLElement {
+    const element = document.querySelector(selector);
+    if (!(element instanceof HTMLElement)) {
+      throw new Error('There is no imstance of element');
     };
-    return table;
+    return element;
   }
 
-  public getLevelButtons(): NodeListOf<HTMLButtonElement> {
-    return document.querySelectorAll('.header__levels-switch');
+  public getButtons(selector: string): NodeListOf<HTMLButtonElement> {
+    return document.querySelectorAll(selector);
   }
 
   public getResponseInput(): string {
-    return this.cssEditor?.state.doc.toString() || '';
+    return this.cssEditor.state.doc.toString() || '';
   }
 
   public setResponseInput(value: string): void {
@@ -78,14 +51,13 @@ export class View {
   }
 
   public drawMessage(message: string): void {
-    this.getTableElement().innerHTML = message;
+    this.table.innerHTML = message;
   }
 
   private renderTable(levels: Levels): void {
-    const table = this.getTableElement();
-    table.innerHTML = levels.getTableContent();
-    const elements = table.querySelectorAll('*');
-    elements.forEach((element) => {
+    this.table.innerHTML = levels.getTableContent();
+    const elements = this.table.querySelectorAll('*');
+    elements.forEach((element: Element) => {
       element.classList.add(TechnicalClasses.entrance);
       setTimeout(() => {
         element.classList.remove(TechnicalClasses.entrance);
@@ -106,12 +78,11 @@ export class View {
     if (!HTMLViewer) {
       throw new Error('There is no element with id HTMLViewer');
     }
-    const table = this.getTableElement();
     const codeLine = HTMLViewer.querySelector('.codebox__line-code');
     let HTMLContent: string = '';
 
-    for (let i = 0; i < table.children.length; i++) {
-      HTMLContent += this.parseCode(table.children[i]);
+    for (let i: number = 0; i < this.table.children.length; i++) {
+      HTMLContent += this.parseCode(this.table.children[i]);
     }
     if (!codeLine) {
       throw new Error("Codeline doesn't exist");
@@ -124,18 +95,17 @@ export class View {
   }
 
   public setTargetAnimation(levels: Levels, animation: string): void {
-    const table = this.getTableElement();
-    table.querySelectorAll(levels.getTargetSelector()).forEach((element) => {
+    this.table.querySelectorAll(levels.getTargetSelector()).forEach((element: Element) => {
       element.classList.add(animation);
     });
   }
 
   public highlight(): void {
     const editorElements = document.querySelectorAll('#html-viewer .codebox__line-code div');
-    const tableElements = document.querySelectorAll('.gameplay__table *');
+    const tableElements = this.table.querySelectorAll('*');
 
-    tableElements.forEach((tableElement, index) => {
-      const editorElement = editorElements[index];
+    tableElements.forEach((tableElement: Element, index: number) => {
+      const editorElement: Element = editorElements[index];
 
       this.setHoverHandler(tableElement, editorElement, true);
       this.setHoverHandler(editorElement, tableElement, false);
@@ -158,12 +128,7 @@ export class View {
   }
 
   private showTooltip(element: Element): void {
-    const tooltip = document.querySelector('.gameplay__tooltip');
-
-    if (!(tooltip instanceof HTMLElement)) {
-      throw new Error('Tooltip is not found');
-    };
-
+    const tooltip: HTMLElement = this.getHTMLElement('.gameplay__tooltip');
     const elName: string = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
     const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
@@ -189,23 +154,13 @@ export class View {
   }
 
   private hideTooltip(): void {
-    const tooltip = document.querySelector('.gameplay__tooltip');
-
-    if (!tooltip) {
-      throw new Error('Tooltip is not found');
-    };
-
-    tooltip.classList.remove(TechnicalClasses.hover);
+    this.getHTMLElement('.gameplay__tooltip').classList.remove(TechnicalClasses.hover);
   }
 
   private setupInput(): EditorView {
-    const parent = document.querySelector('#codemirror-container');
+    const parent: HTMLElement = this.getHTMLElement('#codemirror-container');
 
-    if (!parent) {
-      throw new Error('CSS Editor element is not found');
-    }
-
-    const startState = EditorState.create({
+    const startState: EditorState = EditorState.create({
       extensions: [
         placeholder('Type your selector here...'),
         minimalSetup,
@@ -223,27 +178,21 @@ export class View {
   }
 
   public updateLevel(levels: Levels) {
-    const levelDiv = document.querySelector('.header__current-level');
-    if (!levelDiv) {
-      throw new Error("Div doesn't exist");
-    }
-    levelDiv.innerHTML = levels.getCurrentLevel().toString();
+    this.getHTMLElement('.header__current-level').innerHTML = levels.getCurrentLevel().toString();
   }
 
   public renderLevels(levels: Levels): void {
-    const levelsDiv = document.querySelector('.header__levels-window');
-    if (!levelsDiv) {
-      throw new Error('Levels block was not found');
-    }
+    const levelsDiv: HTMLElement = this.getHTMLElement('.header__levels-window');
+
     const fragment: DocumentFragment = document.createDocumentFragment();
     const levelTemplate: HTMLTemplateElement | null = document.querySelector('#level-item-template');
-    levels.levels.forEach((level, index): void => {
+    levels.levels.forEach((level: Level, index: number): void => {
       const cloneLevel: Node | undefined = levelTemplate?.content.cloneNode(true);
       if (!(cloneLevel instanceof DocumentFragment)) {
         throw new Error('cloneLevel is not instance of Document Fragment');
       }
-      const levelItem = cloneLevel?.querySelector('.header__level-item');
-      const levelItemText = cloneLevel?.querySelector('.header__level-item-text');
+      const levelItem: Element | null = cloneLevel.querySelector('.header__level-item');
+      const levelItemText: Element | null = cloneLevel.querySelector('.header__level-item-text');
       if (!levelItem || !levelItemText) {
         throw new Error('There is no levelItem or levelItemText');
       }
@@ -261,19 +210,15 @@ export class View {
       fragment.append(cloneLevel);
     });
     levelsDiv.innerHTML = '';
-    levelsDiv?.appendChild(fragment);
-    const numOfLevelsDiv = document.querySelector('.header__level-number');
-    if (!numOfLevelsDiv) {
-      throw new Error('There is no element to show levels number');
-    }
-    numOfLevelsDiv.innerHTML = levels.countLevels().toString();
+    levelsDiv.appendChild(fragment);
+    this.getHTMLElement('.header__level-number').innerHTML = levels.countLevels().toString();
   }
 
   private parseCode(element: Element, indent: string = CodeParser.indent): string {
     let result: string = '';
-    const elName = this.getElementName(element);
+    const elName: string = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
-    const attributeSpace = attributeString.length > 0 ? CodeParser.attributeSpace : '';
+    const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
     let elementSpace: string = indent;
     if (element.children.length > 0) {
       result +=
@@ -285,7 +230,7 @@ export class View {
         attributeString +
         CodeParser.closeTag;
       elementSpace += CodeParser.indent;
-      for (let j = 0; j < element.children.length; j++) {
+      for (let j: number = 0; j < element.children.length; j++) {
         result += this.parseCode(element.children[j], elementSpace);
       }
       result += indent + CodeParser.openClosingTag + elName + CodeParser.closeTag + CodeParser.closeWrap;
@@ -306,9 +251,9 @@ export class View {
 
   private getAttributString(element: Element): string {
     let attributeString: string = '';
-    for (let i = 0; i < element.attributes.length; i++) {
-      const atr = element.attributes[i].name;
-      let val = element.attributes[i].value;
+    for (let i: number = 0; i < element.attributes.length; i++) {
+      const atr: string = element.attributes[i].name;
+      let val: string = element.attributes[i].value;
 
       if (atr === CodeParser.class) {
         val = val.split(' ').filter(element => !Object.values(TechnicalClasses).includes(element as TechnicalClasses)).join(' ');

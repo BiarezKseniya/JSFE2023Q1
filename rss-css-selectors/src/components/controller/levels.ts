@@ -1,17 +1,10 @@
-export interface Level {
-  task: string;
-  selector: string;
-  tableMarkup: string;
-  passed?: boolean;
-  helperUsed?: boolean;
-}
+import { Level } from "../types/types";
 
 export class Levels {
   private levelIndex: number;
   public levels: Level[];
 
   constructor() {
-    //Получить текущий уровень
     this.levelIndex = 0;
     this.levels = [];
   }
