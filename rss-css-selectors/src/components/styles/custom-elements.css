@@ -215,7 +215,7 @@ tomato[data-taste~="yammy"]::after {
   }
 
   30% {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 
   60% {
