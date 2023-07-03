@@ -167,7 +167,7 @@ main {
 .header__levels-window.open {
   z-index: 100;
   visibility: visible;
-  clip: rect(auto, auto, 10rem, auto);
+  clip: rect(auto, auto, 25rem, auto);
 }
 
 .header__level-item {
@@ -233,7 +233,7 @@ main {
 .gameplay__tooltip {
   display: inline-block;
   position: absolute;
-  width: max-content;
+  width: auto;
   font-size: 1.25rem;
   background-color: var(--link-color);
   padding: 5px;
@@ -357,6 +357,10 @@ main {
   background-color: var(--link-color);
 }
 
+.codebox__line-code_comment {
+  color: var(--comment-color);
+}
+
 .codebox__input {
   border: none;
   border-radius: 5px;
@@ -380,12 +384,19 @@ main {
   box-sizing: border-box;
   height: max-content;
   min-height: 100%;
+  overflow: hidden;
 }
 
 .codebox__buttons {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+#codemirror-container {
+  display: block;
+  overflow: hidden;
+  height: 1.5rem;
 }
 
 .codebox__button {

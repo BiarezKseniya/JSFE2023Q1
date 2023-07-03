@@ -1,5 +1,11 @@
 import { Levels } from '../controller/levels';
 
+import { EditorView, placeholder, keymap } from '@codemirror/view';
+import { EditorState } from "@codemirror/state";
+import { minimalSetup } from "codemirror";
+import { css } from '@codemirror/lang-css';
+
+
 export enum CodeParser {
   indent = '&nbsp;&nbsp;',
   openTag = "<span class='tag'>&lt;</span>",
@@ -30,6 +36,12 @@ export enum TechnicalClasses {
 }
 
 export class View {
+  public cssEditor: EditorView;
+
+  public constructor() {
+    this.cssEditor = this.setupInput();
+  }
+
   public render(levels: Levels): void {
     this.renderTable(levels);
     this.renderTask(levels);
@@ -53,12 +65,16 @@ export class View {
     return document.querySelectorAll('.header__levels-switch');
   }
 
-  public getResponseInput(): HTMLInputElement {
-    const response: HTMLInputElement | null = document.querySelector('.codebox__input');
-    if (!response) {
-      throw new Error('There is no response to handle');
-    };
-    return response
+  public getResponseInput(): string {
+    return this.cssEditor?.state.doc.toString() || '';
+  }
+
+  public setResponseInput(value: string): void {
+    if (!this.cssEditor) return;
+
+    this.cssEditor.dispatch({
+      changes: { from: 0, to: this.cssEditor.state.doc.length, insert: value },
+    });
   }
 
   public drawMessage(message: string): void {
@@ -180,6 +196,30 @@ export class View {
     };
 
     tooltip.classList.remove(TechnicalClasses.hover);
+  }
+
+  private setupInput(): EditorView {
+    const parent = document.querySelector('#codemirror-container');
+
+    if (!parent) {
+      throw new Error('CSS Editor element is not found');
+    }
+
+    const startState = EditorState.create({
+      extensions: [
+        placeholder('Type your selector here...'),
+        minimalSetup,
+        css(),
+        EditorState.transactionFilter.of(tr => {
+          return tr.newDoc.lines > 1 ? [] : [tr]
+        }),
+      ]
+    });
+
+    return new EditorView({
+      state: startState,
+      parent: parent
+    });
   }
 
   public updateLevel(levels: Levels) {

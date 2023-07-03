@@ -24,7 +24,7 @@ export class Controller {
 
   public async start(): Promise<void> {
     await this.levels.fetchLevels();
-    this.handleLevelSaving();
+    // this.handleLevelSaving();
     this.loadLevel();
     this.setResponseHandler();
     this.toggleLevelsTable();
@@ -42,10 +42,13 @@ export class Controller {
 
   private setResponseHandler(): void {
     const submitBtn: HTMLButtonElement | null = document.querySelector('.codebox__button_submit');
-    const response: HTMLInputElement = this.view.getResponseInput();
+    //const response: HTMLInputElement = this.view.getResponseInput();
 
     submitBtn?.addEventListener('click', (event) => {
-      if (response.value === '' || !this.checkResponse(response.value)) {
+
+      const response: string = this.view.getResponseInput();
+
+      if (response === '' || !this.checkResponse(response)) {
         const editors = document.querySelector('.editors');
         editors?.classList.add('shake');
         setTimeout(() => {
@@ -55,7 +58,7 @@ export class Controller {
         this.view.setTargetAnimation(this.levels, TechnicalClasses.exit);
         setTimeout(() => {
           this.levels.setLevelCompleted();
-          response.value = '';
+          this.view.setResponseInput('');
           if (this.levels.levels.every((level) => level.passed === true)) {
             this.handleLastLevel("Congrats, you're a CSS master chief now :)");
           } else if (this.levels.getCurrentLevel() !== this.levels.countLevels()) {
@@ -68,7 +71,13 @@ export class Controller {
       }
     });
 
-    response?.addEventListener('keypress', (event: KeyboardEvent) => {
+    const editorContainer: HTMLDivElement | null = document.querySelector('#codemirror-container');
+
+    if (!editorContainer) {
+      throw new Error('Editor container is not found');
+    }
+
+    editorContainer.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         event.preventDefault();
         submitBtn?.click();
@@ -79,7 +88,13 @@ export class Controller {
   private checkResponse(response: string): boolean {
     const table = this.view.getTableElement();
     const expected = table?.querySelectorAll(this.levels.getTargetSelector());
-    const assertion = table?.querySelectorAll(response);
+    let assertion;
+
+    try {
+      assertion = table?.querySelectorAll(response);
+    } catch (error) {
+      return false;
+    }
 
     if (!expected || !assertion) {
       throw new Error('There is nothing to compare');
@@ -199,21 +214,32 @@ export class Controller {
   }
 
   private getHelp(): void {
-    const response: HTMLInputElement = this.view.getResponseInput();
 
     document.querySelector('.codebox__button_help')?.addEventListener('click', () => {
       const currentLevelObj: Level = this.levels.levels[this.levels.getCurrentLevel() - 1];
       const answer: string = currentLevelObj.selector;
       let counter: number = 0;
+      let value = '';
+
       const type = (): void => {
         if (counter < answer.length) {
-          response.value += answer.charAt(counter);
+          value += answer.charAt(counter);
+          this.view.setResponseInput(value);
           counter++;
           setTimeout(type, 100);
         }
       }
 
       type();
+      this.view.cssEditor.focus();
+      this.view.cssEditor.dispatch(
+        this.view.cssEditor.state.update({
+          selection: {
+            anchor: this.view.cssEditor.state.doc.length,
+            head: this.view.cssEditor.state.doc.length
+          }
+        })
+      );
       currentLevelObj.helperUsed = true;
     })
   }
