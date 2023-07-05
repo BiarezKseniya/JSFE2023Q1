@@ -6,7 +6,7 @@
     "scripts": {
         "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack serve --open --config ./webpack.config.js --env mode=dev",
         "build": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack --config ./webpack.config.js --env mode=prod",
-        "lint": "eslint . --ext .ts",
+        "lint": "eslint . --ext .ts --fix",
         "test": "jest"
     },
     "repository": {
