@@ -2,8 +2,8 @@ import { Levels } from '../controller/levels';
 import { TechnicalClasses, CodeParser, Level } from '../types/types';
 
 import { EditorView, placeholder } from '@codemirror/view';
-import { EditorState } from "@codemirror/state";
-import { minimalSetup } from "codemirror";
+import { EditorState } from '@codemirror/state';
+import { minimalSetup } from 'codemirror';
 import { css } from '@codemirror/lang-css';
 
 export class View {
@@ -30,7 +30,7 @@ export class View {
     const element = document.querySelector(selector);
     if (!(element instanceof HTMLElement)) {
       throw new Error('There is no imstance of element');
-    };
+    }
     return element;
   }
 
@@ -61,7 +61,7 @@ export class View {
       element.classList.add(TechnicalClasses.entrance);
       setTimeout(() => {
         element.classList.remove(TechnicalClasses.entrance);
-      }, 1000)
+      }, 1000);
     });
   }
 
@@ -95,7 +95,9 @@ export class View {
   }
 
   public highlight(): void {
-    const editorElements: NodeListOf<HTMLElement> = this.getAllElements<HTMLElement>('#html-viewer .codebox__line-code div');
+    const editorElements: NodeListOf<HTMLElement> = this.getAllElements<HTMLElement>(
+      '#html-viewer .codebox__line-code div',
+    );
     const tableElements = this.table.querySelectorAll('*');
 
     tableElements.forEach((tableElement: Element, index: number) => {
@@ -103,7 +105,6 @@ export class View {
 
       this.setHoverHandler(tableElement, editorElement, true);
       this.setHoverHandler(editorElement, tableElement, false);
-
     });
   }
 
@@ -125,7 +126,7 @@ export class View {
     const tooltip: HTMLElement = this.getHTMLElement('.gameplay__tooltip');
     const elName: string = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
-    const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
+    const attributeSpace: CodeParser.attributeSpace | '' = attributeString.length > 0 ? CodeParser.attributeSpace : '';
 
     tooltip.innerHTML =
       CodeParser.openTag +
@@ -141,8 +142,8 @@ export class View {
       throw new Error('HTML element was not found');
     }
     const pos: DOMRect = element.getBoundingClientRect();
-    tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + window.scrollY + "px";
-    tooltip.style.left = pos.left + element.offsetWidth / 2 + window.scrollX + "px";
+    tooltip.style.top = pos.top - tooltip.offsetHeight * 1.15 + window.scrollY + 'px';
+    tooltip.style.left = pos.left + element.offsetWidth / 2 + window.scrollX + 'px';
 
     tooltip.classList.add(TechnicalClasses.hover);
   }
@@ -159,15 +160,15 @@ export class View {
         placeholder('Type your selector here...'),
         minimalSetup,
         css(),
-        EditorState.transactionFilter.of(tr => {
-          return tr.newDoc.lines > 1 ? [] : [tr]
+        EditorState.transactionFilter.of((tr) => {
+          return tr.newDoc.lines > 1 ? [] : [tr];
         }),
-      ]
+      ],
     });
 
     return new EditorView({
       state: startState,
-      parent: parent
+      parent: parent,
     });
   }
 
@@ -212,7 +213,7 @@ export class View {
     let result: string = '';
     const elName: string = this.getElementName(element);
     const attributeString: string = this.getAttributString(element);
-    const attributeSpace: CodeParser.attributeSpace | "" = attributeString.length > 0 ? CodeParser.attributeSpace : '';
+    const attributeSpace: CodeParser.attributeSpace | '' = attributeString.length > 0 ? CodeParser.attributeSpace : '';
     let elementSpace: string = indent;
     if (element.children.length > 0) {
       result +=
@@ -250,7 +251,10 @@ export class View {
       let val: string = element.attributes[i].value;
 
       if (atr === CodeParser.class) {
-        val = val.split(' ').filter(element => !Object.values(TechnicalClasses).includes(element as TechnicalClasses)).join(' ');
+        val = val
+          .split(' ')
+          .filter((element) => !Object.values(TechnicalClasses).includes(element as TechnicalClasses))
+          .join(' ');
       }
 
       if (val) {
@@ -283,7 +287,8 @@ export class View {
   }
 
   private getElementName(element: Element): string {
-    return CodeParser.openSpan +
+    return (
+      CodeParser.openSpan +
       CodeParser.class +
       CodeParser.assignment +
       CodeParser.quotes +
@@ -291,7 +296,8 @@ export class View {
       CodeParser.quotes +
       CodeParser.closeOpenSpan +
       element.tagName.toLowerCase() +
-      CodeParser.closeSpan;
+      CodeParser.closeSpan
+    );
   }
 
   private alignEditors(): void {

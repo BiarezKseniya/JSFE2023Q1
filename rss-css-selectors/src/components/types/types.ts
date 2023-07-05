@@ -18,6 +18,7 @@ export enum CodeParser {
   attributeAssignment = "<span class='attribute-assignment'>=</span>",
   assignment = '=',
   quotes = '"',
+  // eslint-disable-next-line prettier/prettier
   quotesSchielded = '\"',
   openSpan = '<span ',
   closeOpenSpan = '>',
@@ -32,7 +33,7 @@ export enum TechnicalClasses {
   hover = 'hover',
   strobe = 'strobe',
   entrance = 'entrance',
-  exit = 'exit'
+  exit = 'exit',
 }
 
 export enum Buttons {

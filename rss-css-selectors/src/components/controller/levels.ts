@@ -1,4 +1,4 @@
-import { Level } from "../types/types";
+import { Level } from '../types/types';
 
 export class Levels {
   private levelIndex: number;
@@ -62,6 +62,6 @@ export class Levels {
     this.levels.forEach((level: Level) => {
       delete level.passed;
       delete level.helperUsed;
-    })
+    });
   }
 }

@@ -16,9 +16,9 @@ test('should return true for matching response', () => {
   const controller = new Controller();
 
   levels.levels.push({
-    task: "Some task",
-    selector: ".custom-selector",
-    tableMarkup: "<plate class='custom-selector'></plate><bento></bento>"
+    task: 'Some task',
+    selector: '.custom-selector',
+    tableMarkup: "<plate class='custom-selector'></plate><bento></bento>",
   });
 
   view.table.innerHTML = "<plate class='custom-selector'></plate><bento></bento>";

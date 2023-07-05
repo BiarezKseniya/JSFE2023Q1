@@ -33,7 +33,6 @@ export class Controller {
     const submitBtn: HTMLButtonElement | null = document.querySelector('.codebox__button_submit');
 
     submitBtn?.addEventListener('click', (): void => {
-
       const response: string = this.view.getResponseInput();
 
       if (response === '' || !this.checkResponse(response)) {
@@ -41,7 +40,7 @@ export class Controller {
         editors.classList.add('shake');
         setTimeout(() => {
           editors?.classList.remove('shake');
-        }, 500)
+        }, 500);
       } else {
         this.view.setTargetAnimation(this.levels, TechnicalClasses.exit);
         setTimeout(() => {
@@ -55,7 +54,7 @@ export class Controller {
           } else {
             this.handleLastLevel("Well done, but you've got still other levels to complete!");
           }
-        }, 1000)
+        }, 1000);
       }
     });
 
@@ -113,7 +112,7 @@ export class Controller {
     const codeboxBtns: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.codebox__button');
     codeboxBtns.forEach((button: HTMLButtonElement) => {
       this.handleButtonEvents(button, buttonStyle);
-    })
+    });
   }
 
   private handleButtonEvents(button: HTMLButtonElement, style: boolean): void {
@@ -121,24 +120,27 @@ export class Controller {
   }
 
   private handleLevelSwitch(): void {
-    this.view.getAllElements<HTMLButtonElement>('.header__levels-switch').forEach((button: Element, buttonIndex: number) => {
-      button.addEventListener('click', (event: Event): void => {
-        event.stopImmediatePropagation();
-        let newLevel: number;
-        buttonIndex === Buttons.left
-          ? (newLevel = this.levels.decrementLevel())
-          : (newLevel = this.levels.incrementLevel());
-        if (this.levels.checkIfLevel(newLevel)) {
-          this.levels.setCurrentLevel(newLevel);
-          this.loadLevel();
-          this.closeLevelsTable();
-        }
+    this.view
+      .getAllElements<HTMLButtonElement>('.header__levels-switch')
+      .forEach((button: Element, buttonIndex: number) => {
+        button.addEventListener('click', (event: Event): void => {
+          event.stopImmediatePropagation();
+          let newLevel: number;
+          buttonIndex === Buttons.left
+            ? (newLevel = this.levels.decrementLevel())
+            : (newLevel = this.levels.incrementLevel());
+          if (this.levels.checkIfLevel(newLevel)) {
+            this.levels.setCurrentLevel(newLevel);
+            this.loadLevel();
+            this.closeLevelsTable();
+          }
+        });
       });
-    });
   }
 
   private handleButtonStyles(level: number = this.levels.getCurrentLevel()): void {
-    const buttons: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.header__levels-switch');
+    const buttons: NodeListOf<HTMLButtonElement> =
+      this.view.getAllElements<HTMLButtonElement>('.header__levels-switch');
 
     if (level === 1) {
       this.handleButtonEvents(buttons[Buttons.left], Boolean(Styles.disableButton));
@@ -176,25 +178,25 @@ export class Controller {
   }
 
   private handleLevelChoice(): void {
-    const levelItems: NodeListOf<HTMLButtonElement> = this.view.getAllElements<HTMLButtonElement>('.header__level-item');
+    const levelItems: NodeListOf<HTMLButtonElement> =
+      this.view.getAllElements<HTMLButtonElement>('.header__level-item');
 
     levelItems.forEach((levelItem: HTMLButtonElement) => {
       levelItem.addEventListener('click', (): void => {
         const newLevel: number = +levelItem.innerText;
 
         levelItems.forEach((levelItem: HTMLButtonElement) => {
-          levelItem.classList.remove('active')
+          levelItem.classList.remove('active');
         });
 
         this.levels.setCurrentLevel(newLevel);
         levelItem.classList.add('active');
         this.loadLevel();
-      })
-    })
+      });
+    });
   }
 
   private getHelp(): void {
-
     this.view.getHTMLElement('.codebox__button_help').addEventListener('click', (): void => {
       const currentLevelObj: Level = this.levels.levels[this.levels.getCurrentLevel() - 1];
       const answer: string = currentLevelObj.selector;
@@ -208,7 +210,7 @@ export class Controller {
           counter++;
           setTimeout(type, 100);
         }
-      }
+      };
 
       type();
       this.view.cssEditor.focus();
@@ -216,19 +218,19 @@ export class Controller {
         this.view.cssEditor.state.update({
           selection: {
             anchor: this.view.cssEditor.state.doc.length,
-            head: this.view.cssEditor.state.doc.length
-          }
-        })
+            head: this.view.cssEditor.state.doc.length,
+          },
+        }),
       );
       currentLevelObj.helperUsed = true;
-    })
+    });
   }
 
   private handleRefresh(): void {
     this.view.getHTMLElement('.header__refresh-img').addEventListener('click', (): void => {
       this.levels.clearProgress();
       this.loadLevel();
-    })
+    });
   }
 
   private handleLevelSaving(): void {
