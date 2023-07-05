@@ -1,9 +1,9 @@
 import './global.css';
-import './components/styles/svg.css';
-import './components/styles/custom-elements.css';
-import './components/styles/code-highlight.css';
-import './components/styles/code-mirror.css';
-import { Controller } from './components/controller/controller';
+import './styles/svg.css';
+import './styles/custom-elements.css';
+import './styles/code-highlight.css';
+import './styles/code-mirror.css';
+import { Controller } from './controller/controller';
 
 const controller = new Controller();
 controller.start();

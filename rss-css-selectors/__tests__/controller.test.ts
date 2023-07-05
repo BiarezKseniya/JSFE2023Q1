@@ -1,6 +1,6 @@
-import { Controller } from '../src/components/controller/controller';
-import { Levels } from '../src/components/controller/levels';
-import { View } from '../src/components/view/view';
+import { Controller } from '../src/controller/controller';
+import { Levels } from '../src/controller/levels';
+import { View } from '../src/view/view';
 
 beforeEach(() => {
   document.body.innerHTML = '<div class="gameplay__table"></div>';

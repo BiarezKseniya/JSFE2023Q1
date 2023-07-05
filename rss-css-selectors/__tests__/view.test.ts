@@ -1,4 +1,4 @@
-import { View } from '../src/components/view/view';
+import { View } from '../src/view/view';
 
 beforeEach(() => {
   document.body.innerHTML = '<div class="gameplay__table"></div>';

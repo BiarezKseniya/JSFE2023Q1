@@ -1,6 +1,6 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { Levels } from '../src/components/controller/levels';
-import { Level } from '../src/components/types/types';
+import { Levels } from '../src/controller/levels';
+import { Level } from '../src/types/types';
 
 describe('Levels', () => {
   let levels: Levels;
