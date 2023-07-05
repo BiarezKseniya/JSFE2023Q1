@@ -32,7 +32,7 @@ export class Controller {
   private setResponseHandler(): void {
     const submitBtn: HTMLButtonElement | null = document.querySelector('.codebox__button_submit');
 
-    submitBtn?.addEventListener('click', (event: Event): void => {
+    submitBtn?.addEventListener('click', (): void => {
 
       const response: string = this.view.getResponseInput();
 
@@ -91,7 +91,7 @@ export class Controller {
       return false;
     }
 
-    for (let i: number = 0; i < expected.length; i += 1) {
+    for (let i = 0; i < expected.length; i++) {
       if (expected[i] !== assertion[i]) {
         return false;
       }
@@ -116,7 +116,7 @@ export class Controller {
     })
   }
 
-  private handleButtonEvents(button: HTMLButtonElement, style: boolean) {
+  private handleButtonEvents(button: HTMLButtonElement, style: boolean): void {
     button.disabled = style;
   }
 
@@ -181,7 +181,6 @@ export class Controller {
     levelItems.forEach((levelItem: HTMLButtonElement) => {
       levelItem.addEventListener('click', (): void => {
         const newLevel: number = +levelItem.innerText;
-        const levelDiv: HTMLElement = this.view.getHTMLElement('.header__current-level');
 
         levelItems.forEach((levelItem: HTMLButtonElement) => {
           levelItem.classList.remove('active')

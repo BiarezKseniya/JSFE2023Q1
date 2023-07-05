@@ -1,5 +1,3 @@
-import { EditorView } from '@codemirror/view';
-
 export interface Level {
   task: string;
   selector: string;

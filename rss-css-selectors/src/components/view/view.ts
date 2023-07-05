@@ -75,7 +75,7 @@ export class View {
     const codeLine = HTMLViewer.querySelector('.codebox__line-code');
     let HTMLContent: string = '';
 
-    for (let i: number = 0; i < this.table.children.length; i++) {
+    for (let i = 0; i < this.table.children.length; i++) {
       HTMLContent += this.parseCode(this.table.children[i]);
     }
     if (!codeLine) {
@@ -171,7 +171,7 @@ export class View {
     });
   }
 
-  public updateLevel(levels: Levels) {
+  public updateLevel(levels: Levels): void {
     this.getHTMLElement('.header__current-level').innerHTML = levels.getCurrentLevel().toString();
   }
 
@@ -224,7 +224,7 @@ export class View {
         attributeString +
         CodeParser.closeTag;
       elementSpace += CodeParser.indent;
-      for (let j: number = 0; j < element.children.length; j++) {
+      for (let j = 0; j < element.children.length; j++) {
         result += this.parseCode(element.children[j], elementSpace);
       }
       result += indent + CodeParser.openClosingTag + elName + CodeParser.closeTag + CodeParser.closeWrap;
@@ -245,7 +245,7 @@ export class View {
 
   private getAttributString(element: Element): string {
     let attributeString: string = '';
-    for (let i: number = 0; i < element.attributes.length; i++) {
+    for (let i = 0; i < element.attributes.length; i++) {
       const atr: string = element.attributes[i].name;
       let val: string = element.attributes[i].value;
 
