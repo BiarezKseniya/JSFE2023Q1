@@ -1,0 +1,173 @@
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    color: white;
+}
+
+button {
+    appearance: none;
+    border: none;
+    height: 1.5rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 700;
+    outline: none;
+    padding-top: 5px;
+    box-sizing: content-box;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 90px;
+}
+
+input {
+    appearance: none;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    outline: none;
+    border-radius: 5px;
+    height: 1.5rem;
+    padding: 5px;
+    box-sizing: content-box;
+}
+
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+    border-radius: 2px;
+    padding: 0;
+}
+
+.header__nav {
+    display: flex;
+    gap: 5px;
+    padding: 30px;
+}
+
+.header__switch-page,
+.garage__paginator *,
+.winners__paginator * {
+    background-color: rgb(171, 236, 96);
+    box-shadow: 0px 5px 0px 0px green;
+}
+
+main {
+    padding-left: 30px;
+}
+
+.controls, .car-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.controls {
+    width: fit-content;
+}
+
+.car-controls__create,
+.car-controls__update {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.car-controls__button,
+.car-params__button {
+    background-color: lightblue;
+    box-shadow: 0px 5px 0px 0px rgb(78, 184, 220);
+    align-self: flex-start;
+}
+
+.race-controls__button {
+    background-color: rgb(255, 255, 122);
+    box-shadow: 0px 5px 0px 0px yellow;
+}
+
+.race-controls {
+    display: flex;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+
+.race-controls * {
+    flex-grow: 1;
+}
+
+.garage, .winners {
+    padding-top: 3rem;
+}
+
+.garage__car {
+    padding-bottom: 10px;
+}
+
+.car-params {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.car-params__name {
+    font-weight: 700;
+    color: rgb(255, 213, 0);
+}
+
+.track {
+    position: relative;
+    display: flex;
+    gap: 30px;
+    border-bottom: 3px dashed white;
+    padding-top: 1rem;
+}
+
+.track__car {
+    margin-left: 30px;
+    width: 100px;
+    color: red;
+    fill: currentColor;
+    transform: scale(-1, 1);
+    align-self: flex-end;
+    padding-bottom: 2px;
+}
+
+.track__button {
+    background: transparent;
+    border: 2px solid rgb(171, 236, 96);
+    color: rgb(171, 236, 96);
+    padding-top: 0;
+    min-width: auto;
+}
+
+.track__finish {
+    position: absolute;
+    right: 15%;
+    color: white;
+    fill: currentColor;
+    width: 50px;
+    justify-self: right;
+}
+
+.garage__paginator,
+.winners__paginator {
+    padding-top: 30px;
+}
+
+.winners__score {
+    width: 650px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.winners__score td,
+.winners__score th
+{
+    text-align: left;
+    word-wrap: break-word;
+    padding: 5px;
+}
+
+
+
+
