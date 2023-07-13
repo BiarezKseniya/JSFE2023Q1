@@ -168,6 +168,85 @@ main {
     padding: 5px;
 }
 
+@media (max-width: 1000px) {
+
+    html {
+      font-size: 14px;
+    }
+
+    .header__nav {
+        padding: 20px;
+    }
+
+    main {
+        padding-left: 20px;
+    }
+
+    button {
+        min-width: 80px;
+    }
+
+    .winners__score {
+        width: 600px;
+    }
+
+    .track__car {
+        margin-left: 30px;
+        width: 80px;
+    }
+
+    .track__finish {
+        width: 40px;
+    }
+
+  }
+
+  @media (max-width: 700px) {
+
+    html {
+      font-size: 12px;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    .header__nav {
+        padding-left: 10px;
+    }
+
+    main {
+        padding-left: 10px;
+    }
+
+    button {
+        min-width: 70px;
+    }
+
+    .winners__score {
+        width: 480px;
+    }
+
+    .track__car {
+        margin-left: 30px;
+        width: 80px;
+    }
+
+    .track__finish {
+        width: 40px;
+    }
+
+  }
+
+
+  @media (max-width: 499px) {
+
+    .winners__score {
+        width: 95%;
+        margin: 0;
+    }
+
+  }
 
 
 
