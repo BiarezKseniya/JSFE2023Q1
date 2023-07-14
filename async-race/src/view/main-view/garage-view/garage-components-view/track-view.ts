@@ -16,6 +16,8 @@ enum CssClasses {
 }
 
 export class TrackView extends View {
+  public static instances: TrackView[] = [];
+
   public name: string;
 
   public color: string;
@@ -30,6 +32,7 @@ export class TrackView extends View {
     this.name = name;
     this.color = color;
     this.configureView();
+    TrackView.instances.push(this);
   }
 
   public configureView(): void {
@@ -63,6 +66,7 @@ export class TrackView extends View {
       type: 'button',
     };
     const carButtonRemove = new ElementCreator(carButtonRemoveParams);
+    carButtonRemove.setCallback(this.removeCar.bind(this));
     carControls.addInnerElement(carButtonRemove);
 
     const carNameParams: ElementParams = {
@@ -112,10 +116,22 @@ export class TrackView extends View {
     track.addInnerElement(this.getSVGElement(finishSvg, CssClasses.trackFinish));
   }
 
+  public static getInstances(): TrackView[] {
+    return TrackView.instances;
+  }
+
   private getSVGElement(svg: string, className: string): HTMLElement {
     const parser = new DOMParser();
     const svgElement = parser.parseFromString(svg, 'image/svg+xml').documentElement;
     svgElement.classList.add(className);
     return svgElement;
+  }
+
+  private removeCar(): void {
+    const index = TrackView.instances.indexOf(this);
+    if (index !== -1) {
+      TrackView.instances.splice(index, 1);
+    }
+    this.viewElementCreator.getElement().remove();
   }
 }
