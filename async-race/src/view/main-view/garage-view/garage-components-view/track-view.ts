@@ -18,6 +18,8 @@ enum CssClasses {
 export class TrackView extends View {
   public static instances: TrackView[] = [];
 
+  public static onRemove: (() => void) | null = null;
+
   public name: string;
 
   public color: string;
@@ -133,5 +135,8 @@ export class TrackView extends View {
       TrackView.instances.splice(index, 1);
     }
     this.viewElementCreator.getElement().remove();
+    if (TrackView.onRemove) {
+      TrackView.onRemove();
+    }
   }
 }

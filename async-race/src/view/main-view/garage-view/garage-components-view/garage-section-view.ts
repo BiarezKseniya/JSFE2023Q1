@@ -20,6 +20,8 @@ export class GarageSectionView extends View {
 
   public carsWrap: ElementCreator | null;
 
+  public garageHeader: ElementCreator | null;
+
   constructor() {
     const params: ViewParams = {
       tag: 'section',
@@ -29,6 +31,7 @@ export class GarageSectionView extends View {
 
     this.paginatorButtons = [];
     this.carsWrap = null;
+    this.garageHeader = null;
     this.configureView();
   }
 
@@ -36,10 +39,10 @@ export class GarageSectionView extends View {
     const garageHeaderParams: ElementParams = {
       tag: 'h1',
       classNames: [CssClasses.garageHeader],
-      textContent: `Garage (${1})`,
     };
 
-    this.viewElementCreator.addInnerElement(new ElementCreator(garageHeaderParams));
+    this.garageHeader = new ElementCreator(garageHeaderParams);
+    this.viewElementCreator.addInnerElement(this.garageHeader);
 
     const pageParams: ElementParams = {
       tag: 'h3',

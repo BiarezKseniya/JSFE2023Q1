@@ -8,6 +8,8 @@ export class GarageView extends View {
 
   public garageSection: GarageSectionView;
 
+  public cars: TrackView[];
+
   constructor() {
     const params: ViewParams = {
       tag: 'div',
@@ -17,9 +19,11 @@ export class GarageView extends View {
 
     this.controlsSection = new ControlsSectionView();
     this.garageSection = new GarageSectionView();
+    this.cars = TrackView.instances;
 
-    this.configureView();
     this.createCar({ name: CarParams.defaultName, color: CarParams.defaultColor });
+    this.configureView();
+    TrackView.onRemove = this.updateCarsNumber.bind(this);
   }
 
   public configureView(): void {
@@ -28,6 +32,8 @@ export class GarageView extends View {
       this.createCar({ name, color });
     });
 
+    this.updateCarsNumber();
+
     this.viewElementCreator.addInnerElement(this.controlsSection.getHtmlElement());
     this.viewElementCreator.addInnerElement(this.garageSection.getHtmlElement());
   }
@@ -35,6 +41,7 @@ export class GarageView extends View {
   private createCar({ name, color }: { name: string; color: string } = this.getNameColor()): void {
     const newCar = new TrackView(name, color);
     this.garageSection.carsWrap?.addInnerElement(newCar.getHtmlElement());
+    this.updateCarsNumber();
   }
 
   private getNameColor(): { name: string; color: string } {
@@ -51,5 +58,9 @@ export class GarageView extends View {
     }
 
     return { name, color: inputColor.value };
+  }
+
+  private updateCarsNumber(): void {
+    this.garageSection.garageHeader?.setTextContent(`Garage (${this.cars.length})`);
   }
 }
