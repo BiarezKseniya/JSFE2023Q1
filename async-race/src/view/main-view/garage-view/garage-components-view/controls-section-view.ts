@@ -27,11 +27,15 @@ export class ControlsSectionView extends View {
 
   public carCreateColorInput: ElementCreator | null;
 
-  // public carUpdateNameINput: ElementCreator | null;
+  public carUpdateBtn: ElementCreator | null;
 
-  // public carUpdateColorInput: ElementCreator | null;
+  public carUpdateNameInput: ElementCreator | null;
+
+  public carUpdateColorInput: ElementCreator | null;
 
   public carGenerateBtn: ElementCreator | null;
+
+  private onUpdateCallback: (() => void) | null = null;
 
   constructor() {
     const params: ViewParams = {
@@ -43,8 +47,9 @@ export class ControlsSectionView extends View {
     this.carCreateBtn = null;
     this.carCreateNameInput = null;
     this.carCreateColorInput = null;
-    // this.carUpdateNameINput = null;
-    // this.carUpdateColorInput = null;
+    this.carUpdateBtn = null;
+    this.carUpdateNameInput = null;
+    this.carUpdateColorInput = null;
     this.carGenerateBtn = null;
 
     this.configureView();
@@ -81,7 +86,9 @@ export class ControlsSectionView extends View {
     this.carCreateNameInput = new ElementCreator(inputNameParams);
     this.carCreateNameInput.getElement().setAttribute('placeholder', CarParams.placeholderName);
     carCreate.addInnerElement(this.carCreateNameInput);
-    carUpdate.addInnerElement(new ElementCreator(inputNameParams));
+
+    this.carUpdateNameInput = new ElementCreator(inputNameParams);
+    carUpdate.addInnerElement(this.carUpdateNameInput);
 
     const inputColorParams: ElementParams = {
       tag: 'input',
@@ -92,14 +99,15 @@ export class ControlsSectionView extends View {
 
     this.carCreateColorInput = new ElementCreator(inputColorParams);
     carCreate.addInnerElement(this.carCreateColorInput);
-    carUpdate.addInnerElement(new ElementCreator(inputColorParams));
+
+    this.carUpdateColorInput = new ElementCreator(inputColorParams);
+    carUpdate.addInnerElement(this.carUpdateColorInput);
 
     const buttonCarCreateParams: ElementParams = {
       tag: 'button',
       classNames: [CssClasses.buttonCar],
       textContent: 'Create',
       type: 'button',
-      callback: null,
     };
 
     this.carCreateBtn = new ElementCreator(buttonCarCreateParams);
@@ -110,9 +118,14 @@ export class ControlsSectionView extends View {
       classNames: [CssClasses.buttonCar],
       textContent: 'Update',
       type: 'button',
-      callback: null,
     };
-    carUpdate.addInnerElement(new ElementCreator(buttonCarUpdateParams));
+    this.carUpdateBtn = new ElementCreator(buttonCarUpdateParams);
+    this.carUpdateBtn.setCallback(() => {
+      if (this.onUpdateCallback) {
+        this.onUpdateCallback();
+      }
+    });
+    carUpdate.addInnerElement(this.carUpdateBtn);
 
     const raceControlsParams: ElementParams = {
       tag: 'div',
@@ -148,5 +161,44 @@ export class ControlsSectionView extends View {
     raceControls.addInnerElement(new ElementCreator(buttonRaceResetParams));
     this.carGenerateBtn = new ElementCreator(buttonRaceGenerateParams);
     raceControls.addInnerElement(this.carGenerateBtn);
+    this.toggleUpdateElements(true);
+  }
+
+  public setCarName(name: string): void {
+    if (this.carUpdateNameInput) {
+      const input = this.carUpdateNameInput.getElement();
+      if (input instanceof HTMLInputElement) {
+        input.value = name;
+      }
+    }
+  }
+
+  public setCarColor(color: string): void {
+    if (this.carUpdateColorInput) {
+      const input = this.carUpdateColorInput.getElement();
+      if (input instanceof HTMLInputElement) {
+        input.value = color;
+      }
+    }
+  }
+
+  public setOnUpdateCallback(callback: () => void): void {
+    this.onUpdateCallback = callback;
+  }
+
+  public toggleUpdateElements(flag: boolean): void {
+    const buttonEl = this.carUpdateBtn?.getElement();
+    const inputColorEl = this.carUpdateColorInput?.getElement();
+    const inputNameEl = this.carUpdateNameInput?.getElement();
+    if (
+      !(buttonEl instanceof HTMLButtonElement) ||
+      !(inputColorEl instanceof HTMLInputElement) ||
+      !(inputNameEl instanceof HTMLInputElement)
+    ) {
+      throw new Error('Update elements were not found.');
+    }
+    buttonEl.disabled = flag;
+    inputColorEl.disabled = flag;
+    inputNameEl.disabled = flag;
   }
 }

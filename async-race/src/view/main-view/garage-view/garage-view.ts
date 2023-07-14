@@ -2,6 +2,7 @@ import { GarageSectionView } from './garage-components-view/garage-section-view'
 import { ControlsSectionView, CarParams } from './garage-components-view/controls-section-view';
 import { TrackView } from './garage-components-view/track-view';
 import { View, ViewParams } from '../../view';
+import { ElementCreator } from '../../../util/element-creator';
 
 const carModel: Map<string, string> = new Map([
   ['Lexus', 'RX'],
@@ -24,6 +25,8 @@ export class GarageView extends View {
 
   public cars: TrackView[];
 
+  public selectedCar: TrackView | null = null;
+
   constructor() {
     const params: ViewParams = {
       tag: 'div',
@@ -45,7 +48,20 @@ export class GarageView extends View {
       const { name, color } = this.getNameColor();
       this.createCar({ name, color });
     });
+
     this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
+    this.cars.forEach((car) => {
+      car.setOnSelectCallback((name, color) => {
+        this.selectedCar = car;
+        this.fillUpdateCarInputs(name, color);
+      });
+    });
+
+    if (this.controlsSection) {
+      this.controlsSection.setOnUpdateCallback(() => {
+        this.updateSelectedCar();
+      });
+    }
 
     this.updateCarsView();
 
@@ -55,24 +71,31 @@ export class GarageView extends View {
 
   private createCar({ name, color }: { name: string; color: string } = this.getNameColor()): void {
     const newCar = new TrackView(name, color);
+    newCar.setOnSelectCallback((newName, newColor) => {
+      this.selectedCar = newCar;
+      this.fillUpdateCarInputs(newName, newColor);
+    });
     this.garageSection.carsWrap?.addInnerElement(newCar.getHtmlElement());
     this.updateCarsView();
   }
 
-  private getNameColor(): { name: string; color: string } {
-    const inputName = this.controlsSection.carCreateNameInput?.getElement();
-    const inputColor = this.controlsSection.carCreateColorInput?.getElement();
+  private getNameColor(
+    inputName: ElementCreator | null = this.controlsSection.carCreateNameInput,
+    inputColor: ElementCreator | null = this.controlsSection.carCreateColorInput,
+  ): { name: string; color: string } {
+    const inputNameEl = inputName?.getElement();
+    const inputColorEl = inputColor?.getElement();
 
-    if (!(inputName instanceof HTMLInputElement) || !(inputColor instanceof HTMLInputElement)) {
+    if (!(inputNameEl instanceof HTMLInputElement) || !(inputColorEl instanceof HTMLInputElement)) {
       throw new Error('There is no instance of HTMLInputElement');
     }
 
-    let name = inputName.value;
+    let name = inputNameEl.value;
     if (name === '') {
       name = CarParams.placeholderName;
     }
 
-    return { name, color: inputColor.value };
+    return { name, color: inputColorEl.value };
   }
 
   private updateCarsView(): void {
@@ -102,5 +125,27 @@ export class GarageView extends View {
       color += letters[Math.floor(Math.random() * letters.length)];
     }
     return color;
+  }
+
+  private fillUpdateCarInputs(name: string, color: string): void {
+    this.controlsSection.toggleUpdateElements(false);
+    if (this.controlsSection) {
+      this.controlsSection.setCarName(name);
+      this.controlsSection.setCarColor(color);
+    }
+  }
+
+  private updateSelectedCar(): void {
+    if (this.selectedCar && this.controlsSection) {
+      const { name, color } = this.getNameColor(
+        this.controlsSection.carUpdateNameInput,
+        this.controlsSection.carUpdateColorInput,
+      );
+      this.selectedCar.setName(name);
+      this.selectedCar.setColor(color);
+      this.selectedCar = null;
+      this.fillUpdateCarInputs('', CarParams.placeholderColor);
+      this.controlsSection.toggleUpdateElements(true);
+    }
   }
 }

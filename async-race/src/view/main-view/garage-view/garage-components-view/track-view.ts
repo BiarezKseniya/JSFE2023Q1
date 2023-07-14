@@ -18,11 +18,17 @@ enum CssClasses {
 export class TrackView extends View {
   public static instances: TrackView[] = [];
 
-  public static onRemove: (() => void) | null = null;
-
   public name: string;
 
   public color: string;
+
+  public carImg: HTMLElement | null = null;
+
+  public nameEl: ElementCreator | null = null;
+
+  public static onRemove: (() => void) | null = null;
+
+  private onSelectCallback: ((name: string, color: string) => void) | null = null;
 
   constructor(name: string, color: string) {
     const params: ViewParams = {
@@ -59,6 +65,11 @@ export class TrackView extends View {
       type: 'button',
     };
     const carButtonSelect = new ElementCreator(carButtonSelectParams);
+    carButtonSelect.setCallback(() => {
+      if (this.onSelectCallback) {
+        this.onSelectCallback(this.name, this.color);
+      }
+    });
     carControls.addInnerElement(carButtonSelect);
 
     const carButtonRemoveParams: ElementParams = {
@@ -76,8 +87,8 @@ export class TrackView extends View {
       classNames: [CssClasses.carName],
       textContent: this.name,
     };
-    const carName = new ElementCreator(carNameParams);
-    carParams.addInnerElement(carName);
+    this.nameEl = new ElementCreator(carNameParams);
+    carParams.addInnerElement(this.nameEl);
 
     const trackParams: ElementParams = {
       tag: 'div',
@@ -111,15 +122,32 @@ export class TrackView extends View {
     const trackButtonB = new ElementCreator(trackButtonBParams);
     trackControls.addInnerElement(trackButtonB);
 
-    const car = this.getSVGElement(carSvg, CssClasses.trackCar);
-    car.style.color = this.color;
+    this.carImg = this.getSVGElement(carSvg, CssClasses.trackCar);
+    this.carImg.style.color = this.color;
 
-    track.addInnerElement(car);
+    track.addInnerElement(this.carImg);
     track.addInnerElement(this.getSVGElement(finishSvg, CssClasses.trackFinish));
   }
 
   public static getInstances(): TrackView[] {
     return TrackView.instances;
+  }
+
+  public setOnSelectCallback(callback: (name: string, color: string) => void): void {
+    this.onSelectCallback = callback;
+  }
+
+  public setName(name: string): void {
+    this.name = name;
+    this.nameEl?.setTextContent(this.name);
+  }
+
+  public setColor(color: string): void {
+    this.color = color;
+    if (!this.carImg) {
+      throw new Error('Car image not found');
+    }
+    this.carImg.style.color = this.color;
   }
 
   private getSVGElement(svg: string, className: string): HTMLElement {
