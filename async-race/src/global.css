@@ -39,6 +39,10 @@ input[type="color"]::-webkit-color-swatch {
     padding: 0;
 }
 
+input[type="text"]::placeholder {
+    font-style: italic;
+}
+
 .header__nav {
     display: flex;
     gap: 5px;
@@ -46,17 +50,17 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .header__switch-page,
-.garage__paginator *,
-.winners__paginator * {
+.garage__paginator-button,
+.winners__paginator-button {
     background-color: rgb(171, 236, 96);
     box-shadow: 0px 5px 0px 0px green;
 }
 
-main {
+.main {
     padding-left: 30px;
 }
 
-.controls, .car-controls {
+.controls, .controls__car {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -66,32 +70,32 @@ main {
     width: fit-content;
 }
 
-.car-controls__create,
-.car-controls__update {
+.controls__car-create,
+.controls__car-update {
     display: flex;
     gap: 5px;
     align-items: center;
 }
 
-.car-controls__button,
+.controls__car-button,
 .car-params__button {
     background-color: lightblue;
     box-shadow: 0px 5px 0px 0px rgb(78, 184, 220);
     align-self: flex-start;
 }
 
-.race-controls__button {
+.controls__race-button {
     background-color: rgb(255, 255, 122);
     box-shadow: 0px 5px 0px 0px yellow;
 }
 
-.race-controls {
+.controls__race {
     display: flex;
     gap: 5px;
     justify-content: space-evenly;
 }
 
-.race-controls * {
+.controls__race * {
     flex-grow: 1;
 }
 
@@ -109,6 +113,12 @@ main {
     gap: 30px;
 }
 
+.car-params__controls,
+.track__controls {
+    display: flex;
+    gap: 5px;
+}
+
 .car-params__name {
     font-weight: 700;
     color: rgb(255, 213, 0);
@@ -120,6 +130,7 @@ main {
     gap: 30px;
     border-bottom: 3px dashed white;
     padding-top: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .track__car {
@@ -152,6 +163,8 @@ main {
 .garage__paginator,
 .winners__paginator {
     padding-top: 30px;
+    display: flex;
+    gap: 5px;
 }
 
 .winners__score {
@@ -178,7 +191,7 @@ main {
         padding: 20px;
     }
 
-    main {
+    .main {
         padding-left: 20px;
     }
 
@@ -215,7 +228,7 @@ main {
         padding-left: 10px;
     }
 
-    main {
+    .main {
         padding-left: 10px;
     }
 
