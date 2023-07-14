@@ -37,7 +37,7 @@ export class GarageView extends View {
 
     this.createCar({ name: CarParams.defaultName, color: CarParams.defaultColor });
     this.configureView();
-    TrackView.onRemove = this.updateCarsNumber.bind(this);
+    TrackView.onRemove = this.updateCarsView.bind(this);
   }
 
   public configureView(): void {
@@ -47,7 +47,7 @@ export class GarageView extends View {
     });
     this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
 
-    this.updateCarsNumber();
+    this.updateCarsView();
 
     this.viewElementCreator.addInnerElement(this.controlsSection.getHtmlElement());
     this.viewElementCreator.addInnerElement(this.garageSection.getHtmlElement());
@@ -56,7 +56,7 @@ export class GarageView extends View {
   private createCar({ name, color }: { name: string; color: string } = this.getNameColor()): void {
     const newCar = new TrackView(name, color);
     this.garageSection.carsWrap?.addInnerElement(newCar.getHtmlElement());
-    this.updateCarsNumber();
+    this.updateCarsView();
   }
 
   private getNameColor(): { name: string; color: string } {
@@ -75,8 +75,9 @@ export class GarageView extends View {
     return { name, color: inputColor.value };
   }
 
-  private updateCarsNumber(): void {
+  private updateCarsView(): void {
     this.garageSection.garageHeader?.setTextContent(`Garage (${this.cars.length})`);
+    this.garageSection.updatePaginator();
   }
 
   private GenerateCars(): void {
