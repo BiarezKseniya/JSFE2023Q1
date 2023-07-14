@@ -3,6 +3,20 @@ import { ControlsSectionView, CarParams } from './garage-components-view/control
 import { TrackView } from './garage-components-view/track-view';
 import { View, ViewParams } from '../../view';
 
+const carModel: Map<string, string> = new Map([
+  ['Lexus', 'RX'],
+  ['BMW', 'X6'],
+  ['Cadillac', 'Escalade'],
+  ['Toyota', 'Corolla'],
+  ['Mercedez', 'McLaren'],
+  ['Porshe', 'Carrera'],
+  ['Jaguar', 'F-Type SVR'],
+  ['Genezis', 'G80'],
+  ['Chevrolet', 'Impala'],
+  ['Lamborghini', 'Veneno'],
+  ['Ferrari', 'Dino'],
+]);
+
 export class GarageView extends View {
   public controlsSection: ControlsSectionView;
 
@@ -31,6 +45,7 @@ export class GarageView extends View {
       const { name, color } = this.getNameColor();
       this.createCar({ name, color });
     });
+    this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
 
     this.updateCarsNumber();
 
@@ -62,5 +77,29 @@ export class GarageView extends View {
 
   private updateCarsNumber(): void {
     this.garageSection.garageHeader?.setTextContent(`Garage (${this.cars.length})`);
+  }
+
+  private GenerateCars(): void {
+    for (let i = 0; i < 100; i += 1) {
+      this.createCar({ name: this.getRandomName(), color: this.getRandomColor() });
+    }
+  }
+
+  private getRandomName(): string {
+    const arrayKeys = [...carModel.keys()];
+    const arrayValues = [...carModel.values()];
+
+    const numberKey = Math.floor(Math.random() * arrayKeys.length);
+    const numberValue = Math.floor(Math.random() * arrayValues.length);
+    return `${arrayKeys[numberKey]} ${arrayValues[numberValue]}`;
+  }
+
+  private getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i += 1) {
+      color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
   }
 }

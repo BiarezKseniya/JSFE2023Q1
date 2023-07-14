@@ -31,6 +31,8 @@ export class ControlsSectionView extends View {
 
   // public carUpdateColorInput: ElementCreator | null;
 
+  public carGenerateBtn: ElementCreator | null;
+
   constructor() {
     const params: ViewParams = {
       tag: 'section',
@@ -43,6 +45,7 @@ export class ControlsSectionView extends View {
     this.carCreateColorInput = null;
     // this.carUpdateNameINput = null;
     // this.carUpdateColorInput = null;
+    this.carGenerateBtn = null;
 
     this.configureView();
   }
@@ -134,15 +137,16 @@ export class ControlsSectionView extends View {
       callback: null,
     };
 
-    const buttonRaceRemoveParams: ElementParams = {
+    const buttonRaceGenerateParams: ElementParams = {
       tag: 'button',
       classNames: [CssClasses.buttonRace],
-      textContent: 'Remove',
+      textContent: 'Generate cars',
       type: 'button',
       callback: null,
     };
     raceControls.addInnerElement(new ElementCreator(buttonRaceRaceParams));
     raceControls.addInnerElement(new ElementCreator(buttonRaceResetParams));
-    raceControls.addInnerElement(new ElementCreator(buttonRaceRemoveParams));
+    this.carGenerateBtn = new ElementCreator(buttonRaceGenerateParams);
+    raceControls.addInnerElement(this.carGenerateBtn);
   }
 }
