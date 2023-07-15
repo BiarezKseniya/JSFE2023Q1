@@ -20,13 +20,24 @@ export enum NamePages {
 export class HeaderView extends View {
   private headerButtons: ElementCreator[];
 
-  constructor() {
+  private pages: {
+    name: string;
+    onPress: () => void;
+  }[];
+
+  constructor(
+    pages: {
+      name: string;
+      onPress: () => void;
+    }[],
+  ) {
     const params: ViewParams = {
       tag: 'header',
       classNames: [CssClasses.header],
     };
     super(params);
 
+    this.pages = pages;
     this.headerButtons = [];
     this.configureView();
   }
@@ -39,15 +50,16 @@ export class HeaderView extends View {
     const creatorNav = new ElementCreator(navParams);
     this.viewElementCreator.addInnerElement(creatorNav);
 
-    Object.keys(NamePages).forEach((key) => {
+    this.pages.forEach((page) => {
       const btnParams: ElementParams = {
         tag: 'button',
         classNames: [CssClasses.button],
-        textContent: key.toUpperCase(),
+        textContent: page.name.toUpperCase(),
         type: 'button',
         callback: null,
       };
       const creatorButton = new ElementCreator(btnParams);
+      creatorButton.setCallback(page.onPress);
 
       creatorNav.addInnerElement(creatorButton);
       this.headerButtons.push(creatorButton);
