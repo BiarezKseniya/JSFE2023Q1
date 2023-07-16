@@ -151,6 +151,11 @@ input[type="text"]::placeholder {
     min-width: auto;
 }
 
+.track__button:disabled {
+    border: 2px solid gray;
+    color: gray;  
+}
+
 .track__finish {
     position: absolute;
     right: 15%;

@@ -60,4 +60,10 @@ export class ElementCreator {
       this.element.addEventListener('click', (event: MouseEvent) => callback(event));
     }
   }
+
+  public toggleDisableElement(flag: boolean): void {
+    if (this.element instanceof HTMLButtonElement || this.element instanceof HTMLInputElement) {
+      this.element.disabled = flag;
+    }
+  }
 }

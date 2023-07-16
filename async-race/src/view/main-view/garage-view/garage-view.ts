@@ -49,6 +49,17 @@ export class GarageView extends View {
       this.createCar({ name, color });
     });
 
+    this.controlsSection.carRaceBtn?.setCallback(async () => {
+      this.handleRaceControls(true);
+      await TrackView.resetAll();
+      TrackView.race();
+    });
+
+    this.controlsSection.carResetBtn?.setCallback(() => {
+      this.handleRaceControls(false);
+      TrackView.resetAll();
+    });
+
     this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
     this.cars.forEach((car) => {
       car.setOnSelectCallback((name, color) => {
@@ -104,7 +115,7 @@ export class GarageView extends View {
   }
 
   private GenerateCars(): void {
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 6; i += 1) {
       this.createCar({ name: this.getRandomName(), color: this.getRandomColor() });
     }
   }
@@ -141,11 +152,16 @@ export class GarageView extends View {
         this.controlsSection.carUpdateNameInput,
         this.controlsSection.carUpdateColorInput,
       );
-      this.selectedCar.setName(name);
-      this.selectedCar.setColor(color);
+
+      this.selectedCar.updateCar(name, color);
       this.selectedCar = null;
       this.fillUpdateCarInputs('', CarParams.placeholderColor);
       this.controlsSection.toggleUpdateElements(true);
     }
+  }
+
+  private handleRaceControls(flag: boolean): void {
+    this.controlsSection.carRaceBtn?.toggleDisableElement(flag);
+    this.cars.forEach((car) => car.trackButtonA?.toggleDisableElement(flag));
   }
 }

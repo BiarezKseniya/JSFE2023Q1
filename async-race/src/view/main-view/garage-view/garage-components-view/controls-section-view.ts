@@ -33,6 +33,10 @@ export class ControlsSectionView extends View {
 
   public carUpdateColorInput: ElementCreator | null;
 
+  public carRaceBtn: ElementCreator | null;
+
+  public carResetBtn: ElementCreator | null;
+
   public carGenerateBtn: ElementCreator | null;
 
   private onUpdateCallback: (() => void) | null = null;
@@ -50,6 +54,8 @@ export class ControlsSectionView extends View {
     this.carUpdateBtn = null;
     this.carUpdateNameInput = null;
     this.carUpdateColorInput = null;
+    this.carRaceBtn = null;
+    this.carResetBtn = null;
     this.carGenerateBtn = null;
 
     this.configureView();
@@ -157,10 +163,16 @@ export class ControlsSectionView extends View {
       type: 'button',
       callback: null,
     };
-    raceControls.addInnerElement(new ElementCreator(buttonRaceRaceParams));
-    raceControls.addInnerElement(new ElementCreator(buttonRaceResetParams));
+
+    this.carRaceBtn = new ElementCreator(buttonRaceRaceParams);
+    raceControls.addInnerElement(this.carRaceBtn);
+
+    this.carResetBtn = new ElementCreator(buttonRaceResetParams);
+    raceControls.addInnerElement(this.carResetBtn);
+
     this.carGenerateBtn = new ElementCreator(buttonRaceGenerateParams);
     raceControls.addInnerElement(this.carGenerateBtn);
+
     this.toggleUpdateElements(true);
   }
 
@@ -187,18 +199,8 @@ export class ControlsSectionView extends View {
   }
 
   public toggleUpdateElements(flag: boolean): void {
-    const buttonEl = this.carUpdateBtn?.getElement();
-    const inputColorEl = this.carUpdateColorInput?.getElement();
-    const inputNameEl = this.carUpdateNameInput?.getElement();
-    if (
-      !(buttonEl instanceof HTMLButtonElement) ||
-      !(inputColorEl instanceof HTMLInputElement) ||
-      !(inputNameEl instanceof HTMLInputElement)
-    ) {
-      throw new Error('Update elements were not found.');
-    }
-    buttonEl.disabled = flag;
-    inputColorEl.disabled = flag;
-    inputNameEl.disabled = flag;
+    this.carUpdateBtn?.toggleDisableElement(flag);
+    this.carUpdateColorInput?.toggleDisableElement(flag);
+    this.carUpdateNameInput?.toggleDisableElement(flag);
   }
 }
