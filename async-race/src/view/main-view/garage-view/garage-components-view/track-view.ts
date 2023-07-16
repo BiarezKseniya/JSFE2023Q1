@@ -3,6 +3,7 @@ import { ElementCreator, ElementParams } from '../../../../util/element-creator'
 import carSvg from '../../../../assets/car.svg';
 import finishSvg from '../../../../assets/finish.svg';
 import { ApiHandler, RaceParams } from '../../../../api-handler/api-handler';
+import { Popup } from '../../../../util/popup';
 
 enum CssClasses {
   carParams = 'car-params',
@@ -28,6 +29,8 @@ export class TrackView extends View {
   private color: string;
 
   private run: boolean;
+
+  private runTime: number | null = null;
 
   public carImg: HTMLElement | null = null;
 
@@ -218,9 +221,9 @@ export class TrackView extends View {
   public async go(): Promise<number> {
     const raceParams = await ApiHandler.startEngine(this.id);
 
-    const runTime = raceParams.distance / raceParams.velocity;
+    this.runTime = raceParams.distance / raceParams.velocity;
     this.run = true;
-    this.animateCar(runTime);
+    this.animateCar(this.runTime);
 
     try {
       this.trackButtonB?.toggleDisableElement(false);
@@ -254,10 +257,13 @@ export class TrackView extends View {
 
     Promise.any(cars)
       .then((id) => {
-        console.log(id);
+        const winner = TrackView.instances.find((car) => car.id === id);
+        if (winner && winner.runTime) {
+          Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
+        }
       })
       .catch(() => {
-        console.log('Race has not succeeded: all cars are broken');
+        Popup.displayMessage('Race has not succeeded: all cars are broken');
       });
   }
 
