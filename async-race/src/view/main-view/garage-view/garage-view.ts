@@ -53,7 +53,7 @@ export class GarageView extends View {
     this.controlsSection.carRaceBtn?.setCallback(async () => {
       this.handleRaceControls(true);
       await TrackView.resetAll();
-      TrackView.race();
+      TrackView.race(this.garageSection.currentPage);
     });
 
     this.controlsSection.carResetBtn?.setCallback(() => {
@@ -81,8 +81,8 @@ export class GarageView extends View {
     this.viewElementCreator.addInnerElement(this.garageSection.getHtmlElement());
   }
 
-  private createCar({ name, color }: { name: string; color: string } = this.getNameColor()): void {
-    const newCar = new TrackView(name, color);
+  private createCar({ name, color, id }: { name: string; color: string; id?: number } = this.getNameColor()): void {
+    const newCar = id ? new TrackView(name, color, id) : new TrackView(name, color);
     newCar.setOnSelectCallback((newName, newColor) => {
       this.selectedCar = newCar;
       this.fillUpdateCarInputs(newName, newColor);
@@ -116,7 +116,7 @@ export class GarageView extends View {
   }
 
   private GenerateCars(): void {
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 7; i += 1) {
       this.createCar({ name: this.getRandomName(), color: this.getRandomColor() });
     }
   }
@@ -169,7 +169,9 @@ export class GarageView extends View {
   private async initCarView(): Promise<void> {
     const cars = await ApiHandler.getCars();
     cars.forEach((car) => {
-      this.createCar({ name: car.name, color: car.color });
+      if (!TrackView.instances.some((trackView) => trackView.id === car.id)) {
+        this.createCar({ name: car.name, color: car.color, id: car.id });
+      }
     });
   }
 }

@@ -2,7 +2,7 @@ import { View, ViewParams } from '../../../view';
 import { ElementCreator, ElementParams } from '../../../../util/element-creator';
 import carSvg from '../../../../assets/car.svg';
 import finishSvg from '../../../../assets/finish.svg';
-import { ApiHandler, RaceParams } from '../../../../api-handler/api-handler';
+import { ApiHandler } from '../../../../api-handler/api-handler';
 import { Popup } from '../../../../util/popup';
 
 enum CssClasses {
@@ -22,7 +22,7 @@ export class TrackView extends View {
 
   public static onRemove: (() => void) | null = null;
 
-  private id: number = 0;
+  public id: number = 0;
 
   private name: string;
 
@@ -248,9 +248,15 @@ export class TrackView extends View {
     this.trackButtonB?.toggleDisableElement(true);
   }
 
-  public static race(): void {
+  public static async race(currentPage: number): Promise<void> {
     const cars: Promise<number>[] = [];
-    TrackView.instances.forEach((car) => {
+    const carsForRaceFromApi = await ApiHandler.getCarsOnPage(currentPage);
+
+    const carsForRace = TrackView.instances.filter((trackView) =>
+      carsForRaceFromApi.find((carFromApi) => carFromApi.id === trackView.id),
+    );
+
+    carsForRace.forEach((car) => {
       cars.push(car.go());
       car.trackButtonB?.toggleDisableElement(false);
     });

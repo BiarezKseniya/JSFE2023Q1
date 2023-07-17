@@ -24,6 +24,18 @@ export abstract class ApiHandler {
     return cars;
   }
 
+  public static async getCarsOnPage(currentPage: number): Promise<Car[]> {
+    const response: Response = await fetch(`${this.baseUrl}/garage?_page=${currentPage}&_limit=7`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const cars = await response.json();
+    return cars;
+  }
+
   public static async createCar(name: string, color: string): Promise<number> {
     const response: Response = await fetch(`${this.baseUrl}/garage`, {
       method: 'POST',
