@@ -3,8 +3,26 @@ export interface RaceParams {
   distance: number;
 }
 
+export interface Car {
+  name: string;
+  color: string;
+  id: number;
+}
+
 export abstract class ApiHandler {
   private static baseUrl: string = 'http://127.0.0.1:3000';
+
+  public static async getCars(): Promise<Car[]> {
+    const response: Response = await fetch(`${this.baseUrl}/garage`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const cars = await response.json();
+    return cars;
+  }
 
   public static async createCar(name: string, color: string): Promise<number> {
     const response: Response = await fetch(`${this.baseUrl}/garage`, {

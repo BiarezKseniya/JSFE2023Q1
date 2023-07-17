@@ -3,6 +3,7 @@ import { ControlsSectionView, CarParams } from './garage-components-view/control
 import { TrackView } from './garage-components-view/track-view';
 import { View, ViewParams } from '../../view';
 import { ElementCreator } from '../../../util/element-creator';
+import { ApiHandler } from '../../../api-handler/api-handler';
 
 const carModel: Map<string, string> = new Map([
   ['Lexus', 'RX'],
@@ -38,7 +39,7 @@ export class GarageView extends View {
     this.garageSection = new GarageSectionView();
     this.cars = TrackView.instances;
 
-    this.createCar({ name: CarParams.defaultName, color: CarParams.defaultColor });
+    this.initCarView();
     this.configureView();
     TrackView.onRemove = this.updateCarsView.bind(this);
   }
@@ -115,7 +116,7 @@ export class GarageView extends View {
   }
 
   private GenerateCars(): void {
-    for (let i = 0; i < 6; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
       this.createCar({ name: this.getRandomName(), color: this.getRandomColor() });
     }
   }
@@ -163,5 +164,12 @@ export class GarageView extends View {
   private handleRaceControls(flag: boolean): void {
     this.controlsSection.carRaceBtn?.toggleDisableElement(flag);
     this.cars.forEach((car) => car.trackButtonA?.toggleDisableElement(flag));
+  }
+
+  private async initCarView(): Promise<void> {
+    const cars = await ApiHandler.getCars();
+    cars.forEach((car) => {
+      this.createCar({ name: car.name, color: car.color });
+    });
   }
 }

@@ -2,8 +2,6 @@ import { ElementCreator, ElementParams } from '../../../../util/element-creator'
 import { View, ViewParams } from '../../../view';
 
 export enum CarParams {
-  defaultName = 'Aston Martin',
-  defaultColor = '#C50D0D',
   placeholderName = 'Lexus Nexus',
   placeholderColor = '#D1D1D1',
 }
