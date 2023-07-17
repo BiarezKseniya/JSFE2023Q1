@@ -5,6 +5,13 @@ import finishSvg from '../../../../assets/finish.svg';
 import { ApiHandler } from '../../../../api-handler/api-handler';
 import { Popup } from '../../../../util/popup';
 
+export interface WinnerData {
+  name: string;
+  color: string;
+  runTime: number | null;
+  id: number;
+}
+
 enum CssClasses {
   carParams = 'car-params',
   carControls = 'car-params__controls',
@@ -20,11 +27,13 @@ enum CssClasses {
 export class TrackView extends View {
   public static instances: TrackView[] = [];
 
+  public static winnersListeners: ((car: WinnerData) => void)[] = [];
+
   public static onRemove: (() => void) | null = null;
 
   public id: number = 0;
 
-  private name: string;
+  public name: string;
 
   private color: string;
 
@@ -266,6 +275,13 @@ export class TrackView extends View {
         const winner = TrackView.instances.find((car) => car.id === id);
         if (winner && winner.runTime) {
           Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
+          const winnerData = {
+            name: winner.name,
+            runTime: winner.runTime,
+            color: winner.color,
+            id: winner.id,
+          };
+          this.winnersListeners.forEach((listener) => listener(winnerData));
         }
       })
       .catch(() => {
@@ -310,5 +326,13 @@ export class TrackView extends View {
     };
 
     window.requestAnimationFrame(step);
+  }
+
+  public static addWinnersListener(listener: (car: WinnerData) => void): void {
+    this.winnersListeners.push(listener);
+  }
+
+  private static removeWinnersListener(listener: (car: WinnerData) => void): void {
+    this.winnersListeners = this.winnersListeners.filter((l) => l !== listener);
   }
 }

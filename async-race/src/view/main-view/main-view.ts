@@ -1,5 +1,5 @@
 import { View, ViewParams } from '../view';
-import { GarageSectionView } from './garage-view/garage-components-view/garage-section-view';
+import { GarageView } from './garage-view/garage-view';
 import { WinnersView } from './winners-view/winners-view';
 
 enum CssClasses {
@@ -15,7 +15,7 @@ export class MainView extends View {
     super(params);
   }
 
-  public setContent<T extends GarageSectionView | WinnersView>(content: T): void {
+  public setContent<T extends GarageView | WinnersView>(content: T): void {
     const htmlElement = this.viewElementCreator.getElement();
     htmlElement.innerHTML = '';
     this.viewElementCreator.addInnerElement(content.getHtmlElement());
