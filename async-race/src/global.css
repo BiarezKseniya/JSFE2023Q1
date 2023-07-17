@@ -136,7 +136,6 @@ input[type="text"]::placeholder {
 .track__car {
     margin-left: 30px;
     width: 100px;
-    color: red;
     fill: currentColor;
     transform: scale(-1, 1);
     align-self: flex-end;
@@ -197,6 +196,14 @@ input[type="text"]::placeholder {
     text-align: left;
     word-wrap: break-word;
     padding: 5px;
+}
+
+.winners__score-item .winner__car-img {
+    margin-left: 0;
+    width: 70px;
+    fill: currentColor;
+    transform: scale(-1, 1);
+    padding-bottom: 2px;
 }
 
 @media (max-width: 1000px) {
@@ -266,6 +273,10 @@ input[type="text"]::placeholder {
 
     .track__finish {
         width: 40px;
+    }
+
+    .winners__score-item .winner__car-img {
+        width: 50px;
     }
 
   }
