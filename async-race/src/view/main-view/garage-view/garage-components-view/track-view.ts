@@ -32,8 +32,6 @@ export class TrackView extends View {
 
   public id: number = 0;
 
-  // public bestTime: number = -1;
-
   public name: string;
 
   public color: string;
@@ -222,6 +220,9 @@ export class TrackView extends View {
         TrackView.instances.splice(index, 1);
       }
       this.viewElementCreator.getElement().remove();
+
+      ApiHandler.deleteWinner(this.id);
+
       if (TrackView.onRemove) {
         TrackView.onRemove();
       }

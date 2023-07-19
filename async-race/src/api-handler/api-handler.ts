@@ -233,4 +233,23 @@ export abstract class ApiHandler {
 
     return newWinner;
   }
+
+  public static async deleteWinner(id: number): Promise<boolean> {
+    if (id < 1) {
+      throw new Error('Invalid id');
+    }
+
+    const response: Response = await fetch(`${this.baseUrl}/winners/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.status === 200) {
+      return true;
+    }
+    if (response.status === 404) {
+      throw new Error('Not found');
+    }
+
+    throw new Error(`Server error ${response.status}`);
+  }
 }
