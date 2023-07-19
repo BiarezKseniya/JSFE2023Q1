@@ -4,6 +4,7 @@ import { TrackView } from './garage-components-view/track-view';
 import { View, ViewParams } from '../../view';
 import { ElementCreator } from '../../../util/element-creator';
 import { ApiHandler } from '../../../api-handler/api-handler';
+import { Popup } from '../../../util/popup';
 
 const carModel: Map<string, string> = new Map([
   ['Lexus', 'RX'],
@@ -79,6 +80,7 @@ export class GarageView extends View {
 
     this.viewElementCreator.addInnerElement(this.controlsSection.getHtmlElement());
     this.viewElementCreator.addInnerElement(this.garageSection.getHtmlElement());
+    this.viewElementCreator.addInnerElement(Popup.init());
   }
 
   private createCar({ name, color, id }: { name: string; color: string; id?: number } = this.getNameColor()): void {

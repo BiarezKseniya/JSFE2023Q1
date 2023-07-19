@@ -9,47 +9,40 @@ enum CssClasses {
 }
 
 export class WinnerView extends View {
-  public static instances: WinnerView[] = [];
-
   public name: string;
 
   public color: string;
 
   public id: number;
 
-  private winsCount: number | null = 0;
+  private winsCount: number;
 
-  private bestTime: number | null = 0;
+  private bestTime: number;
 
   private carImg: HTMLElement | null = null;
 
-  constructor(winner: WinnerData) {
+  constructor(winner: WinnerData, index: number) {
     const params: ViewParams = {
       tag: 'tr',
       classNames: [],
     };
     super(params);
 
-    // if (id) {
     this.id = winner.id;
-    // } else {
-    //   ApiHandler.createCar(name, color).then((data) => {
-    //     this.id = data;
-    //   });
-    // }
     this.name = winner.name;
+    this.bestTime = winner.bestTime;
+    this.winsCount = winner.winsCount;
     this.color = winner.color;
     this.id = winner.id;
 
-    WinnerView.instances.push(this);
-    this.configureView();
+    this.configureView(index);
   }
 
-  public configureView(): void {
+  public configureView(index: number): void {
     const numberParams: ElementParams = {
       tag: 'td',
       classNames: [CssClasses.winnerTableItem],
-      textContent: (WinnerView.instances.indexOf(this) + 1).toString(),
+      textContent: (index + 1).toString(),
     };
     this.viewElementCreator.addInnerElement(new ElementCreator(numberParams));
 
@@ -74,14 +67,14 @@ export class WinnerView extends View {
     const winsCountParams: ElementParams = {
       tag: 'td',
       classNames: [CssClasses.winnerTableItem],
-      textContent: this.winsCount?.toString(),
+      textContent: this.winsCount.toString(),
     };
     this.viewElementCreator.addInnerElement(new ElementCreator(winsCountParams));
 
     const bestTimeParams: ElementParams = {
       tag: 'td',
       classNames: [CssClasses.winnerTableItem],
-      textContent: this.bestTime?.toString(),
+      textContent: this.bestTime.toString(),
     };
     this.viewElementCreator.addInnerElement(new ElementCreator(bestTimeParams));
   }

@@ -6,10 +6,11 @@ import { ApiHandler } from '../../../../api-handler/api-handler';
 import { Popup } from '../../../../util/popup';
 
 export interface WinnerData {
-  name: string;
-  color: string;
-  runTime: number | null;
   id: number;
+  name: string;
+  bestTime: number;
+  winsCount: number;
+  color: string;
 }
 
 enum CssClasses {
@@ -27,15 +28,15 @@ enum CssClasses {
 export class TrackView extends View {
   public static instances: TrackView[] = [];
 
-  public static winnersListeners: ((car: WinnerData) => void)[] = [];
-
   public static onRemove: (() => void) | null = null;
 
   public id: number = 0;
 
+  // public bestTime: number = -1;
+
   public name: string;
 
-  private color: string;
+  public color: string;
 
   private run: boolean;
 
@@ -246,8 +247,10 @@ export class TrackView extends View {
   }
 
   private async resetPosition(): Promise<void> {
-    const ok = await ApiHandler.stopEngine(this.id);
-    if (!ok) return;
+    if (this.run === true) {
+      const ok = await ApiHandler.stopEngine(this.id);
+      if (!ok) return;
+    }
 
     this.run = false;
     if (!this.carImg) {
@@ -275,13 +278,7 @@ export class TrackView extends View {
         const winner = TrackView.instances.find((car) => car.id === id);
         if (winner && winner.runTime) {
           Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
-          const winnerData = {
-            name: winner.name,
-            runTime: winner.runTime,
-            color: winner.color,
-            id: winner.id,
-          };
-          this.winnersListeners.forEach((listener) => listener(winnerData));
+          ApiHandler.modifyWinner(winner.id, Math.round(winner.runTime / 10) / 100);
         }
       })
       .catch(() => {
@@ -320,19 +317,9 @@ export class TrackView extends View {
 
       if (progress < time) {
         window.requestAnimationFrame(step);
-      } else {
-        this.run = false;
       }
     };
 
     window.requestAnimationFrame(step);
-  }
-
-  public static addWinnersListener(listener: (car: WinnerData) => void): void {
-    this.winnersListeners.push(listener);
-  }
-
-  private static removeWinnersListener(listener: (car: WinnerData) => void): void {
-    this.winnersListeners = this.winnersListeners.filter((l) => l !== listener);
   }
 }

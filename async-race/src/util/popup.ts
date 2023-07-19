@@ -21,6 +21,6 @@ export abstract class Popup {
     this.popup.element.style.display = 'block';
     setTimeout(() => {
       this.popup.element.style.display = 'none';
-    }, 3000);
+    }, 5000);
   }
 }

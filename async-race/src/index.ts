@@ -3,7 +3,6 @@ import { MainView } from './view/main-view/main-view';
 import './global.css';
 import { GarageView } from './view/main-view/garage-view/garage-view';
 import { WinnersView } from './view/main-view/winners-view/winners-view';
-import { Popup } from './util/popup';
 
 class App {
   public header: HeaderView;
@@ -30,6 +29,7 @@ class App {
         name: 'Winners',
         onPress: (): void => {
           this.main.setContent(this.winnersView);
+          this.winnersView.drawWinners();
         },
       },
     ]);
@@ -37,7 +37,6 @@ class App {
 
   public createView(): void {
     this.main.setContent(this.garageView);
-    this.main.viewElementCreator.addInnerElement(Popup.init());
     document.body.append(this.header.getHtmlElement(), this.main.getHtmlElement());
   }
 }

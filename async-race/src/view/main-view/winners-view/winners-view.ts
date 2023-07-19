@@ -2,6 +2,7 @@ import { ElementCreator, ElementParams } from '../../../util/element-creator';
 import { View, ViewParams } from '../../view';
 import { TrackView, WinnerData } from '../garage-view/garage-components-view/track-view';
 import { WinnerView } from './winner-view';
+import { ApiHandler, Winner } from '../../../api-handler/api-handler';
 
 enum CssClasses {
   winners = 'winners',
@@ -18,9 +19,13 @@ export class WinnersView extends View {
 
   public winnersTable: ElementCreator | null;
 
+  public winnersTableBody: ElementCreator | null;
+
   public winnersHeader: ElementCreator | null;
 
   public pageHeader: ElementCreator | null;
+
+  public winners: Winner[] | null;
 
   public currentPage: number;
 
@@ -35,15 +40,18 @@ export class WinnersView extends View {
 
     this.paginatorButtons = [];
     this.winnersTable = null;
+    this.winnersTableBody = null;
     this.winnersHeader = null;
     this.pageHeader = null;
+    this.winners = null;
     this.currentPage = 1;
-    this.itemsPerPage = 7;
+    this.itemsPerPage = 10;
     this.configureView();
+    this.drawWinners();
 
-    TrackView.addWinnersListener((winner) => {
-      this.createWinner(winner);
-    });
+    // TrackView.addWinnersListener(() => {
+    //   this.drawWinners();
+    // });
   }
 
   public configureView(): void {
@@ -88,6 +96,13 @@ export class WinnersView extends View {
       winnersTableHead.addInnerElement(new ElementCreator(tableHeadItemParams));
     });
 
+    const tableBodyParams: ElementParams = {
+      tag: 'tbody',
+      classNames: [],
+    };
+    this.winnersTableBody = new ElementCreator(tableBodyParams);
+    this.winnersTable.addInnerElement(this.winnersTableBody);
+
     const paginatorParams: ElementParams = {
       tag: 'div',
       classNames: [CssClasses.winnersPaginator],
@@ -129,29 +144,29 @@ export class WinnersView extends View {
   }
 
   public updatePaginator(): void {
-    if (this.winnersTable) {
-      this.winnersTable.getElement().innerHTML = '';
-    }
+    // if (this.winnersTableBody) {
+    //   this.winnersTableBody.getElement().innerHTML = '';
+    // }
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
 
-    // const cars = TrackView.instances.slice(startIndex, endIndex);
+    const winnerPage = this.winners?.slice(startIndex, endIndex);
 
-    // cars.forEach((car) => {
-    //   if (this.carsWrap) {
-    //     this.carsWrap.addInnerElement(car.getHtmlElement());
+    // winnerPage.forEach((winnerOnPage) => {
+    //   if (this.winnersTableBody) {
+    //     this.winnersTableBody.addInnerElement(winnerOnPage.getHtmlElement());
     //   }
     // });
 
     this.pageHeader?.setTextContent(`Page #${this.currentPage}`);
-    // this.setBtnStyles();
+    this.setBtnStyles();
   }
 
   public setBtnStyles(): void {
     const nextButton = this.paginatorButtons[1].getElement();
     const prevButton = this.paginatorButtons[0].getElement();
-    const totalWinners = WinnerView.instances.length;
+    const totalWinners = 10; // WinnerView.instances.length;
     const totalPages = Math.ceil(totalWinners / this.itemsPerPage);
 
     if (!(nextButton instanceof HTMLButtonElement) || !(prevButton instanceof HTMLButtonElement)) {
@@ -171,13 +186,34 @@ export class WinnersView extends View {
     }
   }
 
-  private updateWinnersView(): void {
-    this.winnersHeader?.setTextContent(`Winners (${0})`);
+  private updateWinnersView(number: number): void {
+    this.winnersHeader?.setTextContent(`Winners (${number})`);
     this.updatePaginator();
   }
 
-  public createWinner(winner: WinnerData): void {
-    const newWinner = new WinnerView(winner);
-    this.winnersTable?.addInnerElement(newWinner.getHtmlElement());
+  public async drawWinners(): Promise<void> {
+    const winnersApi = await ApiHandler.getWinners();
+
+    if (!this.winnersTableBody) {
+      return;
+    }
+    this.winnersTableBody.getElement().innerHTML = '';
+
+    winnersApi.forEach((winner, index) => {
+      const car = TrackView.instances.find((trackCar) => trackCar.id === winner.id);
+      if (!car) {
+        throw new Error('No car has been found');
+      }
+      const winnerData: WinnerData = {
+        id: winner.id,
+        name: car.name,
+        bestTime: winner.time,
+        winsCount: winner.wins,
+        color: car.color,
+      };
+      const newWinner = new WinnerView(winnerData, index);
+      this.winnersTableBody?.addInnerElement(newWinner.getHtmlElement());
+    });
+    this.updateWinnersView(winnersApi.length);
   }
 }

@@ -9,6 +9,12 @@ export interface Car {
   id: number;
 }
 
+export interface Winner {
+  id: number;
+  wins: number;
+  time: number;
+}
+
 export abstract class ApiHandler {
   private static baseUrl: string = 'http://127.0.0.1:3000';
 
@@ -48,10 +54,6 @@ export abstract class ApiHandler {
       }),
     });
 
-    // Check of status
-    // response.ok
-    // response.status
-
     const car = await response.json();
     return car.id;
   }
@@ -65,7 +67,6 @@ export abstract class ApiHandler {
       method: 'DELETE',
     });
 
-    // response.ok
     if (response.status === 200) {
       return true;
     }
@@ -149,5 +150,87 @@ export abstract class ApiHandler {
     }
 
     return id;
+  }
+
+  public static async getWinner(id: number): Promise<Winner> {
+    const response: Response = await fetch(`${this.baseUrl}/winners/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const winner = await response.json();
+    return winner;
+  }
+
+  public static async getWinners(): Promise<Winner[]> {
+    const response: Response = await fetch(`${this.baseUrl}/winners`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const winners = await response.json();
+    return winners;
+  }
+
+  public static async createWinner(id: number, wins: number, time: number): Promise<Winner> {
+    const response: Response = await fetch(`${this.baseUrl}/winners`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        wins,
+        time,
+      }),
+    });
+
+    const winner = await response.json();
+    return winner;
+  }
+
+  public static async updateWinner(id: number, wins: number, time: number): Promise<Winner> {
+    if (id < 1) {
+      throw new Error('Invalid id');
+    }
+
+    const response: Response = await fetch(`${this.baseUrl}/winners/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        wins,
+        time,
+      }),
+    });
+    if (response.status === 200) {
+      const winner = await response.json();
+      return winner;
+    }
+    if (response.status === 404) {
+      throw new Error('Not found');
+    }
+
+    throw new Error(`Server error ${response.status}`);
+  }
+
+  public static async modifyWinner(id: number, time: number): Promise<Winner> {
+    const existWinner = await this.getWinner(id);
+    let newWinner = null;
+
+    if (existWinner.id) {
+      const wins = existWinner.wins + 1;
+      const bestTime = existWinner.time < time ? existWinner.time : time;
+      newWinner = await this.updateWinner(id, wins, bestTime);
+    } else {
+      newWinner = await this.createWinner(id, 1, time);
+    }
+
+    return newWinner;
   }
 }
