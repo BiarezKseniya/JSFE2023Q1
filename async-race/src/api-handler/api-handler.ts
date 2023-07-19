@@ -169,8 +169,16 @@ export abstract class ApiHandler {
     return winner;
   }
 
-  public static async getWinnersPage(currentPage: number, pageLimit: number): Promise<WinnersPage> {
-    const response: Response = await fetch(`${this.baseUrl}/winners?_page=${currentPage}&_limit=${pageLimit}`, {
+  public static async getWinnersPage(
+    currentPage: number,
+    pageLimit: number,
+    sortType: string,
+    sortValue: string,
+  ): Promise<WinnersPage> {
+    const mainQuery = `${this.baseUrl}/winners?_page=${currentPage}&_limit=${pageLimit}`;
+    const sortQuery = `&_sort=${sortType}&_order=${sortValue.toUpperCase()}`;
+
+    const response: Response = await fetch(sortType && sortValue ? mainQuery + sortQuery : mainQuery, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

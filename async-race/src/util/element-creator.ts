@@ -16,7 +16,6 @@ export class ElementCreator {
     this.setTextContent(params.textContent);
     this.setType(params.type);
     this.setValue(params.value);
-    // this.setCallback(params.callback);
   }
 
   public createElement(params: ElementParams): HTMLElement {
@@ -37,6 +36,10 @@ export class ElementCreator {
 
   public setCssClasses(cssClasses: string[] = []): void {
     cssClasses.map((cssClass: string) => this.element.classList.add(cssClass));
+  }
+
+  public removeCssClass(cssClasses: string[] = []): void {
+    cssClasses.map((cssClass: string) => this.element.classList.remove(cssClass));
   }
 
   public setTextContent(text: string = ''): void {

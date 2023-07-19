@@ -12,6 +12,26 @@ enum CssClasses {
   winnersPaginatorBtn = 'winners__paginator-button',
   winnersTable = 'winners__score',
   winnersTableHead = 'winners__score-head',
+  winnersSort = 'winners__sort-param',
+}
+
+enum SortValues {
+  noSort = 0,
+  asc = 1,
+  desc = 2,
+}
+
+enum SortTypes {
+  wins = 'wins',
+  time = 'time',
+}
+
+enum TableHeaderNames {
+  number = 'Number',
+  car = 'Car',
+  name = 'Name',
+  wins = 'Wins',
+  bestTime = 'Best time (sec)',
 }
 
 export class WinnersView extends View {
@@ -25,6 +45,8 @@ export class WinnersView extends View {
 
   public pageHeader: ElementCreator | null;
 
+  public winnersSort: ElementCreator[];
+
   public winners: Winner[] | null;
 
   public currentPage: number;
@@ -32,6 +54,12 @@ export class WinnersView extends View {
   public itemsPerPage: number;
 
   public winnersCount: number;
+
+  public winSort: number;
+
+  public timeSort: number;
+
+  public sortType: string;
 
   constructor() {
     const params: ViewParams = {
@@ -45,10 +73,15 @@ export class WinnersView extends View {
     this.winnersTableBody = null;
     this.winnersHeader = null;
     this.pageHeader = null;
+    this.winnersHeader = null;
+    this.winnersSort = [];
     this.winners = null;
     this.currentPage = 1;
     this.itemsPerPage = 10;
     this.winnersCount = 0;
+    this.sortType = '';
+    this.winSort = 0;
+    this.timeSort = 0;
     this.configureView();
     this.drawWinners();
   }
@@ -85,14 +118,43 @@ export class WinnersView extends View {
     const winnersTableHead = new ElementCreator(tableHeadParams);
     this.winnersTable.addInnerElement(winnersTableHead);
 
-    const theadContent = ['Number', 'Car', 'Name', 'Wins', 'Best time (sec)'];
-    theadContent.forEach((th) => {
+    Object.values(TableHeaderNames).forEach((th) => {
       const tableHeadItemParams: ElementParams = {
         tag: 'th',
         classNames: [CssClasses.winnersTableHead],
         textContent: th,
       };
-      winnersTableHead.addInnerElement(new ElementCreator(tableHeadItemParams));
+
+      const thItem = new ElementCreator(tableHeadItemParams);
+
+      switch (th) {
+        case TableHeaderNames.wins: {
+          thItem.setCssClasses([CssClasses.winnersSort]);
+          this.winnersSort.push(thItem);
+          thItem.setCallback(() => {
+            this.sortType = SortTypes.wins;
+            this.timeSort = 0;
+            this.winSort = this.setSort(this.winSort, thItem);
+            this.drawWinners();
+          });
+          break;
+        }
+        case TableHeaderNames.bestTime: {
+          thItem.setCssClasses([CssClasses.winnersSort]);
+          this.winnersSort.push(thItem);
+          thItem.setCallback(() => {
+            this.sortType = SortTypes.time;
+            this.winSort = 0;
+            this.timeSort = this.setSort(this.timeSort, thItem);
+            this.drawWinners();
+          });
+          break;
+        }
+        default:
+          break;
+      }
+
+      winnersTableHead.addInnerElement(thItem);
     });
 
     const tableBodyParams: ElementParams = {
@@ -165,7 +227,12 @@ export class WinnersView extends View {
   }
 
   public async drawWinners(): Promise<void> {
-    const winnersApi = await ApiHandler.getWinnersPage(this.currentPage, this.itemsPerPage);
+    const winnersApi = await ApiHandler.getWinnersPage(
+      this.currentPage,
+      this.itemsPerPage,
+      this.sortType,
+      SortValues[this.winSort || this.timeSort],
+    );
 
     if (!this.winnersTableBody) {
       return;
@@ -191,5 +258,33 @@ export class WinnersView extends View {
     this.winnersCount = winnersApi.winnersTotalCount;
     this.winnersHeader?.setTextContent(`Winners (${this.winnersCount})`);
     this.setBtnStyles();
+  }
+
+  public setSort(sort: number, sortItem: ElementCreator): number {
+    const newSort = sort === SortValues.desc ? SortValues.noSort : sort + 1;
+
+    this.winnersSort.forEach((sortParam) => {
+      sortParam.removeCssClass(['asc', 'desc']);
+    });
+
+    switch (newSort) {
+      case SortValues.asc: {
+        sortItem.setCssClasses(['asc']);
+        console.log('asc sort');
+        break;
+      }
+      case SortValues.desc: {
+        sortItem.setCssClasses(['desc']);
+        console.log('desc sort');
+        break;
+      }
+      default: {
+        this.sortType = '';
+        console.log('no-sort');
+        break;
+      }
+    }
+
+    return newSort;
   }
 }
