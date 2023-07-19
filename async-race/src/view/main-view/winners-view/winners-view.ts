@@ -15,7 +15,7 @@ enum CssClasses {
 }
 
 export class WinnersView extends View {
-  public paginatorButtons: ElementCreator[];
+  public paginatorButtons: Record<string, ElementCreator> = {};
 
   public winnersTable: ElementCreator | null;
 
@@ -31,6 +31,8 @@ export class WinnersView extends View {
 
   public itemsPerPage: number;
 
+  public winnersCount: number;
+
   constructor() {
     const params: ViewParams = {
       tag: 'section',
@@ -38,7 +40,7 @@ export class WinnersView extends View {
     };
     super(params);
 
-    this.paginatorButtons = [];
+    this.paginatorButtons = {};
     this.winnersTable = null;
     this.winnersTableBody = null;
     this.winnersHeader = null;
@@ -46,12 +48,9 @@ export class WinnersView extends View {
     this.winners = null;
     this.currentPage = 1;
     this.itemsPerPage = 10;
+    this.winnersCount = 0;
     this.configureView();
     this.drawWinners();
-
-    // TrackView.addWinnersListener(() => {
-    //   this.drawWinners();
-    // });
   }
 
   public configureView(): void {
@@ -120,10 +119,10 @@ export class WinnersView extends View {
 
     buttonPrev.setCallback(() => {
       this.currentPage -= 1;
-      this.updatePaginator();
+      this.handlePaginator();
     });
     paginator.addInnerElement(buttonPrev);
-    this.paginatorButtons.push(buttonPrev);
+    this.paginatorButtons.prev = buttonPrev;
 
     const paginatorNextParams: ElementParams = {
       tag: 'button',
@@ -135,71 +134,45 @@ export class WinnersView extends View {
 
     buttonNext.setCallback(() => {
       this.currentPage += 1;
-      this.updatePaginator();
+      this.handlePaginator();
     });
     paginator.addInnerElement(buttonNext);
-    this.paginatorButtons.push(buttonNext);
+    this.paginatorButtons.next = buttonNext;
 
     this.viewElementCreator.addInnerElement(paginator);
   }
 
-  public updatePaginator(): void {
-    // if (this.winnersTableBody) {
-    //   this.winnersTableBody.getElement().innerHTML = '';
-    // }
-
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-
-    const winnerPage = this.winners?.slice(startIndex, endIndex);
-
-    // winnerPage.forEach((winnerOnPage) => {
-    //   if (this.winnersTableBody) {
-    //     this.winnersTableBody.addInnerElement(winnerOnPage.getHtmlElement());
-    //   }
-    // });
-
+  public handlePaginator(): void {
+    this.drawWinners();
     this.pageHeader?.setTextContent(`Page #${this.currentPage}`);
     this.setBtnStyles();
   }
 
   public setBtnStyles(): void {
-    const nextButton = this.paginatorButtons[1].getElement();
-    const prevButton = this.paginatorButtons[0].getElement();
-    const totalWinners = 10; // WinnerView.instances.length;
-    const totalPages = Math.ceil(totalWinners / this.itemsPerPage);
-
-    if (!(nextButton instanceof HTMLButtonElement) || !(prevButton instanceof HTMLButtonElement)) {
-      throw new Error('No button element was found');
-    }
+    const totalPages = Math.ceil(this.winnersCount / this.itemsPerPage);
 
     if (this.currentPage + 1 > totalPages) {
-      nextButton.disabled = true;
+      this.paginatorButtons.next.toggleDisableElement(true);
     } else {
-      nextButton.disabled = false;
+      this.paginatorButtons.next.toggleDisableElement(false);
     }
 
     if (this.currentPage === 1) {
-      prevButton.disabled = true;
+      this.paginatorButtons.prev.toggleDisableElement(true);
     } else {
-      prevButton.disabled = false;
+      this.paginatorButtons.prev.toggleDisableElement(false);
     }
   }
 
-  private updateWinnersView(number: number): void {
-    this.winnersHeader?.setTextContent(`Winners (${number})`);
-    this.updatePaginator();
-  }
-
   public async drawWinners(): Promise<void> {
-    const winnersApi = await ApiHandler.getWinners();
+    const winnersApi = await ApiHandler.getWinnersPage(this.currentPage, this.itemsPerPage);
 
     if (!this.winnersTableBody) {
       return;
     }
     this.winnersTableBody.getElement().innerHTML = '';
 
-    winnersApi.forEach((winner, index) => {
+    winnersApi.winnersPage.forEach((winner, index) => {
       const car = TrackView.instances.find((trackCar) => trackCar.id === winner.id);
       if (!car) {
         throw new Error('No car has been found');
@@ -214,6 +187,9 @@ export class WinnersView extends View {
       const newWinner = new WinnerView(winnerData, index);
       this.winnersTableBody?.addInnerElement(newWinner.getHtmlElement());
     });
-    this.updateWinnersView(winnersApi.length);
+
+    this.winnersCount = winnersApi.winnersTotalCount;
+    this.winnersHeader?.setTextContent(`Winners (${this.winnersCount})`);
+    this.setBtnStyles();
   }
 }

@@ -15,6 +15,11 @@ export interface Winner {
   time: number;
 }
 
+export interface WinnersPage {
+  winnersPage: Winner[];
+  winnersTotalCount: number;
+}
+
 export abstract class ApiHandler {
   private static baseUrl: string = 'http://127.0.0.1:3000';
 
@@ -164,16 +169,17 @@ export abstract class ApiHandler {
     return winner;
   }
 
-  public static async getWinners(): Promise<Winner[]> {
-    const response: Response = await fetch(`${this.baseUrl}/winners`, {
+  public static async getWinnersPage(currentPage: number, pageLimit: number): Promise<WinnersPage> {
+    const response: Response = await fetch(`${this.baseUrl}/winners?_page=${currentPage}&_limit=${pageLimit}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    const winners = await response.json();
-    return winners;
+    const winnersPage: Winner[] = await response.json();
+    const winnersTotalCount: number = Number(response.headers.get('X-Total-Count')) ?? 0;
+    return { winnersPage, winnersTotalCount };
   }
 
   public static async createWinner(id: number, wins: number, time: number): Promise<Winner> {
