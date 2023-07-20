@@ -137,7 +137,6 @@ input[type="text"]::placeholder {
 }
 
 .track__car {
-    margin-left: 30px;
     width: 100px;
     fill: currentColor;
     transform: scale(-1, 1);
@@ -245,8 +244,11 @@ input[type="text"]::placeholder {
         width: 630px;
     }
 
+    .track {
+        gap: 20px;
+    }
+
     .track__car {
-        margin-left: 30px;
         width: 80px;
     }
 
@@ -283,8 +285,11 @@ input[type="text"]::placeholder {
         width: 480px;
     }
 
+    .track {
+        gap: 10px;
+    }
+
     .track__car {
-        margin-left: 30px;
         width: 80px;
     }
 
