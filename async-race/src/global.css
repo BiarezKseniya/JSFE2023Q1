@@ -19,6 +19,7 @@ button {
     cursor: pointer;
     transition: 0.3s;
     min-width: 90px;
+    transition: 0.3s;
 }
 
 input {
@@ -34,7 +35,7 @@ input {
 }
 
 input[type="color"]::-webkit-color-swatch {
-	border: none;
+    border: none;
     border-radius: 2px;
     padding: 0;
 }
@@ -60,7 +61,8 @@ input[type="text"]::placeholder {
     padding: 0 30px;
 }
 
-.controls, .controls__car {
+.controls,
+.controls__car {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -99,7 +101,8 @@ input[type="text"]::placeholder {
     flex-grow: 1;
 }
 
-.garage, .winners {
+.garage,
+.winners {
     padding-top: 3rem;
 }
 
@@ -152,7 +155,7 @@ input[type="text"]::placeholder {
 
 .track__button:disabled {
     border: 2px solid gray;
-    color: gray;  
+    color: gray;
 }
 
 .track__finish {
@@ -191,8 +194,7 @@ input[type="text"]::placeholder {
 }
 
 .winners__score td,
-.winners__score th
-{
+.winners__score th {
     text-align: left;
     word-wrap: break-word;
     padding: 5px;
@@ -224,7 +226,7 @@ input[type="text"]::placeholder {
 @media (max-width: 1000px) {
 
     html {
-      font-size: 14px;
+        font-size: 14px;
     }
 
     .header__nav {
@@ -253,12 +255,12 @@ input[type="text"]::placeholder {
         right: 20%;
     }
 
-  }
+}
 
-  @media (max-width: 700px) {
+@media (max-width: 700px) {
 
     html {
-      font-size: 12px;
+        font-size: 12px;
     }
 
     body {
@@ -294,17 +296,38 @@ input[type="text"]::placeholder {
         width: 50px;
     }
 
-  }
+}
 
 
-  @media (max-width: 499px) {
+@media (max-width: 499px) {
 
     .winners__score {
         width: 95%;
         margin: 0;
     }
 
-  }
+}
 
+@media (hover: hover) {
 
+    .header__switch-page:not([disabled]):hover,
+    .garage__paginator-button:not([disabled]):hover,
+    .winners__paginator-button:not([disabled]):hover {
+        background-color: rgb(194, 241, 140);
+    }
 
+    .controls__race-button:not([disabled]):hover {
+        background-color: rgb(255, 255, 200);
+    }
+
+    .controls__car-button:not([disabled]):hover,
+    .car-params__button:not([disabled]):hover {
+        background-color: rgb(147, 206, 238);
+    }
+
+    .track__button:not([disabled]):hover {
+        border: 2px solid rgb(147, 206, 238);
+        color: rgb(147, 206, 238);
+    }
+
+}
