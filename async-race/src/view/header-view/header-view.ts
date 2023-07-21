@@ -1,36 +1,13 @@
-import { ElementCreator, ElementParams } from '../../util/element-creator';
-import { View, ViewParams } from '../view';
-
-export interface Page {
-  name: string;
-  callback: () => void;
-}
-
-enum CssClasses {
-  header = 'header',
-  nav = 'header__nav',
-  button = 'header__switch-page',
-}
-
-export enum NamePages {
-  garage = 'Garage',
-  winners = 'Winners',
-}
+import { ElementCreator } from '../../util/element-creator';
+import { View } from '../view';
+import { CssClasses, Page, ViewParams, ElementParams } from '../../types/types';
 
 export class HeaderView extends View {
   private headerButtons: ElementCreator[];
 
-  private pages: {
-    name: string;
-    onPress: () => void;
-  }[];
+  private pages: Page[];
 
-  constructor(
-    pages: {
-      name: string;
-      onPress: () => void;
-    }[],
-  ) {
+  constructor(pages: Page[]) {
     const params: ViewParams = {
       tag: 'header',
       classNames: [CssClasses.header],
@@ -56,7 +33,6 @@ export class HeaderView extends View {
         classNames: [CssClasses.button],
         textContent: page.name.toUpperCase(),
         type: 'button',
-        callback: null,
       };
       const creatorButton = new ElementCreator(btnParams);
       creatorButton.setCallback(page.onPress);

@@ -1,22 +1,6 @@
-import { ElementCreator, ElementParams } from '../../../../util/element-creator';
-import { View, ViewParams } from '../../../view';
-
-export enum CarParams {
-  placeholderName = 'Lexus Nexus',
-  placeholderColor = '#D1D1D1',
-}
-
-enum CssClasses {
-  controls = 'controls',
-  carControls = 'controls__car',
-  raceControls = 'controls__race',
-  carCreate = 'controls__car-create',
-  carUpdate = 'controls__car-update',
-  inputName = 'controls__input-name',
-  inputColor = 'controls__input-color',
-  buttonCar = 'controls__car-button',
-  buttonRace = 'controls__race-button',
-}
+import { ElementCreator } from '../../../../util/element-creator';
+import { View } from '../../../view';
+import { CssClasses, CarParams, ViewParams, ElementParams } from '../../../../types/types';
 
 export class ControlsSectionView extends View {
   public carCreateBtn: ElementCreator | null;

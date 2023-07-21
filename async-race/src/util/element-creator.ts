@@ -1,11 +1,4 @@
-export interface ElementParams {
-  tag: string;
-  classNames: string[];
-  textContent?: string;
-  type?: string;
-  value?: string;
-  callback?: ((arg: MouseEvent) => void) | null;
-}
+import { ElementParams } from '../types/types';
 
 export class ElementCreator {
   public element: HTMLElement;

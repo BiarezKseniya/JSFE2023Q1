@@ -1,9 +1,5 @@
-import { ElementCreator, ElementParams } from '../util/element-creator';
-
-export interface ViewParams {
-  tag: string;
-  classNames: string[];
-}
+import { ElementCreator } from '../util/element-creator';
+import { ViewParams, ElementParams } from '../types/types';
 
 export class View {
   public viewElementCreator: ElementCreator;

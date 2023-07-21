@@ -1,12 +1,7 @@
-import { View, ViewParams } from '../../view';
-import { ElementCreator, ElementParams } from '../../../util/element-creator';
-import { WinnerData } from '../garage-view/garage-components-view/track-view';
+import { View } from '../../view';
+import { ElementCreator } from '../../../util/element-creator';
+import { WinnerData, CssClasses, ViewParams, ElementParams } from '../../../types/types';
 import carSvg from '../../../assets/car.svg';
-
-enum CssClasses {
-  winnerTableItem = 'winners__score-item',
-  winnerCar = 'winner__car-img',
-}
 
 export class WinnerView extends View {
   public name: string;

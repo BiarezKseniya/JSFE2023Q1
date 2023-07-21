@@ -1,10 +1,7 @@
-import { View, ViewParams } from '../view';
+import { View } from '../view';
 import { GarageView } from './garage-view/garage-view';
 import { WinnersView } from './winners-view/winners-view';
-
-enum CssClasses {
-  main = 'main',
-}
+import { CssClasses, ViewParams } from '../../types/types';
 
 export class MainView extends View {
   constructor() {

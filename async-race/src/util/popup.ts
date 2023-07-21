@@ -1,8 +1,5 @@
-import { ElementCreator, ElementParams } from './element-creator';
-
-enum CssClasses {
-  popUp = 'popup',
-}
+import { ElementCreator } from './element-creator';
+import { CssClasses, ElementParams } from '../types/types';
 
 export abstract class Popup {
   private static popup: ElementCreator;

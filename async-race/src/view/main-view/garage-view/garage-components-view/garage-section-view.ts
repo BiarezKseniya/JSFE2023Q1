@@ -1,15 +1,7 @@
-import { ElementCreator, ElementParams } from '../../../../util/element-creator';
-import { View, ViewParams } from '../../../view';
+import { ElementCreator } from '../../../../util/element-creator';
+import { View } from '../../../view';
 import { TrackView } from './track-view';
-
-enum CssClasses {
-  garage = 'garage',
-  garageHeader = 'garage__header',
-  garagePage = 'garage__page',
-  garagePaginator = 'garage__paginator',
-  garagePaginatorBtn = 'garage__paginator-button',
-  carsWrap = 'garage__cars',
-}
+import { CssClasses, ViewParams, ElementParams } from '../../../../types/types';
 
 export class GarageSectionView extends View {
   public paginatorButtons: ElementCreator[];

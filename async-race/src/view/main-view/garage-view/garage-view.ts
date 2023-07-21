@@ -1,10 +1,11 @@
 import { GarageSectionView } from './garage-components-view/garage-section-view';
-import { ControlsSectionView, CarParams } from './garage-components-view/controls-section-view';
+import { ControlsSectionView } from './garage-components-view/controls-section-view';
 import { TrackView } from './garage-components-view/track-view';
-import { View, ViewParams } from '../../view';
+import { View } from '../../view';
 import { ElementCreator } from '../../../util/element-creator';
 import { ApiHandler } from '../../../api-handler/api-handler';
 import { Popup } from '../../../util/popup';
+import { ViewParams, CarParams } from '../../../types/types';
 
 const carModel: Map<string, string> = new Map([
   ['Lexus', 'RX'],
@@ -57,6 +58,8 @@ export class GarageView extends View {
       await TrackView.resetAll();
       try {
         await TrackView.race(this.garageSection.currentPage);
+      } catch {
+        // Nothing to do here
       } finally {
         this.handleOnRaceBtnStyles(false);
       }

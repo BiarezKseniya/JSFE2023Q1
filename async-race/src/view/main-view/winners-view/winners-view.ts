@@ -1,38 +1,17 @@
-import { ElementCreator, ElementParams } from '../../../util/element-creator';
-import { View, ViewParams } from '../../view';
-import { TrackView, WinnerData } from '../garage-view/garage-components-view/track-view';
+import { ElementCreator } from '../../../util/element-creator';
+import { View } from '../../view';
+import { TrackView } from '../garage-view/garage-components-view/track-view';
 import { WinnerView } from './winner-view';
 import { ApiHandler, Winner } from '../../../api-handler/api-handler';
-
-enum CssClasses {
-  winners = 'winners',
-  winnersHeader = 'winners__header',
-  winnersPage = 'winners__page',
-  winnersPaginator = 'winners__paginator',
-  winnersPaginatorBtn = 'winners__paginator-button',
-  winnersTable = 'winners__score',
-  winnersTableHead = 'winners__score-head',
-  winnersSort = 'winners__sort-param',
-}
-
-enum SortValues {
-  noSort = 0,
-  asc = 1,
-  desc = 2,
-}
-
-enum SortTypes {
-  wins = 'wins',
-  time = 'time',
-}
-
-enum TableHeaderNames {
-  number = 'Number',
-  car = 'Car',
-  name = 'Name',
-  wins = 'Wins',
-  bestTime = 'Best time (sec)',
-}
+import {
+  WinnerData,
+  CssClasses,
+  TableHeaderNames,
+  SortTypes,
+  SortValues,
+  ViewParams,
+  ElementParams,
+} from '../../../types/types';
 
 export class WinnersView extends View {
   public paginatorButtons: Record<string, ElementCreator> = {};
@@ -264,23 +243,20 @@ export class WinnersView extends View {
     const newSort = sort === SortValues.desc ? SortValues.noSort : sort + 1;
 
     this.winnersSort.forEach((sortParam) => {
-      sortParam.removeCssClass(['asc', 'desc']);
+      sortParam.removeCssClass([CssClasses.asc, CssClasses.desc]);
     });
 
     switch (newSort) {
       case SortValues.asc: {
-        sortItem.setCssClasses(['asc']);
-        console.log('asc sort');
+        sortItem.setCssClasses([CssClasses.asc]);
         break;
       }
       case SortValues.desc: {
-        sortItem.setCssClasses(['desc']);
-        console.log('desc sort');
+        sortItem.setCssClasses([CssClasses.desc]);
         break;
       }
       default: {
         this.sortType = '';
-        console.log('no-sort');
         break;
       }
     }

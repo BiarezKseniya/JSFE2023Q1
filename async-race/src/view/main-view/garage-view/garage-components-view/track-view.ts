@@ -1,29 +1,10 @@
-import { View, ViewParams } from '../../../view';
-import { ElementCreator, ElementParams } from '../../../../util/element-creator';
+import { View } from '../../../view';
+import { ElementCreator } from '../../../../util/element-creator';
 import carSvg from '../../../../assets/car.svg';
 import finishSvg from '../../../../assets/finish.svg';
 import { ApiHandler } from '../../../../api-handler/api-handler';
 import { Popup } from '../../../../util/popup';
-
-export interface WinnerData {
-  id: number;
-  name: string;
-  bestTime: number;
-  winsCount: number;
-  color: string;
-}
-
-enum CssClasses {
-  carParams = 'car-params',
-  carControls = 'car-params__controls',
-  carButton = 'car-params__button',
-  carName = 'car-params__name',
-  track = 'track',
-  trackControls = 'track__controls',
-  trackButton = 'track__button',
-  trackCar = 'track__car',
-  trackFinish = 'track__finish',
-}
+import { CssClasses, ViewParams, ElementParams } from '../../../../types/types';
 
 export class TrackView extends View {
   public static instances: TrackView[] = [];
@@ -88,7 +69,7 @@ export class TrackView extends View {
 
     const carControlsParams: ElementParams = {
       tag: 'div',
-      classNames: [CssClasses.carControls],
+      classNames: [CssClasses.carParamsControls],
     };
     const carControls = new ElementCreator(carControlsParams);
     carParams.addInnerElement(carControls);
