@@ -52,14 +52,19 @@ export class GarageView extends View {
     });
 
     this.controlsSection.carRaceBtn?.setCallback(async () => {
-      this.handleRaceControls(true);
+      this.handleStartRaceBtnsStyles(true);
+      this.handleOnRaceBtnStyles(true);
       await TrackView.resetAll();
-      TrackView.race(this.garageSection.currentPage);
+      try {
+        await TrackView.race(this.garageSection.currentPage);
+      } finally {
+        this.handleOnRaceBtnStyles(false);
+      }
     });
 
-    this.controlsSection.carResetBtn?.setCallback(() => {
-      this.handleRaceControls(false);
-      TrackView.resetAll();
+    this.controlsSection.carResetBtn?.setCallback(async () => {
+      await TrackView.resetAll();
+      this.handleStartRaceBtnsStyles(false);
     });
 
     this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
@@ -163,9 +168,20 @@ export class GarageView extends View {
     }
   }
 
-  private handleRaceControls(flag: boolean): void {
+  private handleStartRaceBtnsStyles(flag: boolean): void {
     this.controlsSection.carRaceBtn?.toggleDisableElement(flag);
     this.cars.forEach((car) => car.trackButtonA?.toggleDisableElement(flag));
+  }
+
+  private handleOnRaceBtnStyles(flag: boolean): void {
+    this.controlsSection.carResetBtn?.toggleDisableElement(flag);
+    this.controlsSection.carCreateBtn?.toggleDisableElement(flag);
+    this.controlsSection.carUpdateBtn?.toggleDisableElement(flag);
+    this.controlsSection.carGenerateBtn?.toggleDisableElement(flag);
+    this.cars.forEach((car) => {
+      car.removeBtn?.toggleDisableElement(flag);
+      car.selectBtn?.toggleDisableElement(flag);
+    });
   }
 
   private async initCarView(): Promise<void> {

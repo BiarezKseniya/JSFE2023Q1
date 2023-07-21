@@ -50,6 +50,10 @@ export class TrackView extends View {
 
   public trackButtonB: ElementCreator | null = null;
 
+  public removeBtn: ElementCreator | null = null;
+
+  public selectBtn: ElementCreator | null = null;
+
   constructor(name: string, color: string, id?: number) {
     const params: ViewParams = {
       tag: 'div',
@@ -95,13 +99,13 @@ export class TrackView extends View {
       textContent: 'Select',
       type: 'button',
     };
-    const carButtonSelect = new ElementCreator(carButtonSelectParams);
-    carButtonSelect.setCallback(() => {
+    this.selectBtn = new ElementCreator(carButtonSelectParams);
+    this.selectBtn.setCallback(() => {
       if (this.onSelectCallback) {
         this.onSelectCallback(this.name, this.color);
       }
     });
-    carControls.addInnerElement(carButtonSelect);
+    carControls.addInnerElement(this.selectBtn);
 
     const carButtonRemoveParams: ElementParams = {
       tag: 'button',
@@ -109,9 +113,9 @@ export class TrackView extends View {
       textContent: 'Remove',
       type: 'button',
     };
-    const carButtonRemove = new ElementCreator(carButtonRemoveParams);
-    carButtonRemove.setCallback(this.removeCar.bind(this));
-    carControls.addInnerElement(carButtonRemove);
+    this.removeBtn = new ElementCreator(carButtonRemoveParams);
+    this.removeBtn.setCallback(this.removeCar.bind(this));
+    carControls.addInnerElement(this.removeBtn);
 
     const carNameParams: ElementParams = {
       tag: 'div',
@@ -146,8 +150,8 @@ export class TrackView extends View {
       try {
         this.trackButtonA?.toggleDisableElement(true);
         await this.go();
-      } catch (error) {
-        console.log('The car is broken');
+      } catch {
+        console.log('Car stopped or broken');
       }
     });
     trackControls.addInnerElement(this.trackButtonA);
@@ -160,8 +164,11 @@ export class TrackView extends View {
     };
     this.trackButtonB = new ElementCreator(trackButtonBParams);
     this.trackButtonB.setCallback(async () => {
-      await this.resetPosition();
-      this.trackButtonA?.toggleDisableElement(false);
+      try {
+        await this.resetPosition();
+      } finally {
+        this.trackButtonA?.toggleDisableElement(false);
+      }
     });
     this.trackButtonB.toggleDisableElement(true);
     trackControls.addInnerElement(this.trackButtonB);
@@ -243,6 +250,13 @@ export class TrackView extends View {
       this.run = false;
       throw new Error();
     }
+    try {
+      if (!this.run) {
+        throw new Error();
+      }
+    } catch {
+      throw new Error();
+    }
 
     return this.id;
   }
@@ -261,30 +275,40 @@ export class TrackView extends View {
     this.trackButtonB?.toggleDisableElement(true);
   }
 
-  public static async race(currentPage: number): Promise<void> {
-    const cars: Promise<number>[] = [];
-    const carsForRaceFromApi = await ApiHandler.getCarsOnPage(currentPage);
+  public static race(currentPage: number): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const cars: Promise<number>[] = [];
+      ApiHandler.getCarsOnPage(currentPage)
+        .then((carsForRaceFromApi) => {
+          const carsForRace = TrackView.instances.filter((trackView) =>
+            carsForRaceFromApi.find((carFromApi) => carFromApi.id === trackView.id),
+          );
 
-    const carsForRace = TrackView.instances.filter((trackView) =>
-      carsForRaceFromApi.find((carFromApi) => carFromApi.id === trackView.id),
-    );
+          carsForRace.forEach((car) => {
+            cars.push(car.go());
+            car.trackButtonB?.toggleDisableElement(false);
+          });
 
-    carsForRace.forEach((car) => {
-      cars.push(car.go());
-      car.trackButtonB?.toggleDisableElement(false);
+          Promise.any(cars)
+            .then((id) => {
+              const winner = TrackView.instances.find((car) => car.id === id);
+              if (winner && winner.runTime) {
+                Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
+                ApiHandler.modifyWinner(winner.id, Math.round(winner.runTime / 10) / 100)
+                  .then(() => resolve())
+                  .catch(() => reject());
+              } else {
+                Popup.displayMessage('All cars were are either broken or stopped. Try again!');
+                reject();
+              }
+            })
+            .catch(() => {
+              Popup.displayMessage('All cars were are either broken or stopped. Try again!');
+              reject();
+            });
+        })
+        .catch(() => reject());
     });
-
-    Promise.any(cars)
-      .then((id) => {
-        const winner = TrackView.instances.find((car) => car.id === id);
-        if (winner && winner.runTime) {
-          Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
-          ApiHandler.modifyWinner(winner.id, Math.round(winner.runTime / 10) / 100);
-        }
-      })
-      .catch(() => {
-        Popup.displayMessage('Race has not succeeded: all cars are broken');
-      });
   }
 
   public static async resetAll(): Promise<void[]> {
@@ -322,5 +346,12 @@ export class TrackView extends View {
     };
 
     window.requestAnimationFrame(step);
+  }
+
+  private static async excludeFromRace(id: number): Promise<void> {
+    const car = TrackView.instances.find((trackView) => trackView.id === id);
+    if (car) {
+      car.run = false;
+    }
   }
 }
