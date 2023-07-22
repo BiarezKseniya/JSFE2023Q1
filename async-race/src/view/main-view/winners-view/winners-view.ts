@@ -147,7 +147,7 @@ export class WinnersView extends View {
     winnersApi.winnersPage.forEach((winner, index) => {
       const car = TrackView.instances.find((trackCar) => trackCar.id === winner.id);
       if (!car) {
-        throw new Error('No car has been found');
+        return;
       }
       const winnerData: WinnerData = {
         id: winner.id,
