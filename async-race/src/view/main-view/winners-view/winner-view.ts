@@ -1,6 +1,7 @@
 import { View } from '../../view';
 import { ElementCreator } from '../../../util/element-creator';
-import { WinnerData, CssClasses, ViewParams, ElementParams } from '../../../types/types';
+import { WinnerData, CssClasses, TableHeaderNames } from '../../../types/types';
+import { Configuration } from '../../../util/configuration';
 import carSvg from '../../../assets/car.svg';
 
 export class WinnerView extends View {
@@ -17,11 +18,7 @@ export class WinnerView extends View {
   private carImg: HTMLElement | null = null;
 
   constructor(winner: WinnerData, index: number) {
-    const params: ViewParams = {
-      tag: 'tr',
-      classNames: [],
-    };
-    super(params);
+    super(Configuration.viewParams.winnerView);
 
     this.id = winner.id;
     this.name = winner.name;
@@ -34,50 +31,25 @@ export class WinnerView extends View {
   }
 
   public configureView(index: number): void {
-    const numberParams: ElementParams = {
-      tag: 'td',
-      classNames: [CssClasses.winnerTableItem],
-      textContent: (index + 1).toString(),
-    };
-    this.viewElementCreator.addInnerElement(new ElementCreator(numberParams));
+    const tableRow: {
+      [key: string]: ElementCreator;
+    } = {};
+    Object.keys(TableHeaderNames).forEach((column) => {
+      tableRow[column] = new ElementCreator(Configuration.elementParams.winnerTableCellParams);
+    });
 
-    const imgParams: ElementParams = {
-      tag: 'td',
-      classNames: [CssClasses.winnerTableItem],
-    };
-    const imgItem = new ElementCreator(imgParams);
+    tableRow.number.setTextContent((index + 1).toString());
 
-    this.carImg = this.getSVGElement(carSvg, CssClasses.winnerCar);
+    this.carImg = Configuration.getSVGElement(carSvg, CssClasses.winnerCar);
     this.carImg.style.color = this.color;
-    imgItem.addInnerElement(this.carImg);
-    this.viewElementCreator.addInnerElement(imgItem);
+    tableRow.car.addInnerElement(this.carImg);
 
-    const nameParams: ElementParams = {
-      tag: 'td',
-      classNames: [CssClasses.winnerTableItem],
-      textContent: this.name,
-    };
-    this.viewElementCreator.addInnerElement(new ElementCreator(nameParams));
+    tableRow.name.setTextContent(this.name);
+    tableRow.wins.setTextContent(this.winsCount.toString());
+    tableRow.bestTime.setTextContent(this.bestTime.toString());
 
-    const winsCountParams: ElementParams = {
-      tag: 'td',
-      classNames: [CssClasses.winnerTableItem],
-      textContent: this.winsCount.toString(),
-    };
-    this.viewElementCreator.addInnerElement(new ElementCreator(winsCountParams));
-
-    const bestTimeParams: ElementParams = {
-      tag: 'td',
-      classNames: [CssClasses.winnerTableItem],
-      textContent: this.bestTime.toString(),
-    };
-    this.viewElementCreator.addInnerElement(new ElementCreator(bestTimeParams));
-  }
-
-  private getSVGElement(svg: string, className: string): HTMLElement {
-    const parser = new DOMParser();
-    const svgElement = parser.parseFromString(svg, 'image/svg+xml').documentElement;
-    svgElement.classList.add(className);
-    return svgElement;
+    Object.values(tableRow).forEach((cell) => {
+      this.viewElementCreator.addInnerElement(cell);
+    });
   }
 }

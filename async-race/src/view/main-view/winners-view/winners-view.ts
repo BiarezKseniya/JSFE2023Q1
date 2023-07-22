@@ -2,109 +2,81 @@ import { ElementCreator } from '../../../util/element-creator';
 import { View } from '../../view';
 import { TrackView } from '../garage-view/garage-components-view/track-view';
 import { WinnerView } from './winner-view';
-import { ApiHandler, Winner } from '../../../api-handler/api-handler';
-import {
-  WinnerData,
-  CssClasses,
-  TableHeaderNames,
-  SortTypes,
-  SortValues,
-  ViewParams,
-  ElementParams,
-} from '../../../types/types';
+import { ApiHandler } from '../../../api-handler/api-handler';
+import { WinnerData, CssClasses, TableHeaderNames, SortTypes, SortValues, Winner } from '../../../types/types';
+import { Configuration } from '../../../util/configuration';
 
 export class WinnersView extends View {
   public paginatorButtons: Record<string, ElementCreator> = {};
 
-  public winnersTable: ElementCreator | null;
+  public winnersTable: ElementCreator | null = null;
 
-  public winnersTableBody: ElementCreator | null;
+  public winnersTableBody: ElementCreator | null = null;
 
-  public winnersHeader: ElementCreator | null;
+  public winnersHeader: ElementCreator | null = null;
 
-  public pageHeader: ElementCreator | null;
+  public pageHeader: ElementCreator | null = null;
 
-  public winnersSort: ElementCreator[];
+  public winnersSort: ElementCreator[] = [];
 
-  public winners: Winner[] | null;
+  public winners: Winner[] | null = null;
 
-  public currentPage: number;
+  public currentPage: number = 1;
 
-  public itemsPerPage: number;
+  public itemsPerPage: number = 10;
 
-  public winnersCount: number;
+  public winnersCount: number = 0;
 
-  public winSort: number;
+  public winSort: number = 0;
 
-  public timeSort: number;
+  public timeSort: number = 0;
 
-  public sortType: string;
+  public sortType: string = '';
 
   constructor() {
-    const params: ViewParams = {
-      tag: 'section',
-      classNames: [CssClasses.winners],
-    };
-    super(params);
+    super(Configuration.viewParams.winnersSection);
 
-    this.paginatorButtons = {};
-    this.winnersTable = null;
-    this.winnersTableBody = null;
-    this.winnersHeader = null;
-    this.pageHeader = null;
-    this.winnersHeader = null;
-    this.winnersSort = [];
-    this.winners = null;
-    this.currentPage = 1;
-    this.itemsPerPage = 10;
-    this.winnersCount = 0;
-    this.sortType = '';
-    this.winSort = 0;
-    this.timeSort = 0;
     this.configureView();
     this.drawWinners();
   }
 
   public configureView(): void {
-    const winnersHeaderParams: ElementParams = {
-      tag: 'h1',
-      classNames: [CssClasses.winnersHeader],
-    };
+    this.winnersHeader = new ElementCreator(Configuration.elementParams.winnersHeaderParams);
+    this.pageHeader = new ElementCreator(Configuration.elementParams.winnersPageParams);
+    this.winnersTable = new ElementCreator(Configuration.elementParams.winnerTableParams);
+    this.winnersTableBody = new ElementCreator(Configuration.elementParams.winnersTableBodyParams);
 
-    this.winnersHeader = new ElementCreator(winnersHeaderParams);
-    this.viewElementCreator.addInnerElement(this.winnersHeader);
+    const winnersTableHead = new ElementCreator(Configuration.elementParams.winnersTableHeadParams);
+    this.fillTableHeader(winnersTableHead);
 
-    const pageParams: ElementParams = {
-      tag: 'h3',
-      classNames: [CssClasses.winnersPage],
-    };
+    const paginator = new ElementCreator(Configuration.elementParams.winnersPaginatorParams);
+    const buttonPrev = new ElementCreator(Configuration.elementParams.winnersPaginatorPrevParams);
+    buttonPrev.setCallback(() => {
+      this.currentPage -= 1;
+      this.handlePaginator();
+    });
+    this.paginatorButtons.prev = buttonPrev;
+    const buttonNext = new ElementCreator(Configuration.elementParams.winnersPaginatorNextParams);
+    buttonNext.setCallback(() => {
+      this.currentPage += 1;
+      this.handlePaginator();
+    });
+    this.paginatorButtons.next = buttonNext;
 
-    this.pageHeader = new ElementCreator(pageParams);
-    this.viewElementCreator.addInnerElement(this.pageHeader);
-
-    const tableParams: ElementParams = {
-      tag: 'table',
-      classNames: [CssClasses.winnersTable],
-    };
-
-    this.winnersTable = new ElementCreator(tableParams);
-    this.viewElementCreator.addInnerElement(this.winnersTable);
-
-    const tableHeadParams: ElementParams = {
-      tag: 'thead',
-      classNames: [CssClasses.winnersTableHead],
-    };
-    const winnersTableHead = new ElementCreator(tableHeadParams);
+    paginator.addInnerElement(buttonPrev);
+    paginator.addInnerElement(buttonNext);
     this.winnersTable.addInnerElement(winnersTableHead);
+    this.winnersTable.addInnerElement(this.winnersTableBody);
+    this.viewElementCreator.addInnerElement(this.winnersHeader);
+    this.viewElementCreator.addInnerElement(this.pageHeader);
+    this.viewElementCreator.addInnerElement(this.winnersTable);
+    this.viewElementCreator.addInnerElement(paginator);
+  }
 
+  public fillTableHeader(winnersTableHead: ElementCreator): void {
     Object.values(TableHeaderNames).forEach((th) => {
-      const tableHeadItemParams: ElementParams = {
-        tag: 'th',
-        classNames: [CssClasses.winnersTableHead],
-        textContent: th,
-      };
-
-      const thItem = new ElementCreator(tableHeadItemParams);
+      const thItem = new ElementCreator(Configuration.elementParams.winnersTableHeadItemParams);
+      thItem.setTextContent(th);
 
       switch (th) {
         case TableHeaderNames.wins: {
@@ -135,52 +107,6 @@ export class WinnersView extends View {
 
       winnersTableHead.addInnerElement(thItem);
     });
-
-    const tableBodyParams: ElementParams = {
-      tag: 'tbody',
-      classNames: [],
-    };
-    this.winnersTableBody = new ElementCreator(tableBodyParams);
-    this.winnersTable.addInnerElement(this.winnersTableBody);
-
-    const paginatorParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.winnersPaginator],
-    };
-
-    const paginator = new ElementCreator(paginatorParams);
-
-    const paginatorPrevParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.winnersPaginatorBtn],
-      textContent: 'PREV',
-      type: 'button',
-    };
-    const buttonPrev = new ElementCreator(paginatorPrevParams);
-
-    buttonPrev.setCallback(() => {
-      this.currentPage -= 1;
-      this.handlePaginator();
-    });
-    paginator.addInnerElement(buttonPrev);
-    this.paginatorButtons.prev = buttonPrev;
-
-    const paginatorNextParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.winnersPaginatorBtn],
-      textContent: 'NEXT',
-      type: 'button',
-    };
-    const buttonNext = new ElementCreator(paginatorNextParams);
-
-    buttonNext.setCallback(() => {
-      this.currentPage += 1;
-      this.handlePaginator();
-    });
-    paginator.addInnerElement(buttonNext);
-    this.paginatorButtons.next = buttonNext;
-
-    this.viewElementCreator.addInnerElement(paginator);
   }
 
   public handlePaginator(): void {

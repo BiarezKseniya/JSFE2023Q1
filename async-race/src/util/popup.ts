@@ -1,15 +1,11 @@
 import { ElementCreator } from './element-creator';
-import { CssClasses, ElementParams } from '../types/types';
+import { Configuration } from './configuration';
 
 export abstract class Popup {
   private static popup: ElementCreator;
 
   public static init(): ElementCreator {
-    const params: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.popUp],
-    };
-    this.popup = new ElementCreator(params);
+    this.popup = new ElementCreator(Configuration.elementParams.popupParams);
     return this.popup;
   }
 

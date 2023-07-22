@@ -4,7 +4,8 @@ import carSvg from '../../../../assets/car.svg';
 import finishSvg from '../../../../assets/finish.svg';
 import { ApiHandler } from '../../../../api-handler/api-handler';
 import { Popup } from '../../../../util/popup';
-import { CssClasses, ViewParams, ElementParams } from '../../../../types/types';
+import { CssClasses } from '../../../../types/types';
+import { Configuration } from '../../../../util/configuration';
 
 export class TrackView extends View {
   public static instances: TrackView[] = [];
@@ -17,7 +18,7 @@ export class TrackView extends View {
 
   public color: string;
 
-  private run: boolean;
+  private run: boolean = false;
 
   private runTime: number | null = null;
 
@@ -36,11 +37,7 @@ export class TrackView extends View {
   public selectBtn: ElementCreator | null = null;
 
   constructor(name: string, color: string, id?: number) {
-    const params: ViewParams = {
-      tag: 'div',
-      classNames: [],
-    };
-    super(params);
+    super(Configuration.viewParams.trackView);
 
     if (id) {
       this.id = id;
@@ -50,7 +47,6 @@ export class TrackView extends View {
       });
     }
 
-    this.run = false;
     this.name = name;
     this.color = color;
     this.configureView();
@@ -60,106 +56,35 @@ export class TrackView extends View {
   private onSelectCallback: ((name: string, color: string) => void) | null = null;
 
   public configureView(): void {
-    const carParamsParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carParams],
-    };
-    const carParams = new ElementCreator(carParamsParams);
-    this.viewElementCreator.addInnerElement(carParams);
+    const carParams = new ElementCreator(Configuration.elementParams.carParamsParams);
+    const carControls = new ElementCreator(Configuration.elementParams.carTrackControlsParams);
+    const track = new ElementCreator(Configuration.elementParams.trackParams);
+    const trackControls = new ElementCreator(Configuration.elementParams.trackControlsParams);
 
-    const carControlsParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carParamsControls],
-    };
-    const carControls = new ElementCreator(carControlsParams);
-    carParams.addInnerElement(carControls);
-
-    const carButtonSelectParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.carButton],
-      textContent: 'Select',
-      type: 'button',
-    };
-    this.selectBtn = new ElementCreator(carButtonSelectParams);
-    this.selectBtn.setCallback(() => {
-      if (this.onSelectCallback) {
-        this.onSelectCallback(this.name, this.color);
-      }
-    });
-    carControls.addInnerElement(this.selectBtn);
-
-    const carButtonRemoveParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.carButton],
-      textContent: 'Remove',
-      type: 'button',
-    };
-    this.removeBtn = new ElementCreator(carButtonRemoveParams);
-    this.removeBtn.setCallback(this.removeCar.bind(this));
-    carControls.addInnerElement(this.removeBtn);
-
-    const carNameParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carName],
-      textContent: this.name,
-    };
-    this.nameEl = new ElementCreator(carNameParams);
-    carParams.addInnerElement(this.nameEl);
-
-    const trackParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.track],
-    };
-    const track = new ElementCreator(trackParams);
-    this.viewElementCreator.addInnerElement(track);
-
-    const trackControlsParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.trackControls],
-    };
-    const trackControls = new ElementCreator(trackControlsParams);
-    track.addInnerElement(trackControls);
-
-    const trackButtonAParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.trackButton],
-      textContent: 'A',
-      type: 'button',
-    };
-    this.trackButtonA = new ElementCreator(trackButtonAParams);
-    this.trackButtonA.setCallback(async () => {
-      try {
-        this.trackButtonA?.toggleDisableElement(true);
-        await this.go();
-      } catch {
-        console.log('Car stopped or broken');
-      }
-    });
-    trackControls.addInnerElement(this.trackButtonA);
-
-    const trackButtonBParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.trackButton],
-      textContent: 'B',
-      type: 'button',
-    };
-    this.trackButtonB = new ElementCreator(trackButtonBParams);
-    this.trackButtonB.setCallback(async () => {
-      try {
-        await this.resetPosition();
-      } finally {
-        this.trackButtonA?.toggleDisableElement(false);
-      }
-    });
+    this.selectBtn = new ElementCreator(Configuration.elementParams.carButtonSelectParams);
+    this.removeBtn = new ElementCreator(Configuration.elementParams.carButtonRemoveParams);
+    this.nameEl = new ElementCreator(Configuration.elementParams.carNameParams);
+    this.nameEl.setTextContent(this.name);
+    this.trackButtonA = new ElementCreator(Configuration.elementParams.trackButtonAParams);
+    this.trackButtonB = new ElementCreator(Configuration.elementParams.trackButtonBParams);
     this.trackButtonB.toggleDisableElement(true);
-    trackControls.addInnerElement(this.trackButtonB);
+    this.setCallbacks();
 
-    this.carImg = this.getSVGElement(carSvg, CssClasses.trackCar);
+    this.carImg = Configuration.getSVGElement(carSvg, CssClasses.trackCar);
     this.carImg.style.color = this.color;
-    track.addInnerElement(this.carImg);
+    this.finishImg = Configuration.getSVGElement(finishSvg, CssClasses.trackFinish);
 
-    this.finishImg = this.getSVGElement(finishSvg, CssClasses.trackFinish);
+    this.viewElementCreator.addInnerElement(carParams);
+    carControls.addInnerElement(this.selectBtn);
+    carControls.addInnerElement(this.removeBtn);
+    carParams.addInnerElement(carControls);
+    carParams.addInnerElement(this.nameEl);
+    trackControls.addInnerElement(this.trackButtonA);
+    trackControls.addInnerElement(this.trackButtonB);
+    track.addInnerElement(trackControls);
+    track.addInnerElement(this.carImg);
     track.addInnerElement(this.finishImg);
+    this.viewElementCreator.addInnerElement(track);
   }
 
   public static getInstances(): TrackView[] {
@@ -190,13 +115,6 @@ export class TrackView extends View {
       throw new Error('Car image not found');
     }
     this.carImg.style.color = this.color;
-  }
-
-  private getSVGElement(svg: string, className: string): HTMLElement {
-    const parser = new DOMParser();
-    const svgElement = parser.parseFromString(svg, 'image/svg+xml').documentElement;
-    svgElement.classList.add(className);
-    return svgElement;
   }
 
   private removeCar(): void {
@@ -329,10 +247,27 @@ export class TrackView extends View {
     window.requestAnimationFrame(step);
   }
 
-  private static async excludeFromRace(id: number): Promise<void> {
-    const car = TrackView.instances.find((trackView) => trackView.id === id);
-    if (car) {
-      car.run = false;
-    }
+  private setCallbacks(): void {
+    this.selectBtn?.setCallback(() => {
+      if (this.onSelectCallback) {
+        this.onSelectCallback(this.name, this.color);
+      }
+    });
+    this.removeBtn?.setCallback(this.removeCar.bind(this));
+    this.trackButtonA?.setCallback(async () => {
+      try {
+        this.trackButtonA?.toggleDisableElement(true);
+        await this.go();
+      } catch {
+        // Nothing to do
+      }
+    });
+    this.trackButtonB?.setCallback(async () => {
+      try {
+        await this.resetPosition();
+      } finally {
+        this.trackButtonA?.toggleDisableElement(false);
+      }
+    });
   }
 }

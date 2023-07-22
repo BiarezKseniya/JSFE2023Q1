@@ -1,24 +1,4 @@
-export interface RaceParams {
-  velocity: number;
-  distance: number;
-}
-
-export interface Car {
-  name: string;
-  color: string;
-  id: number;
-}
-
-export interface Winner {
-  id: number;
-  wins: number;
-  time: number;
-}
-
-export interface WinnersPage {
-  winnersPage: Winner[];
-  winnersTotalCount: number;
-}
+import { RaceParams, Car, Winner, WinnersPage } from '../types/types';
 
 export abstract class ApiHandler {
   private static baseUrl: string = 'http://127.0.0.1:3000';

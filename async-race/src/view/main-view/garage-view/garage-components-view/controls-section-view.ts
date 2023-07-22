@@ -1,159 +1,68 @@
 import { ElementCreator } from '../../../../util/element-creator';
 import { View } from '../../../view';
-import { CssClasses, CarParams, ViewParams, ElementParams } from '../../../../types/types';
+import { CarParams } from '../../../../types/types';
+import { Configuration } from '../../../../util/configuration';
 
 export class ControlsSectionView extends View {
-  public carCreateBtn: ElementCreator | null;
+  public carCreateBtn: ElementCreator | null = null;
 
-  public carCreateNameInput: ElementCreator | null;
+  public carCreateNameInput: ElementCreator | null = null;
 
-  public carCreateColorInput: ElementCreator | null;
+  public carCreateColorInput: ElementCreator | null = null;
 
-  public carUpdateBtn: ElementCreator | null;
+  public carUpdateBtn: ElementCreator | null = null;
 
-  public carUpdateNameInput: ElementCreator | null;
+  public carUpdateNameInput: ElementCreator | null = null;
 
-  public carUpdateColorInput: ElementCreator | null;
+  public carUpdateColorInput: ElementCreator | null = null;
 
-  public carRaceBtn: ElementCreator | null;
+  public carRaceBtn: ElementCreator | null = null;
 
-  public carResetBtn: ElementCreator | null;
+  public carResetBtn: ElementCreator | null = null;
 
-  public carGenerateBtn: ElementCreator | null;
-
-  private onUpdateCallback: (() => void) | null = null;
+  public carGenerateBtn: ElementCreator | null = null;
 
   constructor() {
-    const params: ViewParams = {
-      tag: 'section',
-      classNames: [CssClasses.controls],
-    };
-    super(params);
-
-    this.carCreateBtn = null;
-    this.carCreateNameInput = null;
-    this.carCreateColorInput = null;
-    this.carUpdateBtn = null;
-    this.carUpdateNameInput = null;
-    this.carUpdateColorInput = null;
-    this.carRaceBtn = null;
-    this.carResetBtn = null;
-    this.carGenerateBtn = null;
+    super(Configuration.viewParams.controlsSectionParams);
 
     this.configureView();
   }
 
   public configureView(): void {
-    const carControlsParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carControls],
-    };
-    const carControls = new ElementCreator(carControlsParams);
-    this.viewElementCreator.addInnerElement(carControls);
+    const carControls = new ElementCreator(Configuration.elementParams.carControlsParams);
+    const carCreate = new ElementCreator(Configuration.elementParams.carCreateParams);
+    const carUpdate = new ElementCreator(Configuration.elementParams.carUpdateParams);
+    const raceControls = new ElementCreator(Configuration.elementParams.raceControlsParams);
 
-    const carCreateParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carCreate],
-    };
-    const carCreate = new ElementCreator(carCreateParams);
-    carControls.addInnerElement(carCreate);
-
-    const carUpdateParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.carUpdate],
-    };
-    const carUpdate = new ElementCreator(carUpdateParams);
-    carControls.addInnerElement(carUpdate);
-
-    const inputNameParams: ElementParams = {
-      tag: 'input',
-      classNames: [CssClasses.inputName],
-      type: 'text',
-    };
-
-    this.carCreateNameInput = new ElementCreator(inputNameParams);
+    this.carCreateNameInput = new ElementCreator(Configuration.elementParams.inputNameParams);
     this.carCreateNameInput.getElement().setAttribute('placeholder', CarParams.placeholderName);
+    this.carUpdateNameInput = new ElementCreator(Configuration.elementParams.inputNameParams);
+    this.carCreateColorInput = new ElementCreator(Configuration.elementParams.inputColorParams);
+    this.carUpdateColorInput = new ElementCreator(Configuration.elementParams.inputColorParams);
+    this.carCreateBtn = new ElementCreator(Configuration.elementParams.buttonCarCreateParams);
+    this.carUpdateBtn = new ElementCreator(Configuration.elementParams.buttonCarUpdateParams);
+
+    this.carRaceBtn = new ElementCreator(Configuration.elementParams.buttonRaceRaceParams);
+    this.carResetBtn = new ElementCreator(Configuration.elementParams.buttonRaceResetParams);
+    this.carGenerateBtn = new ElementCreator(Configuration.elementParams.buttonRaceGenerateParams);
+
     carCreate.addInnerElement(this.carCreateNameInput);
-
-    this.carUpdateNameInput = new ElementCreator(inputNameParams);
-    carUpdate.addInnerElement(this.carUpdateNameInput);
-
-    const inputColorParams: ElementParams = {
-      tag: 'input',
-      classNames: [CssClasses.inputColor],
-      type: 'color',
-      value: CarParams.placeholderColor,
-    };
-
-    this.carCreateColorInput = new ElementCreator(inputColorParams);
     carCreate.addInnerElement(this.carCreateColorInput);
-
-    this.carUpdateColorInput = new ElementCreator(inputColorParams);
-    carUpdate.addInnerElement(this.carUpdateColorInput);
-
-    const buttonCarCreateParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.buttonCar],
-      textContent: 'Create',
-      type: 'button',
-    };
-
-    this.carCreateBtn = new ElementCreator(buttonCarCreateParams);
     carCreate.addInnerElement(this.carCreateBtn);
 
-    const buttonCarUpdateParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.buttonCar],
-      textContent: 'Update',
-      type: 'button',
-    };
-    this.carUpdateBtn = new ElementCreator(buttonCarUpdateParams);
-    this.carUpdateBtn.setCallback(() => {
-      if (this.onUpdateCallback) {
-        this.onUpdateCallback();
-      }
-    });
+    carUpdate.addInnerElement(this.carUpdateNameInput);
+    carUpdate.addInnerElement(this.carUpdateColorInput);
     carUpdate.addInnerElement(this.carUpdateBtn);
 
-    const raceControlsParams: ElementParams = {
-      tag: 'div',
-      classNames: [CssClasses.raceControls],
-    };
-    const raceControls = new ElementCreator(raceControlsParams);
-    this.viewElementCreator.addInnerElement(raceControls);
+    carControls.addInnerElement(carCreate);
+    carControls.addInnerElement(carUpdate);
 
-    const buttonRaceRaceParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.buttonRace],
-      textContent: 'Race',
-      type: 'button',
-      callback: null,
-    };
-
-    const buttonRaceResetParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.buttonRace],
-      textContent: 'Reset',
-      type: 'button',
-      callback: null,
-    };
-
-    const buttonRaceGenerateParams: ElementParams = {
-      tag: 'button',
-      classNames: [CssClasses.buttonRace],
-      textContent: 'Generate cars',
-      type: 'button',
-      callback: null,
-    };
-
-    this.carRaceBtn = new ElementCreator(buttonRaceRaceParams);
     raceControls.addInnerElement(this.carRaceBtn);
-
-    this.carResetBtn = new ElementCreator(buttonRaceResetParams);
     raceControls.addInnerElement(this.carResetBtn);
-
-    this.carGenerateBtn = new ElementCreator(buttonRaceGenerateParams);
     raceControls.addInnerElement(this.carGenerateBtn);
+
+    this.viewElementCreator.addInnerElement(carControls);
+    this.viewElementCreator.addInnerElement(raceControls);
 
     this.toggleUpdateElements(true);
   }
@@ -174,10 +83,6 @@ export class ControlsSectionView extends View {
         input.value = color;
       }
     }
-  }
-
-  public setOnUpdateCallback(callback: () => void): void {
-    this.onUpdateCallback = callback;
   }
 
   public toggleUpdateElements(flag: boolean): void {
