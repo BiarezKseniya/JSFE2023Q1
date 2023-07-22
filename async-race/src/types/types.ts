@@ -12,6 +12,14 @@ export interface ViewParams {
   classNames: string[];
 }
 
+export type ElementParamsObject = {
+  [key: string]: ElementParams;
+};
+
+export type ViewParamsObject = {
+  [key: string]: ViewParams;
+};
+
 export interface Page {
   name: string;
   onPress: () => void;
@@ -91,4 +99,26 @@ export enum TableHeaderNames {
   name = 'Name',
   wins = 'Wins',
   bestTime = 'Best time (sec)',
+}
+
+export interface RaceParams {
+  velocity: number;
+  distance: number;
+}
+
+export interface Car {
+  name: string;
+  color: string;
+  id: number;
+}
+
+export interface Winner {
+  id: number;
+  wins: number;
+  time: number;
+}
+
+export interface WinnersPage {
+  winnersPage: Winner[];
+  winnersTotalCount: number;
 }
