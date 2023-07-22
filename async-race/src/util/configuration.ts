@@ -239,19 +239,12 @@ export abstract class Configuration {
     },
   };
 
-  private static carModel: Map<string, string> = new Map([
-    ['Lexus', 'RX'],
-    ['BMW', 'X6'],
-    ['Cadillac', 'Escalade'],
-    ['Toyota', 'Corolla'],
-    ['Mercedez', 'McLaren'],
-    ['Porshe', 'Carrera'],
-    ['Jaguar', 'F-Type SVR'],
-    ['Genezis', 'G80'],
-    ['Chevrolet', 'Impala'],
-    ['Lamborghini', 'Veneno'],
-    ['Ferrari', 'Dino'],
-  ]);
+  public static itemsPerPage: {
+    [key: string]: number;
+  } = {
+    garage: 7,
+    winners: 10,
+  };
 
   public static getSVGElement(svg: string, className: string): HTMLElement {
     const parser = new DOMParser();
@@ -277,4 +270,18 @@ export abstract class Configuration {
     }
     return color;
   }
+
+  private static carModel: Map<string, string> = new Map([
+    ['Lexus', 'RX'],
+    ['BMW', 'X6'],
+    ['Cadillac', 'Escalade'],
+    ['Toyota', 'Corolla'],
+    ['Mercedez', 'McLaren'],
+    ['Porshe', 'Carrera'],
+    ['Jaguar', 'F-Type SVR'],
+    ['Genezis', 'G80'],
+    ['Chevrolet', 'Impala'],
+    ['Lamborghini', 'Veneno'],
+    ['Ferrari', 'Dino'],
+  ]);
 }

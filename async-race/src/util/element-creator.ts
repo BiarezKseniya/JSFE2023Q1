@@ -57,7 +57,7 @@ export class ElementCreator {
     }
   }
 
-  public toggleDisableElement(flag: boolean): void {
+  public setDisableElement(flag: boolean): void {
     if (this.element instanceof HTMLButtonElement || this.element instanceof HTMLInputElement) {
       this.element.disabled = flag;
     }

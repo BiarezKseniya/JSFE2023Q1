@@ -49,7 +49,7 @@ export class GarageView extends View {
     });
 
     this.controlsSection.carRaceBtn?.setCallback(async () => {
-      this.handleStartRaceBtnsStyles(true);
+      this.controlsSection.carRaceBtn?.setDisableElement(true);
       this.handleOnRaceBtnStyles(true);
       await TrackView.resetAll();
       try {
@@ -63,7 +63,7 @@ export class GarageView extends View {
 
     this.controlsSection.carResetBtn?.setCallback(async () => {
       await TrackView.resetAll();
-      this.handleStartRaceBtnsStyles(false);
+      this.controlsSection.carRaceBtn?.setDisableElement(false);
     });
 
     this.controlsSection.carGenerateBtn?.setCallback(this.GenerateCars.bind(this));
@@ -81,7 +81,7 @@ export class GarageView extends View {
   }
 
   private createCar({ name, color, id }: { name: string; color: string; id?: number } = this.getNameColor()): void {
-    const newCar = id ? new TrackView(name, color, id) : new TrackView(name, color);
+    const newCar = new TrackView(name, color, id);
     newCar.setOnSelectCallback((newName, newColor) => {
       this.selectedCar = newCar;
       this.fillUpdateCarInputs(newName, newColor);
@@ -137,19 +137,14 @@ export class GarageView extends View {
     }
   }
 
-  private handleStartRaceBtnsStyles(flag: boolean): void {
-    this.controlsSection.carRaceBtn?.toggleDisableElement(flag);
-    this.cars.forEach((car) => car.trackButtonA?.toggleDisableElement(flag));
-  }
-
   private handleOnRaceBtnStyles(flag: boolean): void {
-    this.controlsSection.carResetBtn?.toggleDisableElement(flag);
-    this.controlsSection.carCreateBtn?.toggleDisableElement(flag);
-    this.controlsSection.carUpdateBtn?.toggleDisableElement(flag);
-    this.controlsSection.carGenerateBtn?.toggleDisableElement(flag);
+    this.controlsSection.carResetBtn?.setDisableElement(flag);
+    this.controlsSection.carCreateBtn?.setDisableElement(flag);
+    this.controlsSection.carUpdateBtn?.setDisableElement(flag);
+    this.controlsSection.carGenerateBtn?.setDisableElement(flag);
     this.cars.forEach((car) => {
-      car.removeBtn?.toggleDisableElement(flag);
-      car.selectBtn?.toggleDisableElement(flag);
+      car.removeBtn?.setDisableElement(flag);
+      car.selectBtn?.setDisableElement(flag);
     });
   }
 

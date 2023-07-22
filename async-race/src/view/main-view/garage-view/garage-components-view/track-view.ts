@@ -67,7 +67,7 @@ export class TrackView extends View {
     this.nameEl.setTextContent(this.name);
     this.trackButtonA = new ElementCreator(Configuration.elementParams.trackButtonAParams);
     this.trackButtonB = new ElementCreator(Configuration.elementParams.trackButtonBParams);
-    this.trackButtonB.toggleDisableElement(true);
+    this.trackButtonB.setDisableElement(true);
     this.setCallbacks();
 
     this.carImg = Configuration.getSVGElement(carSvg, CssClasses.trackCar);
@@ -127,7 +127,7 @@ export class TrackView extends View {
       }
       this.viewElementCreator.getElement().remove();
 
-      ApiHandler.deleteWinner(this.id);
+      ApiHandler.deleteWinner(this.id).catch(() => {});
 
       if (TrackView.onRemove) {
         TrackView.onRemove();
@@ -136,14 +136,23 @@ export class TrackView extends View {
   }
 
   public async go(): Promise<number> {
-    const raceParams = await ApiHandler.startEngine(this.id);
+    let raceParams;
+
+    this.trackButtonA?.setDisableElement(true);
+    try {
+      raceParams = await ApiHandler.startEngine(this.id);
+    } catch (error) {
+      this.trackButtonA?.setDisableElement(false);
+      throw new Error();
+    }
 
     this.runTime = raceParams.distance / raceParams.velocity;
     this.run = true;
     this.animateCar(this.runTime);
 
     try {
-      this.trackButtonB?.toggleDisableElement(false);
+      this.trackButtonA?.setDisableElement(true);
+      this.trackButtonB?.setDisableElement(false);
       await ApiHandler.go(this.id);
     } catch (error) {
       this.run = false;
@@ -161,7 +170,8 @@ export class TrackView extends View {
   }
 
   private async resetPosition(): Promise<void> {
-    if (this.run === true) {
+    this.trackButtonB?.setDisableElement(true);
+    if (this.run) {
       const ok = await ApiHandler.stopEngine(this.id);
       if (!ok) return;
     }
@@ -171,42 +181,38 @@ export class TrackView extends View {
       throw new Error('Images were not found');
     }
     this.carImg.style.transform = 'scale(-1, 1)';
-    this.trackButtonB?.toggleDisableElement(true);
+    this.trackButtonB?.setDisableElement(true);
+    this.trackButtonA?.setDisableElement(false);
   }
 
   public static race(currentPage: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const cars: Promise<number>[] = [];
-      ApiHandler.getCarsOnPage(currentPage)
-        .then((carsForRaceFromApi) => {
-          const carsForRace = TrackView.instances.filter((trackView) =>
-            carsForRaceFromApi.find((carFromApi) => carFromApi.id === trackView.id),
-          );
+      const index = (currentPage - 1) * Configuration.itemsPerPage.garage;
+      const carsForRace = TrackView.instances.slice(index, index + Configuration.itemsPerPage.garage);
 
-          carsForRace.forEach((car) => {
-            cars.push(car.go());
-            car.trackButtonB?.toggleDisableElement(false);
-          });
+      carsForRace.forEach((car) => {
+        cars.push(car.go());
+      });
 
-          Promise.any(cars)
-            .then((id) => {
-              const winner = TrackView.instances.find((car) => car.id === id);
-              if (winner && winner.runTime) {
-                Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
-                ApiHandler.modifyWinner(winner.id, Math.round(winner.runTime / 10) / 100)
-                  .then(() => resolve())
-                  .catch(() => reject());
-              } else {
-                Popup.displayMessage('All cars were are either broken or stopped. Try again!');
-                reject();
-              }
-            })
-            .catch(() => {
-              Popup.displayMessage('All cars were are either broken or stopped. Try again!');
-              reject();
-            });
+      Promise.any(cars)
+        .then((id) => {
+          const winner = TrackView.instances.find((car) => car.id === id);
+
+          if (winner && winner.runTime) {
+            Popup.displayMessage(`${winner.name} went first (${Math.round(winner.runTime / 10) / 100}s)`);
+            ApiHandler.modifyWinner(winner.id, Math.round(winner.runTime / 10) / 100)
+              .then(() => resolve())
+              .catch(() => reject());
+          } else {
+            Popup.displayMessage('All cars were are either broken or stopped. Try again!');
+            reject();
+          }
         })
-        .catch(() => reject());
+        .catch(() => {
+          Popup.displayMessage('All cars were are either broken or stopped. Try again!');
+          reject();
+        });
     });
   }
 
@@ -256,7 +262,7 @@ export class TrackView extends View {
     this.removeBtn?.setCallback(this.removeCar.bind(this));
     this.trackButtonA?.setCallback(async () => {
       try {
-        this.trackButtonA?.toggleDisableElement(true);
+        this.trackButtonA?.setDisableElement(true);
         await this.go();
       } catch {
         // Nothing to do
@@ -266,7 +272,7 @@ export class TrackView extends View {
       try {
         await this.resetPosition();
       } finally {
-        this.trackButtonA?.toggleDisableElement(false);
+        this.trackButtonA?.setDisableElement(false);
       }
     });
   }

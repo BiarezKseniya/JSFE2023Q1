@@ -23,7 +23,7 @@ export class WinnersView extends View {
 
   public currentPage: number = 1;
 
-  public itemsPerPage: number = 10;
+  public itemsPerPage: number = Configuration.itemsPerPage.winners;
 
   public winnersCount: number = 0;
 
@@ -119,15 +119,15 @@ export class WinnersView extends View {
     const totalPages = Math.ceil(this.winnersCount / this.itemsPerPage);
 
     if (this.currentPage + 1 > totalPages) {
-      this.paginatorButtons.next.toggleDisableElement(true);
+      this.paginatorButtons.next.setDisableElement(true);
     } else {
-      this.paginatorButtons.next.toggleDisableElement(false);
+      this.paginatorButtons.next.setDisableElement(false);
     }
 
     if (this.currentPage === 1) {
-      this.paginatorButtons.prev.toggleDisableElement(true);
+      this.paginatorButtons.prev.setDisableElement(true);
     } else {
-      this.paginatorButtons.prev.toggleDisableElement(false);
+      this.paginatorButtons.prev.setDisableElement(false);
     }
   }
 

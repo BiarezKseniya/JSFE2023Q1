@@ -86,8 +86,8 @@ export class ControlsSectionView extends View {
   }
 
   public toggleUpdateElements(flag: boolean): void {
-    this.carUpdateBtn?.toggleDisableElement(flag);
-    this.carUpdateColorInput?.toggleDisableElement(flag);
-    this.carUpdateNameInput?.toggleDisableElement(flag);
+    this.carUpdateBtn?.setDisableElement(flag);
+    this.carUpdateColorInput?.setDisableElement(flag);
+    this.carUpdateNameInput?.setDisableElement(flag);
   }
 }
