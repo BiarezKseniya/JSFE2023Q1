@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+	<link rel="stylesheet" href="dist/presentation.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Cross-Site Scripting</h1>
+				<div class="author">by <span class="important">Kseniya Biarezina</span>, July 2023</div>
+			</section>
+			<section>
+				<h2>Summary</h2>
+				<ul class="summary">
+					<li><a href="#/key-concepts">Key Concepts of XSS</a></li>
+					<li><a href="#/xss-types">Types of XSS attacks</a></li>
+					<li><a href="#/impact-consequences">XSS Impact &amp; Consequences</a></li>
+					<li><a href="#/good-practices">Good Practises</a></li>
+				</ul>
+			</section>
+			<section id="key-concepts">
+				<h2>Key Concepts of XSS</h2>
+				<ul class="unordered-list concept-list">
+					<li>XSS: <span class="important">a web-based attack</span> on vulnerable web apps.</li>
+					<li>The victim is the <span class="important">user</span> and not the application.</li>
+					<li>Malicious content is delivered to users <span class="important">using JS</span>.</li>
+				</ul>
+				<aside class="notes">
+					XSS is an attack where malicious code is injected into safe websites. An attacker exploits a vulnerability in
+					a web application to send code, usually JavaScript, to an end user. XSS attacks target the application’s users
+					directly, rather than the application itself. In short, XSS vulnerabilities occur when input coming into web
+					applications is not validated and/or output to the browser is not properly escaped before being displayed.
+				</aside>
+			</section>
+			<section>
+				<section id="xss-types">
+					<h2>Types of XSS attacks</h2>
+					<ul class="unordered-list types-list">
+						<li>Persistent</li>
+						<li>Reflected</li>
+						<li>DOM-based</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Persistent XSS</h3>
+					<div>
+						<p class="assertion">Expected behaviour:</p>
+						<pre><code data-trim data-noescape class="html">
+						&lt;p&gt;Hello, this is my message!&lt;/p&gt;
+						</code></pre>
+					</div>
+					<div class="fragment">
+						<p class="assertion">Evil hacker:</p>
+						<pre><code data-trim data-noescape class="html">
+						&lt;p&gt;&lt;script&gt;/* Bad stuff here... */&lt;/script&gt;&lt;/p&gt;
+					</code></pre>
+					</div>
+					<aside class="notes">
+						Occur when malicious code is stored on a server and shown to other users.
+						Ex: a message on a forum, a nickname in a chat room, or contact details in an order. An attacker
+						can send data that attacks other users.
+						Ex: a message board application lets users submit messages, which are displayed to other users.
+						If the application doesn't perform any other processing of the data, an attacker can easily send a message
+						that attacks other users:
+					</aside>
+				</section>
+				<section>
+					<h3>Reflected XSS</h3>
+					<p class="assertion">Expected behaviour:</p>
+					<p>https://insecure-website.com/status?message=All+is+well.</p>
+					<pre><code data-trim data-noescape class="html">
+						&lt;p&gt;Status: All is well.&lt;/p&gt;
+					</code></pre>
+					<aside class="notes">
+						Occur when an application receives data from an HTTP request and returns it in the response without
+						validation.
+					</aside>
+				</section>
+				<section>
+					<h3>Reflected XSS</h3>
+					<p class="assertion">Evil hacker:</p>
+					<p>https://insecure-website.com/status?message=
+						&lt;script&gt;/+Bad+stuff+here…+/&lt;/script&gt;
+					</p>
+					<pre><code data-trim data-noescape class="html">
+						&lt;p&gt;Status:
+							&lt;script&gt;/* Bad stuff here… */&lt;/script&gt;
+						&lt;/p&gt;
+					</code></pre>
+					<aside class="notes">
+						Ex: If a user visits this URL, the attacker’s script will execute in their browser.
+					</aside>
+				</section>
+				<section>
+					<h3>DOM-based</h3>
+					<div>
+						<p class="assertion">Expected behaviour:</p>
+						<pre><code data-trim data-noescape class="js">
+					const search = document.getElementById('search').value;
+					const results = document.getElementById('results');
+					results.innerHTML = 'You searched for: ' + search;
+					</code></pre>
+					</div>
+					<div class="fragment">
+						<p class="assertion">Evil hacker:</p>
+						<pre><code data-trim data-noescape class="html">
+						&lt;p&gt;You searched for:
+							&lt;img src=1 onerror='/* Bad stuff here... */'&gt;&lt;/p&gt;
+						</code></pre>
+					</div>
+					<aside class="notes">
+						Occur when malicious code changes the structure of a page in the user’s browser.
+						Ex: an app uses some JS to read the value from an input field and write that value to an element within the
+						HTML.
+						If the attacker can control the value of the input field, they can easily construct a malicious value that
+						causes their own script to execute.
+					</aside>
+				</section>
+			</section>
+			<section id="impact-consequences">
+				<h2>XSS Impact</h2>
+				<p>XSS vulnerabilities are <span class="important"> one of the OWASP Top 10 security concerns</span> today.</p>
+				<aside class="notes">
+					XSS attacks can have serious consequences.
+				</aside>
+			</section>
+			<section>
+				<h2>Consequences</h2>
+				<div class="list-container">
+					<ul class="unordered-list consequences-list">
+						<li>Account hijacking</li>
+						<li>Spreading web worms</li>
+						<li>Accessing browser history and clipboard contents</li>
+						<li>Remotely controlling the browser</li>
+						<li>Scanning and exploiting intranet appliances and apps</li>
+					</ul>
+				</div>
+				<aside class="notes">
+					When attackers succeed in exploiting XSS vulnerabilities, they can gain access to account credentials. They
+					can also spread web worms or access the user’s computer and view the user’s browser history or control the
+					browser remotely. After gaining control to the victim’s system, attackers can also analyze and use other
+					intranet applications.
+				</aside>
+			</section>
+			<section id="good-practices">
+				<h2>Good Practises</h2>
+				<ul class="unordered-list">
+					<li><span class="important">Filter input</span> on arrival</li>
+					<li><span class="important">Encode data</span> on output</li>
+					<li>Use appropriate <span class="important">response headers</span></li>
+					<li><span class="important">Content Security Policy</span></li>
+				</ul>
+				<aside class="notes">
+					XSS vulnerabilities can be prevented by consistently using secure coding practices and ensuring that all input
+					is properly escaped. At the point where user input is received, we can filter as strictly as possible based on what is expected
+					or valid input. At the point where user-controllable data is output in HTTP responses, we can encode the output to prevent
+					it from being interpreted as active content. Depending on the output context, this might require applying
+					combinations of HTML, URL, JavaScript, and CSS encoding. To prevent XSS in HTTP responses that aren't intended to contain any HTML or JavaScript, you can use the
+					Content-Type and X-Content-Type-Options headers to ensure that browsers interpret the responses in the way you
+					intend. As a last line of defense, you can use Content Security Policy (CSP) to reduce the severity of any XSS
+					vulnerabilities that still occur.
+					XSS flaws can be difficult to identify and remove from a web application. The best way to find flaws is to perform a security review of the code and search for all places where input from an HTTP request could possibly make its way into the HTML output.
+				</aside>
+			</section>
+			<section>
+				<h2>Thank you</h2>
+			</section>
+			<section>
+				<h2>Sources</h2>
+				<ol class="sources">
+					<li><a
+							href="https://www.veracode.com/security/xss#:~:text=Cross%2Dsite%20scripting%20attacks%2C%20also,JavaScript%2C%20to%20an%20end%20user">https://www.veracode.com</a>
+					</li>
+					<li><a href="https://owasp.org/www-community/attacks/xss/">https://owasp.org</a></li>
+					<li><a href="https://portswigger.net/web-security/cross-site-scripting">https://portswigger.net</a></li>
+				</ol>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>
