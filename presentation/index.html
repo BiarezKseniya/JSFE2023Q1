@@ -9,9 +9,10 @@
 
 	<link rel="stylesheet" href="build/reset.css">
 	<link rel="stylesheet" href="build/reveal.css">
-	<link rel="stylesheet" href="build//theme/black.css">
-	<link rel="stylesheet" href="build//theme/black.css">
-	<link rel="stylesheet" href="build//presentation.css">
+	<link rel="stylesheet" href="build/theme/black.css">
+	<link rel="stylesheet" href="build/theme/black.css">
+	<link rel="stylesheet" href="build/presentation.css">
+
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
 </head>
 
@@ -30,6 +31,12 @@
 					<li><a href="#/impact-consequences">XSS Impact &amp; Consequences</a></li>
 					<li><a href="#/good-practices">Good Practises</a></li>
 				</ul>
+				<aside class="notes">
+					First, we’re going to look into the concept itself.
+					After that, we’re going to talk about different types of XSS attacks and
+					explore some examples. Then, we will discover the consequences of this type of attacks.
+					Finally, we’re going to make conclusions about how they can be prevented.
+				</aside>
 			</section>
 			<section id="key-concepts">
 				<h2>Key Concepts of XSS</h2>
@@ -53,6 +60,9 @@
 						<li>Reflected</li>
 						<li>DOM-based</li>
 					</ul>
+					<aside class="notes">
+						There are three main types of XSS attacks: persistent, reflected, and DOM-based.
+					</aside>
 				</section>
 				<section>
 					<h3>Persistent XSS</h3>
@@ -70,8 +80,8 @@
 					</div>
 					<aside class="notes">
 						Occur when malicious code is stored on a server and shown to other users.
-						Ex: a message on a forum, a nickname in a chat room, or contact details in an order. An attacker
-						can send data that attacks other users.
+						Ex: a message on a forum, a nickname in a chat room, or contact details in an order.
+						The main idea is that an attacker can send data that attacks other users.
 						Ex: a message board application lets users submit messages, which are displayed to other users.
 						If the application doesn't perform any other processing of the data, an attacker can easily send a message
 						that attacks other users:
@@ -85,8 +95,11 @@
 						&lt;p&gt;Status: All is well.&lt;/p&gt;
 					</code></pre>
 					<aside class="notes">
-						Occur when an application receives data from an HTTP request and returns it in the response without
-						validation.
+						On the other hand, reflected cross-site scripting involves the immediate return
+						of user input. An attacker must trick the user into sending data to the target site,
+						which is often done by tricking the user into clicking a maliciously crafted link.
+						It exploits the situation when an application receives data from an HTTP request and
+						returns it in the response without validation.
 					</aside>
 				</section>
 				<section>
@@ -102,6 +115,9 @@
 					</code></pre>
 					<aside class="notes">
 						Ex: If a user visits this URL, the attacker’s script will execute in their browser.
+						Generally, search results and error message pages are two common targets for reflected
+						XSS. They often send unmodified user input as part of the response without ensuring
+						that the data is properly escaped so that it is displayed safely in the browser.
 					</aside>
 				</section>
 				<section>
@@ -134,7 +150,9 @@
 				<h2>XSS Impact</h2>
 				<p>XSS vulnerabilities are <span class="important"> one of the OWASP Top 10 security concerns</span> today.</p>
 				<aside class="notes">
-					XSS attacks can have serious consequences.
+					XSS attacks can have serious consequences. They are even considered to be one
+					of the top security issues by OWASP, especially as so many organizations rely
+					heavily on web applications for customer interaction and validation.
 				</aside>
 			</section>
 			<section>
@@ -170,9 +188,15 @@
 					it from being interpreted as active content. Depending on the output context, this might require applying
 					combinations of HTML, URL, JavaScript, and CSS encoding. To prevent XSS in HTTP responses that aren't intended to contain any HTML or JavaScript, you can use the
 					Content-Type and X-Content-Type-Options headers to ensure that browsers interpret the responses in the way you
-					intend. As a last line of defense, you can use Content Security Policy (CSP) to reduce the severity of any XSS
-					vulnerabilities that still occur.
-					XSS flaws can be difficult to identify and remove from a web application. The best way to find flaws is to perform a security review of the code and search for all places where input from an HTTP request could possibly make its way into the HTML output.
+					intend. •	Also, you can use Content Security Policy (CSP). CSP is a browser mechanism which has a standardized collection of
+					directives to instruct the browser which content sources can be trusted and which should be prevented.
+					However, the CSP can easily be bypassed if it is not strict enough. Thus,
+					CSP should be used as a last line of defense to reduce the severity of any XSS vulnerabilities that still occur.
+					XSS flaws can be difficult to identify and remove from a web application. The best way to find flaws is
+					to perform a security review of the code and search for all places where input from an HTTP request could possibly
+					make its way into the HTML output.
+					All in all, although XSS vulnerabilities are a major security concern, they can be prevented by writing secure code,
+					testing for vulnerabilities, and using security tools.
 				</aside>
 			</section>
 			<section>
